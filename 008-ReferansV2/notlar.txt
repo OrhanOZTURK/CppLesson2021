@@ -1,0 +1,358 @@
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int x = 10;
+
+    int &r = x++;  // geçersiz
+    int &r1 = ++x;  // gecerli
+
+    int y = 34;
+
+    int &r2 = (x, y);  //L value expression gecerli;
+
+    return 0;
+}
+
+
+/************************************************/
+/************************************************/
+
+
+
+ undefined behavior - tanımsız davranış
+ unspecified behavior - belirlenmemiş davranış
+ implementation defined - derleyiciye baglı davranış
+
+
+ undefined behavior
+ tanımsız davranış = programınız çöpppp
+ tanımsız davranış = programınız başınıza her belayı açabilir
+ tanımsız davranış = işinizi kaybetmeye  neden olaiblir
+
+ string literalerini değiştirmek tanımsız davranış
+
+ const anahtar sözcüğü ile tanımlanmış değiştimr girişimi tanımsız davranış
+
+ işaretli tam sayı türlerinde taşma tanımsız davranış
+
+ bir fonksiyonu return etmemek tanımsız davranış
+
+ otomatik nesneleri çöp degeri ile kullanmak tanımsız davranış
+
+
+
+ unspecified behavior - belirlenmemiş davranış
+
+ tanımsız davranış degıldır -- well forms herhangi proglem yok
+
+ Programın ne sekılde davranacagı derleyicinin ürettiği koda baglı
+
+ Derleyici ne sekılde davranacağı konusunda herhangi bir sekilde dokumantasyon yapmak zorunda degıldır
+
+ Eger yazdıgınız kodlar derleyicinin nasıl kod uretecegıne baglı ıse tehlıkelı kodlardır
+
+   int x = 10;
+   int y = 5;
+
+   &x > &y;
+
+   bool flag = &x > &y;
+
+   soru 1 derleyici her zaman aynı kodu uretmek zorundamıdır HAYIR
+   soru 2 derleyicinin true deger ureterek kodu yazmak dogrumu HAYIR
+
+
+#include <iostream>
+
+using namespace std;
+
+int foo();
+int fuu();
+
+int main()
+{
+
+    int x = foo() * 4 + fuu();
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int g = 10;
+
+int f1(int x, int y);
+
+int f2()
+{
+    g = g + 5;
+
+    return 100;
+}
+
+int f3()
+{
+    return g - 5;
+}
+
+
+int main()
+{
+
+    // Derleyicinin isteği sıraya gore kod uretılır
+    // guvenmeyın
+    f1(f2(), f3());
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+implementation defined - derleyiciye baglı davranış
+
+implementation defined ile unspecified arasında fark yok
+implementation unspecified alt kumesi
+
+Tek farkı su: derleyici dokumantasyon etmek zorunda
+
+Yanı bu standart bısey degıldır
+tamamıyle derleyıcılere özgüdür
+
+ornek
+
+ char x;  // derleyici char türünün işaretli veya işaretsiz oldugunu kendisi belirlier
+ unsigned char
+ signed char
+
+ int 2 4 8 byte oldugu sistemden sisteme degişir
+
+#include <iostream>
+#include <cstdint>
+
+using namespace std;
+
+
+int main()
+{
+
+    uint32_t x;  // senın sıstemınde 32 bıt garantısını verıyorum
+
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+
+
+#include <iostream>
+#include <cstdint>
+
+using namespace std;
+
+
+int main()
+{
+
+   int x = 10;
+   int &r = x;
+
+   int *const ptr = &x;  // top level const
+
+
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+fonksiyon parametrelerinde referans
+
+
+#include <iostream>
+#include <cstdint>
+
+using namespace std;
+
+void _Swap(int *p1, int *p2)
+{
+    int temp = *p1;
+    *p1 = *p2;
+    *p2 = temp;
+}
+
+void _SwapR(int &r1, int &r2)
+{
+    int temp = r1;
+    r1 = r2;
+    r2 = temp;
+}
+
+
+int main()
+{
+    int x = 5;
+    int y = 10;
+
+    _Swap(&x, &y);
+
+    cout << "x : " << x << endl;
+    cout << "y : " << y << endl;
+
+    _SwapR(x, y);
+
+    cout << "x : " << x << endl;
+    cout << "y : " << y << endl;
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+#include <iostream>
+#include <cstdint>
+
+using namespace std;
+
+
+void func(int r) // call by value
+{
+    r = 6;
+}
+
+void foo(int &r)  // call by referans
+{
+    r   = 7;
+}
+
+int main()
+{
+
+    int x = 10;
+
+    //func(x) // call by value c dilinde
+
+
+    cout << "x : " << x << endl;
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+  setter
+  set function
+  mutator
+  output
+
+  void func(T *ptr);   // T bir tür
+
+  salt okunur fonksiyon
+
+  get function
+  getter
+  input
+
+  void foo(const T *ptr);
+
+  Peki referans olarak buna değinelim
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    int x = 10;
+
+    int &r = x; // x değiştirlir
+    const int &rc = x;  // x artık degıstırılemez
+
+    ++rc; // sentaks hatası
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+class Myclass{
+
+};
+
+int main()
+{
+    void setter(Myclass &r); // void setter(Myclass const &r);
+    void getter(const Myclass &r); // sadece okuma amaçlı
+
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//ikisi iiçnde gecerli
+//void func(const int &r);
+
+
+// x kbul edılır y edılmez const oldugu ıcın
+void func(int &r);
+
+int main()
+{
+   int x = 10;
+   const int y = 15;
+
+   func(x);
+   func(y);
+
+
+    return 0;
+}
+
+/************************************************/
+/************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
