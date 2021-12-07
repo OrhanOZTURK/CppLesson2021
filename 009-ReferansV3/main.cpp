@@ -2,23 +2,26 @@
 
 using namespace std;
 
-int *func()
+struct Data{
+    int x, y, z;
+};
+
+struct Data *func(struct Data *p)
 {
-    int x = 10;
-    //
-    return &x;
+    //code
+
+    return p;
 }
 
-int &foo()
+struct Data &foo(struct Data &p)
 {
-    int x = 10;
+    //code
 
-    return x;
+    return p;
 }
 
 int main()
 {
-    func();
-    foo();
+
     return 0;
 }
