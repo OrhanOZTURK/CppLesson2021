@@ -1,0 +1,316 @@
+
+geçerlimi ?
+
+geçerli değil
+int &r = 10;
+
+
+int y = 10;
+
+
+const int &r1 = 10;
+const int &r2 = y;
+
+
+/*************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int y = 10;
+    const int &r2 = y; // gecerli
+
+    //nasıl gecerli oldu l value olmasu lazım degılmıydı ilk deger verme
+    const int &r1 = 5; // gecerli
+
+    //arka tarafta dönen olay bu şekilde
+    int temp_object{5};
+    const int &r = temp_object;
+
+    //Soru neden böyle bir koda ihtiyaç var ?
+
+
+    return 0;
+}
+
+
+/***************************************/
+
+ const int &r = 10;
+ int &r1 = r; // sentak hatası olacak const int & to int &
+
+/***************************************/
+
+
+Referanları referanslara baglayabilirmiyiz ?
+
+int x = 10;
+int &r1 = x;
+int &r2 = r1;
+int &r3 = r2;
+
+++r1;
+++r2;
+++r3;
+
+cour << "x : " << x << "\n";
+
+/*********************************************/
+
+fonksiyon referansları
+
+void func(int &r);
+void foo(const int &r);
+
+
+*/*****************************************/
+
+ fonksiyonlarda referans döndürme
+
+#include <iostream>
+
+using namespace std;
+
+
+int *func()
+{
+    static int x = 10;
+    //
+    //
+
+    return &x;
+}
+
+int &foo()
+{
+    static int x = 10;
+
+    return x;
+}
+
+int main()
+{
+    func();
+    foo();
+    return 0;
+}
+
+
+/*******************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int g = 45;
+
+int &foo()
+{
+    //
+
+    return g;
+
+}
+
+int main()
+{
+    foo();  // L value expression dondurur
+
+    foo() = 55;// gecerli
+
+    cout << " g : " << g << endl;
+    ++foo();
+    cout << " g : " << g << endl;
+
+    int &r = foo(); // r demek g demek
+
+    r = 123;
+
+    cout << " g : " << g << endl;
+
+
+    return 0;
+}
+
+
+/*******************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//En sık yapılan hatalardan birisi
+//yerel deişkenin adresini veya referansını dönemesi
+
+int *func()
+{
+    int x = 10;
+    //
+    //
+
+    return &x;
+}
+
+int &foo()
+{
+    int x = 10;
+
+    return x;
+}
+
+int main()
+{
+    func();
+    foo();
+    return 0;
+}
+
+
+/************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+struct Data{
+    int x, y, z;
+};
+
+struct Data *func(struct Data *p)
+{
+    //code
+
+    return p;
+}
+
+struct Data &foo(struct Data &p)
+{
+    //code
+
+    return p;
+}
+
+int main()
+{
+
+    return 0;
+}
+
+
+/**********************************************************/
+
+pointer  ve  referas karsılastırmas
+
+referanslara ilk deger vermek mecburi
+pointer ilkde deger vermek mecburi değil
+
+
+pointer değişlen const olmadıgı sürece farklı farklı deıgskenleri gösterebilir
+Eger pointer tek bir nesneyi göstermesinin isyorsak const olarak bildirmeliyiz
+
+int x;
+int *const ptr = x;
+
+Referanlar zaten dogustan const oldugu için tek bir nesneyi gösterir hayatı boyunca
+
+
+pointer dan olussan dizi olabilir
+referanslardan olusan bir dizi olamaz
+
+int x,y,z,t;
+
+int *p[] = {&x, &y, &z, &t}; //olur
+int &r[] = {x, y, z, t}; // olmaz gecersiz
+
+
+
+
+bir dizi hem referans hem adress alabilir
+
+evet iki durum içinde gecerlidir
+
+int a[5] = {0};
+int (*p)[5] = &a;
+int (&r)[5] = a;
+
+/**************************************************************/
+
+
+nullptr
+
+int *ptr = nullptr;  hiç bir yeri göstermez
+
+peki nullptr nerelerde kullanırız?
+
+T* func(); // eger bu fonksiyon basarısızsa nullptr dondurur
+
+arama fonksiyonlarıda kullanılır eger aranacak degerbulunamaz
+
+parametre değişkenleri pointer olan fonksiyonlar
+
+void func(T *ptr); //
+
+time_t time(time_t *p);
+
+fflush();
+
+
+int main()
+{
+  size_t n = 5;
+
+ int *p = (int *) malloc(n * sizeof(int));
+
+ //kontrol
+
+ free(p);
+ p = NULL;
+
+}
+
+nullptr diye birşey var
+ama nullreferans diye birşey yok ......
+
+
+/******************************************************/
+
+ auto anahtar sözcüğüne geri dönüş - auto V2 görecez
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
