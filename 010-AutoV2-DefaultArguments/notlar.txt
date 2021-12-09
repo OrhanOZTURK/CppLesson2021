@@ -1,0 +1,915 @@
+Auto V2
+
+
+#include <iostream>
+using namespace std;
+
+//önceden bunu gormustuk
+int main()
+{
+    auto x = expr; // expr bakarak x in turunu belirliyordu
+
+    return 0;
+}
+/*************************************************/
+/*************************************************/
+
+
+Auto 3 tane patern var
+Bunlar uygulama kuralaları
+
+1- auto x = expr;
+
+2- auto &x = expr;
+
+3- auto &&x = expr;
+
+
+
+/******************************************************/
+
+1- auto x = expr;
+
+
+#include <iostream>
+using namespace std;
+
+//önceden bunu gormustuk
+int main()
+{
+    auto x = 10; // expr bakarak x in turunu belirliyordu
+
+    x;
+
+    return 0;
+}
+
+
+
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int main()
+{
+    int y = 10;
+    auto x = y; // x in türü y nin türü olmus olur
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int main()
+{
+    const int y = 10;
+    auto x = y; // x in turu const int degil const duse int tür olur
+        // türü int tir
+
+    x;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int main()
+{
+    const int y = 10;
+    auto x = y; // x in turu const int degil const duse int tür olur
+        // türü int tir
+
+    x = 20; // gecerli demek türü int
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int main()
+{
+    int y = 10;
+    int &r = y;
+
+    auto x = r; // int x = r --> int &x = r olaral mi
+
+    //burada x bir referans değildir
+    //r nin türü int & olmasına ragmen x in türü int dir.
+    //Yani referanslık düşüyor
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int main()
+{
+    int y = 10;
+    const int &r = y;
+
+    auto x = r; // burada da const ve & düşer
+    // int x = r; dır
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+
+int main()
+{
+    //diziler
+
+    int a[10] = {};
+
+    auto x = a; // int* x = a yanı ilk ogesının adresi
+
+    auto y = &a[0]; // int* y = &a[0] yanı ilk ogesının adresi
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+
+int main()
+{
+    //diziler
+
+    int const a[10] = {};
+
+    auto x = a; //const int*
+    //const int *x = a
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+
+int main()
+{
+    //string literalers
+
+    auto x = "orhan"; // const char*
+    //const char *x = "orhan";
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+int foo(int);
+
+int main()
+{
+    auto x = foo;
+    //int (*x)(int) = foo;
+
+    x;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+//2- auto& x = expr;
+
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    auto &x = 10; //sentaks hatası
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    int y = 10;
+    auto &x = y; //gecerli
+    //int& x
+    x = 20;
+
+    cout << "y : " << y << endl;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    int ****ptr;
+
+    auto &x = ptr; // gecerli
+    //int ****& x = ptr;
+
+    x;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    int (*fptr)(int, int); //fonksiyon
+
+    auto &x = fptr; // gecerli
+    x;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    const int x = 10;
+
+    auto &r = x; // const int& r= x luk dusmez
+    r = 22;// sentaks hatası const oldugu için
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    int a[5] = { 1, 2, 3, 4, 5 };
+
+    auto &r = a; // int a[5] olarak ele alır
+    //int (&r)[5] = a
+
+    cout << r[2] << endl;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    const int a[5] = { 1, 2, 3, 4, 5 };
+
+    auto &r = a; // cosntluk düşmez
+    //const int a[5] olarak ele alır
+    //const int (&r)[5] = a
+
+    r[2] = 5;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    auto &x = "orhan";
+    //const char[6]
+    //const char (&x)[6] = "orhan"
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+int foo(int, int);
+
+int main()
+{
+    //x e esıtlenen deger L value referans olması lazım yoksa sentaks hatası
+
+    int (*fptrt)(int, int) = &foo;
+
+    auto &rfp = foo;
+    //int (&rf)(int, int) = foo boyle olması gerekli
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//1- auto x = expr;
+
+
+
+int main()
+{
+    int x = 10;
+    const auto y = x;//gecerli
+
+    y = 33; // const oldugu için gecersiz
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    int x = 10;
+    const auto &y = x;// const referans
+
+    y = 33; // const oldugu için gecersiz
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//2- auto& x = expr;
+
+
+int main()
+{
+    int x = 10;
+    const auto &y = x;// const referans
+
+    y = 33; // const oldugu için gecersiz
+
+    //x = 34;
+    cout << "x : " << x << endl;
+    cout << "y : " << y << endl;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1 auto x = expr;
+
+
+int main()
+{
+    static int x = 10;
+    auto y = x;// y nin türü int dir
+
+    y;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//2 auto &x = expr;
+
+
+int main()
+{
+    int x = 10;
+    auto &r1 = x; // int e referans
+    const auto &r2 = x; // const int e referans
+
+    r2 = 24; // sentaks hatası
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+#include <iostream>
+using namespace std;
+
+//1 auto x = expr;
+
+
+int main()
+{
+    int x = 10;
+
+    //int *ptr = &x;
+
+    auto ptr = &x; // int *
+    auto *p  = &x; // int *
+
+    ptr;
+    p;
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+Yeni konu
+
+default argument -- fonksiyonların varsayılan argüman alması
+
+Bu özellik C de yok, variadik fonsiyonlar
+
+#include <iostream>
+using namespace std;
+
+void func(int x, int y, int z);
+
+int main()
+{
+    func(10, 20, 30);
+    func(10, 20); // sentaks hatası
+    func(10); // sentaks hatası
+    func(); // sentaks hatası
+    func(10, 20, 30, 40); // sentaks hatası
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+#include <iostream>
+using namespace std;
+
+//variadik fonksiyon
+
+// ... elepsis atomu
+
+void func(int, ...);
+
+int main()
+{
+    func(10, 20, 30);
+    func(10, 20); // gecerli
+    func(10); // gecerli
+    func(); // sentaks hatası
+    func(10, 20, 30, 40); // gecerli
+
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//default fonsiyon
+
+/*
+ * Neden böyle bir yapı var
+ *
+ * belirli parametreşer he paynı degerler gönderme
+ * hata rislini azaltma
+ *
+ *  kodun okmasını kloylastırma
+ *  kodu yazmayı kolaylastırma
+ *
+ */
+
+ //olay tamamile compile time da
+
+
+void func(int, int, int = 10);
+
+int main()
+{
+    func(1, 2, 3); //  func(1, 2, 3)
+    func(1, 2); // func(1, 2, 10);
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+#include <iostream>
+using namespace std;
+
+//default fonsiyon
+
+//bir fonksiyonun birden çok parametresi default deger alabilir
+
+void func(int = 30, int = 20, int = 10);
+
+int main()
+{
+    func(1, 2, 3); //  func(1, 2, 3)
+    func(1, 2); // func(1, 2, 10);
+    func(1); // func(1, 20, 10);
+    func(); // func(30, 20, 10);
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//default fonsiyon
+
+//boyle bie sentaks olmaz
+
+void func(int = 30, int = 20, int);
+
+int main()
+{
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+#include <iostream>
+using namespace std;
+
+//default fonsiyon
+
+void func(int &r); // L value ile vagırmalıyız
+void foo(const int &r); // L value ve R value ile cagırabiliriz
+int& fuu(void); // L value ifadesi geri döner
+
+int main()
+{
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+#include <iostream>
+using namespace std;
+
+//default fonsiyon
+
+//fonksiyonlara cagrı yapma yöntemleri
+
+void f1(T x); // call by value -- degeri kopyalama
+void f2(T *r); // set fonksiyon -- nesnenin adresi
+void f3(const T *p); // get fonk -- nesnenın sadece okunması
+
+
+void f22(T &r); // call by referans
+void f33(const T &r); //
+
+
+T *f4(); // adresi döndürür
+T &f44(); // referans döndürür
+
+const T *f5(); // adresi döndürür ama salt okuma
+const T &f55(); // referans döndürür ama salt okuma
+
+int main()
+{
+
+
+    return 0;
+}
+
+/******************************************************/
+/******************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
