@@ -1,0 +1,1756 @@
+#include <iostream>
+
+using namespace std;
+
+//default arguments
+
+//fonksiyonun parametrelerinin isimli veya isimsiz yazabilirim
+void fun(int, int, int = 30);
+void func(int a, int b, int c = 30);
+
+int main()
+{
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//default arguments
+
+
+int g = 45;
+void fun(int x = g + 5);
+
+int main()
+{
+    fun(); // 50
+    fun(5); // 5
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//default arguments
+
+//böylede yazılır
+
+
+int g = 45;
+int func(int x, int y);
+
+void fun(int x = func(12, 67));
+
+int main()
+{
+    fun(123); // 123
+    fun(); //void fun(int x = func(12, 67));
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//default arguments
+
+
+int g = 45;
+int func(int x, int y = 55);
+
+void fun(int x = func(12));
+
+int main()
+{
+    fun(123); // 123
+    fun(); //fun(func(12, 55));
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//mulakat sorusu
+
+
+int fuu()
+{
+    cout << "fuu cagrildi\n";
+    return 1;
+}
+
+int glbl = fuu();
+
+int main()
+{
+
+    cout << "main cagrildi\n";
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+void func(int x = 1, int y = 2, int z = 3);
+
+int main()
+{
+    func(); // 1 2 3
+    func(10);
+    func(10, 20); // 10 20 3
+    func(10, 20, 30);
+
+    return 0;
+}
+
+void func(int x, int y, int z)
+{
+    cout << x << ", " << y << ", " << z  << ", \n";
+}
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//bir referans içinde varsayılan argüman verilebilir
+int g = 10;
+void func(int &r = g);
+
+int main()
+{
+    int a = 2;
+    func(a);
+    func(); //  func(g);
+
+
+    return 0;
+}
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//bir pointer içinde varsayılan argüman verilebilir
+
+void func(int *p = nullptr);
+
+int main()
+{
+    int a = 2;
+    func(&a);
+    func(); //  func(nullptr);
+
+
+    return 0;
+}
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//bir pointer içinde varsayılan argüman verilebilir
+
+void func(const char *p = "orhan");
+
+int main()
+{
+    func("ozturk");
+    func(); //  func("orhan");
+
+
+    return 0;
+}
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+void func(int x, int y, int z);
+
+//function overloading
+void func(int x, int y, int z = 10);
+
+int main()
+{
+    func(1, 2, 3);
+    func(1, 2);
+    func(1); // sentaks hatası
+    func(); // sentaks hatası
+
+    return 0;
+}
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+void func(int x, int y, int z = 5);
+void func(int x, int y = 10, int z);
+//void func(int x, int y = 10, int z = 5); sentaks hatası
+int main()
+{
+    func(1, 2, 3);
+    func(1, 2); // 1 2 5
+    func(1); // 1 10 5
+
+    return 0;
+}
+
+//derleyici böyle davranır
+
+//void func(int x, int y = 10, int z = 5);
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+void process_date(int day, int mon, int year = -1);
+
+int main()
+{
+    time();
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+Sag taraf referansı --  R value reference
+
+R value reference C++11 ile dile eklenmiştir
+
+bu aracın dile ekelenme sebebi 2 sebepten
+
+1- move semantics (tasıma semantiği) -- sınıflar konusunda
+2- perfect forwarding (mukammel dönderim) -- generik programlama
+
+
+sol taraf referans
+
+T &r = x; //L value
+
+T &r = 5; //gecersiz
+
+
+sag taraf referans
+
+T &&r = 10;
+
+
+
+
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    //ilk deger verme
+    int &&r = 10;
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    int &&r;// sentaks hatsı
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+int main()
+{
+    int x = 10;
+    int &&r = x;// L vallue atarsak sentaks hatası
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+sag taraf referansına sag taraf degeri ile deger vermek zorundayız
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+int main()
+{
+    int x = 10;
+    int &&r = x + 5; // gecerli
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+int main()
+{
+    int x = 10;
+    int & &r = x + 5;  böyle sag taraf referansı tanımlayamayız
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+int foo();
+
+int main()
+{
+    int &&r = foo(); //gecerli
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+int &foo(); // L value
+
+int main()
+{
+    int &&r = foo(); //gecerli L value deger gelecegi
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+// mulakat sorusu
+
+
+
+
+int main()
+{
+    int &&r = 10;
+
+    //r r value mu l value mu
+    r; // L value expression
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+
+int main()
+{
+    int &&r = 10;
+
+    //r r value mu l value mu
+    r; // L value expression
+
+    int &rf = r; // kanıt
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//R value reference
+
+
+int main()
+{
+    int &&r = 10;
+
+    r = 20; // gecerli
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+operatorlerle olusturulan ifadeler
+
+R value
+
+ a > b
+
+ x == y
+
+ X && Y
+
+ !x
+
+ x & y
+
+ x++
+
+ x--
+
+************************
+L value
+
+++x
+--x
+x, y
+
+x > 0 ? x: y;
+
+(x = 20) = 30;
+
+
+************************
+
+T &&r = R value
+T &&r; // sentaks hatası
+
+
+************************
+
+hatırlatma
+
+auto 3 tane patern soylemıstık
+
+auto x = expr;
+auto &x = expr;
+
+auto &&x = expr; // sakın sakına sag taraf referansı ile karıstırmıyoruz
+
+bu tanıma forwarding reference  yada universal reference denir
+
+/************************************/
+
+
+Type dedaction geri döndük
+
+decltype (specifier)
+
+bir türe karsılık gelir
+
+decltype(ifade) // bu bir türe karsılık gelir
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+int main()
+{
+    int x = 10;
+
+    decltype (x); // int
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+#include <iostream>
+
+using namespace std;
+
+
+
+int main()
+{
+    int x = 10;
+
+    decltype(x) y  = 10; // int y = 10
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+int x = 10;
+
+void func(decltype (x));
+
+int main()
+{
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+int x = 10;
+
+decltype (x) func(); // geri dönus turu int
+
+int main()
+{
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+decltype ilişkin 2 ayrı kural var
+
+1- kural
+
+ decltype(x) parantez içine dogrudan bir isim yazarız
+ decltype(x.y)
+ decltype(ptr->x)
+
+#include <iostream>
+
+using namespace std;
+
+struct Data {
+    int mx;
+};
+
+int main()
+{
+    int ival;
+    double dval;
+    Data data;
+
+    decltype (ival) x;
+    decltype (dval) y;
+    decltype (data) z;
+    decltype (data.mx) t; //int
+
+    Data *p = &data;
+    decltype (p->mx); //int
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    const int cx = 10;
+    decltype (cx) x = 20; // const int turu,  autodaki gibi const düşmez
+
+
+    x = 30; // sentaks hatası
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    int x = 10;
+    int &r = x;
+
+    decltype (r); // int & turu, referanslıkta düşmez autodaki gibi
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    int x = 10;
+    int &r = x;
+
+    decltype (r) y; // setanks hatası il deger vermedik
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    int x = 10;
+    const int &r = x;
+
+    decltype (r) y = x; // const int & constluk dusmez
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+    int a[] = {2, 3, 5, 6}
+
+    decltype (a) b; //int b[4]  dizi pointerna dönüşmez
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+2- kural decltype
+
+decltype(expr)  buraki expr isim formatındaydı suana kadar
+
+
+decltype((x)) --- 2 kural setine tasınır
+
+
+ornek
+
+decltype(7)
+decltype(x+5)
+decltype(x++)
+decltype((y))
+decltype(*ptr)
+decltype(a[5])
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    //eger ifade pr value expression ise
+    decltype (10) x; // int
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    //eger ifade pr value expression ise
+
+    int x = 10;
+
+    decltype (x + 2.3) y; // double
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    //eger ifade l value expression ise
+
+    int x = 10;
+
+    decltype (++x) y = x; // int & turu
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+eger decltype belirtecinini operandı bir isim degil ise
+isim formunda olmayan bir ifade ise bu durumda
+
+
+eger ifade Pr value expression deger kategorisinde ise
+decltype ile elde edilen tur T turundur
+
+eger ifade l value expression deger kategorisinde ise
+decltype ile elde edilen tur T& turundur
+
+
+eger ifade X value expression deger kategorisinde ise
+decltype ile elde edilen tur T && turundur
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    //eger ifade l value expression ise
+
+    int x = 10;
+
+    decltype (++x) y = x; // int & turu
+    decltype ((x)) z = x; // int & turu
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    int x = 10;
+    int *ptr = &x;
+
+    decltype (*ptr); // int &
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int main()
+{
+
+    int a[10][10] {};
+
+    decltype (a[2][3]); // int &
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+int &&foo();
+
+int main()
+{
+
+    decltype (foo()) r = 10; // int &&
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+decltype(isim) bu değişkenin türü ne ise türü o, constluk ve referans düşmez
+
+decltype(isim formunda degil ise)  T, T&, T&&
+
+
+#include <iostream>
+
+using namespace std;
+
+//mulakat soru
+
+int main()
+{
+
+    int x = 10;
+    decltype (x); // int
+    decltype ((x)) //int &
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//mulakat soru
+
+int main()
+{
+
+    int x = 10;
+
+    size_t y = sizeof(x);// ++x işelmi yapılmayacak
+    //sizeof operandının operatoru olan ifade unevaluated context olarak ele alınır
+    //yani bu ifade için kod üretilmez
+
+    cout << "x = " << x << "\n"; // x deger i kaçtır ?
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+ decltype da unevaluated context olsuturur
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//mulakat soru
+
+int main()
+{
+
+    int x = 10;
+
+    decltype(++x) y = x; // int &
+
+    cout << "x = " << x << "\n"; // x deger i kaçtır ? x degeri degişmez unevaluated context
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+int main()
+{
+
+    int x = 10;
+
+    decltype(x++) y = 40; // int
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+int main()
+{
+
+    int x = 10;
+    int *ptr = nullptr;
+
+    decltype(*ptr) y = x; // kod gecerli int &
+    //burası eger nullptr işleme almış olsaydı
+    //tanımsız davranız
+
+
+    return 0;
+}
+
+
+/*****************************************/
+/*****************************************/
+
+Yeni konu
+
+constexpr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
