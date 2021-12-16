@@ -1,0 +1,557 @@
+
+yeni constexpr
+
+C++11 ile eklenen anahtar sözcüktür
+
+const   anahtarsözcüğünden ayrıdır
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    //ilk deger vermek zorunlu
+    const int x = 10;
+
+    return 0;
+}
+
+/****************************************/
+/****************************************/#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    //ilk deger vermek zorunlu
+    const int x = 10;
+
+
+    //nerelerde kullanılabılır
+    int a[x] = { 0 };
+
+    switch (10) {
+            case x: break;
+    }
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+int main()
+{
+    int y = 15;
+    //
+    //
+    const int x = y + 10;
+
+    int a[x] = { 0 }; //sentaks hatası
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+int fuu();
+
+int main()
+{
+    const int x = fuu();
+
+    int a[x] = { 0 }; //sentaks hatası
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+
+    //const ta ilk deger vermek zorunlu
+    //const salt okuma için
+    constexpr int x = 5;
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    //cosntexpr ifadenini sabit ifade oldgunu güvencesi veriyor
+
+    //ilk deger verilen ifade const ifade olması lazım
+    int y = 10;
+    constexpr int x = y; // sentaks hatası
+
+    int a[x]= {0};
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    constexpr int x = 10;
+    constexpr int y = 20;
+    constexpr int z = 30;
+
+    //(x + y + z) * 3
+
+    //const expr dır
+    //diziye artık verebilirim
+
+    int a[(x + y + z) * 3]= {0};
+
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+constexpr functions
+
+öyle bir fonksiyonlar ki belirli koşullar altında çağrı yapıldıgında
+derleme zamanında (compile time) geri dönüş degeri sabit elde edilir
+
+
+#include <iostream>
+
+using namespace std;
+
+//C++11 constexpr fonksiyonlar tek satır - oneliner olmak durumda idi
+//C++14 ve C++17 ile bazı kosulları kaldırdılar
+//bunlardan bir tanesi oneliner olması
+
+//oneliner function == tek satır yanı return deyiminden oluşan fonksiyon
+constexpr int square(int a)
+{
+    return a * a;
+}
+
+int main()
+{
+
+    square(5);
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+
+/*eger constexpr fonksiyonuna yapılan cagrılarda
+ * tüm parametre değişkenlerine yapılan çağrılar constexpr
+ * ise bu fonksiyon bize compile time da sonuc uretecek
+ */
+
+#include <iostream>
+
+using namespace std;
+
+/* eger constexpr fonksiyonuna yapılan cagrılarda
+ * tüm parametre değişkenlerine yapılan çağrılar constexpr
+ * ise bu fonksiyon bize compile time da sonuc uretecek
+ */
+
+constexpr int square(int a)
+{
+    return a * a;
+}
+
+int main()
+{
+    constexpr int a = 10;
+    constexpr int b = 20;
+
+    square(a);
+
+    int ad[square(a)];
+
+    square(a * b + 5); // bu bir sabit ifade
+
+    int d[square(a * b + 5)];
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+Bazı onstexpr kuralları
+
+#include <iostream>
+
+using namespace std;
+
+//static değişkenler constexpr fonksiyonlarda kullanılamaz
+//tanımlanan fonksiyon pure fonksiyon olmalı
+
+constexpr int square(int a)
+{
+    static int y = 30;
+}
+
+int main()
+{
+
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+constexpr fonksiyonların parametreleri
+literal type kategorisinde olmalı
+
+/****************************************/
+/****************************************/
+
+constexpr fonksiyona göderilen degerler sabit ifadesi olmak zorunda değil
+sabit olmayan ifadeler verirsem compile timeda deger üretmez
+
+
+#include <iostream>
+
+using namespace std;
+
+
+constexpr int func(int a)
+{
+    //
+
+    return a;
+}
+
+int main()
+{
+    int y;
+    cout << "bir sayi giriniz : ";
+    cin >> y;
+
+    func(y); // gecerli
+    //ama burda hesaplama copile time zamanında yapılmayacak
+    // run time
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+constexpr int func(int a)
+{
+    //
+
+    return a;
+}
+
+int main()
+{
+    int y;
+    cout << "bir sayi giriniz : ";
+    cin >> y;
+
+    constexpr int a = func(20); // gercerli
+    constexpr int a = func(y); // sentaks hatsı
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+// ama constexp değişkene ilk deger veririken constexpr düşmüş
+//fonksiyonla sentaks hatsı alırız
+
+constexpr int func(int a)
+{
+    //
+
+    return a;
+}
+
+int main()
+{
+    int y;
+    cout << "bir sayi giriniz : ";
+    cin >> y;
+
+    constexpr int a = func(20); // gercerli
+    constexpr int a = func(y); // sentaks hatsı
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+cosntexpr olarka tanımlanmıs fonksiyonumun bütün
+parametrelerine sabit ifadesi gecmek zorunda değilim
+
+
+ama eger değişken ifadesi ile cagrı yapar isek artık constexpr
+fonksiyonuun constant olma özelliği bozulur
+
+
+#include <iostream>
+
+using namespace std;
+
+constexpr int factorial(int x)
+{
+    return x < 2 ? 1 : x * factorial(x-1);
+}
+
+constexpr int ndigit(int val)
+{
+    if(val == 0)
+        return 1;
+
+    int digit_count = 0;
+
+    while (val) {
+        ++digit_count;
+        val /= 10;
+    }
+
+    return digit_count;
+}
+
+int main()
+{
+    constexpr int x = 10;
+
+    constexpr int y = ndigit(factorial(x + 2));
+
+    y;
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+constexpr long long int factorial( long long int x)
+{
+    return x < 2 ? 1 : x * factorial(x-1);
+}
+
+constexpr int ndigit(long long int val)
+{
+    if(val == 0)
+        return 1;
+
+    int digit_count = 0;
+
+    while (val) {
+        ++digit_count;
+        val /= 10;
+    }
+
+    return digit_count;
+}
+
+int main()
+{
+    constexpr int x = 5;
+
+    constexpr int y = ndigit(factorial(x + 15));
+
+    y;
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+önemli not
+
+derleyici constexpr kodunu görmeli ki ona göre sonuc uretebildin
+bu sebepten constexpr fonksiyonlar baslık dosyasında olmalı
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    constexpr auto x = 5; // constexpr int
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+constexpr int get_prime(int x)
+{
+    constexpr int a[] = { 0, 2, 3, 5, 7, 11, 13, 17, 19};
+
+    return a[x];
+}
+
+int main()
+{
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    constexpr int y = 20;
+
+    decltype (y) x = 12; // x in türü int,  constexpr bir tür değildir
+                         // constexpr int x
+    x = 12; // sentaks hatası
+
+    return 0;
+}
+
+
+/****************************************/
+/****************************************/
+
+
+
+Yeni konu
+
+
+C++ da tür dönüşümü operatörleri
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

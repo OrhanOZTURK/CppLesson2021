@@ -870,7 +870,6 @@ decltype ile elde edilen tur T turundur
 eger ifade l value expression deger kategorisinde ise
 decltype ile elde edilen tur T& turundur
 
-
 eger ifade X value expression deger kategorisinde ise
 decltype ile elde edilen tur T && turundur
 
@@ -1090,6 +1089,8 @@ int main()
 Yeni konu
 
 constexpr
+
+
 
 
 
