@@ -1,0 +1,440 @@
+Yeni konu
+
+C++ da tür dönüşümü operatörleri
+
+C de tür dönüşümü
+
+int x = 10;
+
+(double)x;
+()
+
+mümkün oldugunca bunu kullanmıyoruz
+
+sentaks hatası oldugun degil
+
+çünkü daha iyileri C++ da mevcut
+
+
+
+C++ da 4 tane type cast operatoru var
+
+static_cast
+const_cast
+reinterpret_cast
+dynamic_cast
+
+C++ da ilk gündern beri var bu operatörler
+
+
+Genel problem şu
+
+type cast yaptıgımız heryerde farklı amaçlar niyetler var
+
+fakat biz hepsi için aynı operatoru kullanıyoruz
+
+
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+
+    int x = 10;
+    int y = 3;
+
+    (double)x / y; // sonuc double
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+char *Strchr(const char *p, int c)
+{
+    while(*p){
+        if(*p == c)
+            return (char *)p;
+        ++p;
+    }
+
+    if(c == '\0')
+            return (char *)p;
+
+    return nullptr;
+}
+
+
+int main()
+{
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    unsigned int uval = 6567454; // 4 byte
+
+
+    //2 byte
+    unsigned short *p = (unsigned short *)&uval;
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    unsigned int uval = 6567454; // 4 byte
+
+    //istisna
+    char *p = (char *)&uval;
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+1- static_cast
+    static dönüşümler
+
+2- const_cast
+  const donusumler
+
+3- reinterpret_cast
+   adresler dönüştürmek için
+
+4-  dynamic_cast
+   inharetince -- kalıtım için kullanılır
+
+
+kural bir
+
+eger tür dönüştürem işleminde yapılacak olayın dışında bir dönüştürme
+operatoru kullanılırsa sentaks hatasıdır
+
+kullanım
+
+  int x = 10;
+  int y = 3;
+
+   static_cast<double>(x) / y;
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int x, y;
+
+    cout << "iki tam sayı giriniz : ";
+    cin >> x >> y;
+
+    double z = static_cast<double>(x)/y;
+
+    cout << "z : " << z << endl;
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+int main()
+{
+    srand(static_cast<unsigned int>(time(nullptr)));
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+//soru
+
+//sık yapılan hata
+
+//C den hatırlamak lazım bilmiyorsak bir gidip bakalım
+
+int main()
+{
+    int x = -1;
+    unsigned int y = 1;
+
+    if(x > y){
+        cout << "evet dogru\n";
+    }else{
+        cout << "hayır yanlis\n";
+    }
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+//soru
+
+int main()
+{
+    char x = 120;
+
+    if(x == 120){
+        cout << "evet dogru\n";
+    }else{
+        cout << "hayır yanlis\n";
+    }
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+
+char *Strchr(const char *p, int c)
+{
+    while(*p){
+        if(*p == c)
+            return const_cast<char *>(p);
+        // return (char *) p;
+        //
+        //
+    }
+    //
+    //
+
+    return const_cast<char *>(p);
+}
+
+int main()
+{
+
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+
+int main()
+{
+    double dval = 123.1234;
+
+    unsigned char *p = reinterpret_cast<unsigned char *>(&dval);
+
+
+    for(size_t i = 0; i < sizeof (dval); ++i)
+    {
+        cout << p[i] << " ";
+    }
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+
+int main()
+{
+    double dval = 123.1234;
+
+    //yanlslıkl farklı operatorler kullanırsak sentaks hatsı alırız
+    unsigned char *p = reinterpret_cast<unsigned char *>(&dval);
+
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+enum Color {Black, White, Green };
+
+int main()
+{
+   Color myColor{White};
+
+   int x = myColor; // legal
+
+   myColor = 2; // sentaks hatası
+
+   myColor = static_cast<Color>(2); // olması gerekn
+
+
+
+    return 0;
+}
+
+/**********************************************/
+/**********************************************/
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+enum Color {Black, White, Green };
+
+int main()
+{
+   Color myColor{White};
+
+   int x = myColor; // legal
+
+   myColor = 2; // sentaks hatası
+
+   myColor = static_cast<Color>(2); // olması gerekn
+
+   return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+//Ödev Soru
+// Neden iki durum içinde geçerli
+
+int main()
+{
+   size_t n = 5000;
+
+   char *p = reinterpret_cast<char *>(malloc(n));
+   char *c = static_cast<char *>(malloc(n));
+
+   return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+//Ödev Soru
+// Neden iki durum içinde geçerli
+
+int main()
+{
+   const double *dptr = nullptr;
+
+   //char *p = const_cast<char *>(dptr); // dogru degıl
+
+   //char *p = reinterpret_cast<char *>(dptr); // dogru degıl
+
+
+   char *p = const_cast<char *>(reinterpret_cast<const char *>(dptr));
+
+
+   char *c = reinterpret_cast<char *>(const_cast<double *>(dptr));
+
+
+   return 0;
+}
+
+/**********************************************/
+/**********************************************/
+
+
+İşlev yükleme -- Function overloading
+
+
+
+
+
+
+
+
+
+
+
+
+
