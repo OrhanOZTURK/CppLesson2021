@@ -1,0 +1,463 @@
+
+#include <cstdlib>
+
+using namespace std;
+
+//Ödev Soru
+// Neden iki durum içinde geçerli
+
+int main()
+{
+   size_t n = 5000;
+
+   char *p = reinterpret_cast<char *>(malloc(n));
+   char *c = static_cast<char *>(malloc(n));
+
+   return 0;
+}
+
+/********************************************/
+/********************************************/
+
+
+İşlev yüklemesi -- Function overloading
+
+C de olmayan bir araç
+
+N  tane fonksiyon var ama isimleri aynı verme işlemidir.
+
+
+Neden böyle bir ihtiyaç var?
+
+
+standart ornek abs fonksyonu
+
+
+Peki bu araç run time zamanına maliyeti var mı?
+
+Hayır
+
+
+Static binding -- early binding
+derleyici koda bakarak hangi fonksiyonu
+çağrıldıgını anlıyor ise işlev çağrısının çağrılacak
+işleve bağlanması işlemi--- Çevirici sürecinde gercekleşiyor
+
+
+dynamic binding -- late binding
+hangi fonksiyonun çağrıldıgı programın çalışma
+zamanında belli oluyorsa buna dynamic binding denir
+
+
+F.overloading --> static binding
+
+
+Function overload resolution
+
+
+/***********************************/
+
+işlev yuklmesi söz konusu olabilmesi için
+
+1- aynı isimli işlevler aynı kapsam alanı bildirilmiş yada tanımlanmış olmalıdır
+2- aynı isimli işlevler imzaları farklı olacak
+
+imza nedir
+Function signature
+
+//geri donus degeri ve isim aynı kalan kısım imzası olacak
+int func(int, int);
+
+
+/*********************************************************/
+
+nerler işlev yuklemesi değil
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading
+
+// function redeclaration
+// hem fonksiyon geri donusu aynı hemde imzaları aynı
+int func(int x, int y);
+int func(int, int);
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading
+//Hayır degil
+
+int func(int x, int y);
+double func(int, int);
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading
+//Evet
+
+int func(int x, int y);
+double func(int, int, int);
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading
+//Hayır
+
+//Type alias -- tur es isimleri
+
+//typedef int Int32;
+
+int func(int);
+int func(int32_t);
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading
+
+//ben nasıl anlarım redeclaration veyay F.O oldugunu
+
+//fonksiyon bildirimini tanıma çevirin veya tanımını yapın
+
+/*
+int func(int);
+int func(int32_t);
+*/
+int func(int){}
+int func(int32_t){}
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//redeclaration
+
+int func(int);
+int func(const int);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int *);
+int func(const int *);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int &);
+int func(const int &);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+F.O
+
+void func(T *) {}
+void func(const T *) {}
+
+void func(T &) {}
+void func(const T &) {}
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//redeclaration
+
+int func(int *p);
+int func(int *const p); // parametresiinin const oldugu anlamındadır
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int x, int y, int z = 10);
+int func(int x, int y);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//redeclaration
+
+int func(int x, int y);
+int func(int x, int y = 10);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int);
+int func(int &);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int &);
+int func(int &&);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//Soru F.O --> function overloading mi vs redeclaration mı
+
+//F.O
+
+int func(int);
+int func(bool);
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+Function overloading
+
+
+void func(int);
+void func(int, int);
+void func(int, int, double);
+
+
+function overloading resolution 2 durum söz konusu
+
+
+1- gecersiz syntax error
+
+  a- no match --> uyguyn fonksiyon bulunamadıysa
+
+void func(int);
+void func(int, int);
+void func(int, int, double);
+
+//cagrı
+
+func(nullptr); //sentaks hatası
+
+ b- ambiguity -- çift anlamlılık hatası
+
+  iki veya daha fazla secener var fakat secilebilirlik kriteri yok ise arada kalır derleyıcı
+
+
+2- gecerli (hangi işlevin çağrıldıgı anlasıldı)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
