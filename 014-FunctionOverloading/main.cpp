@@ -1,23 +1,29 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-//Soru F.O --> function overloading mi vs redeclaration mı
-
-//F.O
-
-int func(int);
-int func(bool);
+void func(int &r);
+void func(int &&r);
 
 int main()
 {
+    int x = 10;
+    //func(x); //Lvalue oldugu için ilki cagrılır
 
-    return 0;
 }
 
 
 /*********************************************/
 /*********************************************/
+
+
+
+
+
+
+
+
 
 
 
