@@ -3,14 +3,13 @@
 
 using namespace std;
 
-void func(int &r);
-void func(int &&r);
+void func(int, double, long);
+void func(double, int, int);
+void func(float, float, float);
 
 int main()
 {
-    int x = 10;
-    //func(x); //Lvalue oldugu için ilki cagrılır
-
+    func(12u, 34, 4.5); //2. fonksiyon
 }
 
 

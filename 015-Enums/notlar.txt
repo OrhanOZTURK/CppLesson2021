@@ -1,0 +1,234 @@
+Enum
+
+Numaralandırmalar
+
+C deki enum türü --> int
+
+underlying type ---> int
+
+C++ underlying type derleyiciye baglı ve numaralandırmaya
+verdğimiz degerlerin ne olguna baglı olarak sizeof degişir
+
+
+
+enum Color {White, Black, Gray, Green};
+
+3 tane temel kötü özellikleri
+
+
+1. kötü özellik tür dönüşümleri
+#include <iostream>
+
+using namespace std;
+
+enum Color {White, Black, Gray, Green};
+
+int main()
+{
+    Color myColor = Black;
+
+    int ival = 5;
+
+    myColor = ival; // sentaks hatası
+
+    ival = myColor; // gecerli implicit type convertion
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+2. kötü özelliği numaralandırma türününü
+underlying türü derleyiciye baglı oldugu için
+numaralandırma türlerin forward declaration yapılamıyor
+
+incomplete type / complete type --- eksik tü - tamamlanmış tür demek
+
+
+complete type
+
+struct Data {
+   int x, y, z;
+}
+
+incomplete type
+
+struct Data1;
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//complete type
+struct Data {
+   int x, y, z;
+};
+
+//incomplete type
+struct Data1;
+
+int main()
+{
+    Data data1; //sentaks hatası
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+3. kötü özellik
+
+#include <iostream>
+
+using namespace std;
+
+enum Color {White, Black, Gray, Green};
+
+//orhn.hpp
+//enum ScreenColor{Black, Gray, Yellow};
+
+//ozturk.hpp
+//enum TrafficLight {Yellow, Green, Red};
+
+//1. çözümleri isimleri farklı vermek
+
+//2. Çözüm
+// Class elemını olarka olsuturmak
+
+class Screen{
+    enum ScreenColor{Black, Gray, Yellow};
+};
+
+//3. çözüm isim alanı içine almak -- namespace
+
+int main()
+{
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+modern C++ da yenilikler geldi
+
+1. underlying type programcı tarafından secilebilir
+
+
+#include <iostream>
+
+using namespace std;
+
+enum Color : int{White, Black, Gray, Green};
+
+enum Color1 : int;
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+
+
+2. "enum class" lar eklendi
+
+ - diğer türlere otomatik tür donusumu yok sayıyor
+ - numaranlandırma sabitlerini scope almış olduk
+ - isim çakışması ortan kalktı
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+enum class Color : int{White, Black, Gray, Green};
+
+
+int main()
+{
+   Color myColor = Color::White;
+
+   myColor = 2; // sentaks hatası
+   int ival = myColor; // sentaks hatası
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+#include <iostream>
+
+using namespace std;
+
+enum class Color : int{White, Black, Gray, Green};
+enum class TrafficLight : unsigned long{Yellow, Green, Red};
+enum class ScreenColor : int {Black, Gray, Yellow};
+
+int main()
+{
+   Color myColor = Color::White;
+
+   //myColor = 2; // sentaks hatası
+   //int ival = myColor; // sentaks hatası
+
+   int ival = static_cast<int>(myColor);
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+enum class Color : int{White, Black, Green};
+
+int main()
+{
+   const char *const p[] = {"White", "Black", "Green"};
+
+   //p[Color::Black]; // sentaks int e dönüşüm
+
+   p[static_cast<int>(Color::Black)]; //
+
+    return 0;
+}
+
+/*****************************************/
+/*****************************************/
+
+
+Class --->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

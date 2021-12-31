@@ -1173,6 +1173,99 @@ func(x) // ilki cagrılır
 func(rValue expr) // ikisi birden çağrılabilir.....
 
 
+-------------------------------------------
+
+çoklu parametreye sahip overloading olur ise
+
+
+bir fonksiyonun bir parametrede ustunluk saglması gerekiyor
+ve diger parametrelerde daha kötü olmayacak(üstün olması) veya aynı olabilecek
+olması durumda secimini yapar
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void func(int, double, long);
+void func(double, int, int);
+void func(float, float, float);
+
+int main()
+{
+    func(12, 5u, 4.5); //1 . gonksiyonla eşlişirim
+}
+
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void func(int, double, long);
+void func(double, int, int);
+void func(float, float, float);
+
+int main()
+{
+    func(5.5, 5u, 4.5); //2 . fonksiyonla eşlişir
+}
+
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void func(int, double, long);
+void func(double, int, int);
+void func(float, float, float);
+
+int main()
+{
+    func(12u, 34, 4.5); //2. fonksiyon
+}
+
+
+/*********************************************/
+/*********************************************/
+
+enum turler
+enum class
+
+sınıf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
