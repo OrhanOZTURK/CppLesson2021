@@ -1,0 +1,317 @@
+
+Classes -- Sınıflar
+
+
+data abstraction -- veri soyutlama
+
+problem domainde ki varlıkları. Programalma dilinde yazılımsal olarak temsil etmektir.
+
+
+user defined type
+
+ikiside sınıf anlamına gelmektedir
+
+class
+struct
+
+
+class definition -- tanımı
+class declaration --- bildirimi
+
+//boş sınıflar
+
+class Myclass{
+
+};
+
+struct Mydata {
+
+};
+
+
+---------------------------
+
+//class Tag
+class Myclass{
+    //bildirimler
+    //memberlar
+};
+
+
+
+
+class'ın memberları 3 kategoride olabilir
+
+
+1- data member -- veri ogeleri
+   a- non-static data member
+   b- static data members
+
+2- member functions -- üye fonksiyonlar
+   a- non-static member functions
+     1-non-const member functions
+     2- const member functions
+   b- static member functions
+
+3- member type -- type members - nested types
+
+
+
+Ornek
+
+//class Tag
+class Myclass{
+    int x, y;
+    static double dval;
+    void func();
+    static int foo();
+    typedef int Word;
+    enum class Color{White, Black};
+};
+
+
+***************************************************
+
+
+scope --kapsam
+
+c de scope kavramı
+
+file scope
+block scope
+function prototype scope
+function scope
+
+C++ de scope kavramı
+
+namespace scope
+class scope
+block scope
+function prototype scope
+function scope
+
+
+*************************************************
+
+
+name lookup ---> isim arama
+
+context-control
+
+access control -- erişim kontrolu
+
+
+
+*************************************************
+
+class scope ta bir isim hangi durumlarda aranır
+
+a- isim nokta operatörünün (member selection - dot operator)
+   sagında kullanılmış ise
+
+b- isim ok operatörünün (member selection - arrow operator)
+   sagında kullanılmış ise
+
+c- isim :: çözünürlük operatörünün (member selection - scope resolution operator)
+   sagında kullanılmış ise
+
+ornek
+
+clas Myclass{
+  int y;
+};
+
+Myclass myclass;
+
+myclass.y;
+myclass->y;
+myclass::y;
+
+
+----------------------------------------
+
+sınıflara erişimler (access specifier) için 3 tanım
+
+public member
+private member
+protected member
+
+bunların hepsi anahtar sözcük
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+
+public:
+    //burası public memberlar
+
+private:
+    //burası private memberlar
+
+protected:
+    //burası protected memberlar
+
+public:
+    //burası public memberlar
+
+};
+
+
+
+int main()
+{
+    cout << "Hello World!" << endl;
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+
+class Myclass{
+  //membler private alanda kabul edilir
+};
+
+
+struct Myclass{
+  //membler public alanda kabul edilir
+};
+
+
+
+class Myclass{
+
+    int x; // private alanda
+
+public:
+
+
+};
+
+------------------------------------------------
+
+public
+   kısım olan isimler erişimi herekse açıktır
+
+private
+  clinetlara kapalı isimler ama sınıf kendisi kendi içinde kullanabileceği isimler
+
+protected
+  inheritance (miras kalıtım) oldugu yerlerde sınıfın memberlarına erişim izni vardır
+  eger kalıtım yok ise private özelliğine sahip olmus olur
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    int x;
+
+private:
+    int y;
+
+};
+
+
+
+int main()
+{
+    Myclass myclass;
+
+    myclass.x;
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+soru gecerlimi -- Hayır
+
+aynı scope aynı isim tanımlaması var
+
+public ve private protected scope deil alan bildiri sadece
+
+
+class Myclass{
+public:
+    int x;
+
+private:
+    int x();
+    int y;
+
+};
+
+
+************************************************************
+
+class veri elemanları
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    int x;
+
+private:
+    int y;
+    double z;
+
+};
+
+
+
+int main()
+{
+    cout << "sizeof (Myclass) : " << sizeof (Myclass) << endl;
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+member function
+
+//member function
+class Myclass{
+public:
+    void func(int);
+};
+
+
+
+fonksiyon clasın dısın bildirilirse su isimleri alır
+
+//global function
+//free function
+//stand-alone function
+
+int foo(void);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
