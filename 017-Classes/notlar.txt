@@ -102,6 +102,7 @@ access control -- erişim kontrolu
 
 
 
+
 *************************************************
 
 class scope ta bir isim hangi durumlarda aranır
@@ -302,6 +303,761 @@ fonksiyon clasın dısın bildirilirse su isimleri alır
 
 int foo(void);
 
+
+/*****************************************/
+
+Nedemek sınıfın üye fonksiyonu
+
+fonksiyon özelliklerine sahip fakat sadece class scope da yer alması lazım
+
+
+#include <iostream>
+
+using namespace std;
+
+//member function
+class Myclass{
+public:
+
+    //non static function
+    void func(int);
+};
+
+
+int main()
+{
+    Myclass m1;
+
+    m1.func(33);
+
+    Myclass *m2 = new Myclass();
+
+    m2->func(55);
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+neden private ile dışarıdan erişim yok
+
+1- dışarıdan sınıfın kullanacak client sınıfın data memberlarının ne oldugunu bilmak zorunda değil
+2- sınıfın data memberlarını client kodların erişimine çarsak kontrol elden gider
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//member function
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+
+    //non static function
+    void func(int);
+};
+
+
+int main()
+{
+    Myclass m1;
+    Myclass *m2 = &m1;
+
+    //her iki durumdada  m1'in func'ı cagrılır
+    m1.func(3);
+    m2->func(4);
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//member function
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+
+    //non static function
+    void func();
+};
+
+
+int main()
+{
+    //bu fonksiyonı böyle cagırmak için Myclass nesnesi olması lazım
+    Myclass::func();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//member function
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    void func();
+};
+
+void func(int);
+
+
+//aynı siim tanımlamalar gecerlidir
+//farklı scope oldugu için
+
+//function overloading degildir scopelar farklı oldugu için
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Data{
+private:
+    int x, y, z;
+
+public:
+
+    //overload edeilirim
+    void func();
+    void func(int);
+    void func(int, int);
+    void func(double);
+};
+
+
+int main()
+{
+
+    Data mydata;
+
+    mydata.func();
+    mydata.func(2);
+    mydata.func(2, 5);
+    mydata.func(2u); //sentaks hatası olur
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+class Data{
+private:
+    void func(int);
+
+public:
+    void func(double);
+};
+
+
+int main()
+{
+
+    Data mydata;
+
+    //mydata.func(12.56); // gecerli
+    //mydata.func(12); // sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+
+
+//gecerlimi? Evet
+
+int func(int);
+int func(int);
+
+
+//gecerlimi? Hayır
+
+class Data{
+public:
+  void func(int);
+  void func(int);
+}
+
+
+/*********************************************/
+/*********************************************/
+
+sınıfın üye fonksiyonları storage'a dahil değildir
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+class Data{
+public:
+  void func(int);
+  void foo(int);
+
+private:
+  int x, y;
+};
+
+
+int main()
+{
+
+    cout << "sizeof(Data) : " << sizeof (Data) << endl;
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+Myclass.hpp   --> class definition
+Myclass.cpp   --> class declaration
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass {
+public:
+    void func();
+    void foo();
+
+private:
+    int mx, my;
+};
+
+
+//.cpp
+
+void Myclass::func(){
+    //3
+    if(1){
+        //2
+        if(1){
+            //1
+            //a  --> isim kullansaydım burada
+            //1- ilk önce uye fonksiyonun içinde arar
+            //2- class scope içinde arar
+            //3- global alanda arar
+        }
+    }
+}
+
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//name resulotion
+
+int x = 20;
+
+int main()
+{
+    int x = 10;
+
+    cout << "x = " << x << endl;
+    cout << "::x = " << ::x << endl;
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//name resulotion
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo();
+
+private:
+    int mx, my;
+};
+
+int mx = 25;
+
+//.cpp
+void Myclass::func()
+{
+    int mx = 10;
+
+    mx = 12; // yerel
+
+    Myclass::mx = 22; // class mx
+
+    ++::mx;
+
+}
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//name resulotion
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo();
+
+private:
+    int mx, my;
+};
+
+
+//.cpp
+void Myclass::func()
+{
+    mx = 12;
+
+}
+
+int main()
+{
+    Myclass m1, m2;
+
+    //
+    m1.func(); // burada mx, m1in mx'i
+    m2.func(); // burada mx, m2 in mx'i
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//name resulotion
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo(int);
+
+private:
+    int mx, my;
+};
+
+void foo()
+{
+    //
+}
+
+//.cpp
+void Myclass::func()
+{
+    foo(); //sentaks hatası
+    ::foo(); // global fonksiyona erişirim çözünürlük operatoru ile
+
+}
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+struct Data{
+    int mx, my;
+};
+
+//ben write - setter görevi görür
+void foo(struct Data *p);
+
+//ben alrım seni  oynama yapmam sende okuma - getter görevi görevi
+void foo(const struct Data *p);
+
+
+int main()
+{
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    //bunlara böyle hangisinini getter hengisinin setter oldugunu anlayamıyorum
+    void func();
+    void foo();
+};
+
+//.cpp
+
+
+int main()
+{
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo() const;
+    //foo sınıf nesnlerinde değişiklik olmaz
+
+private:
+    int mx, my;
+};
+
+//.cpp
+
+void Myclass::foo() const{
+    mx = 13;
+}
+
+void Myclass::func(){
+    mx = 12;
+}
+
+
+int main()
+{
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo() const;
+    //foo sınıf nesnlerinde değişiklik olmaz
+
+private:
+    int mx, my;
+};
+
+//.cpp
+void Myclass::foo() const{
+    mx = 13;
+}
+
+void Myclass::func(){
+    mx = 12;
+}
+
+
+int main()
+{
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+
+    //iki ayrı fonksiyon olarak gecerlidir
+    //const overloading
+    void foo();
+    void foo()const;
+
+private:
+    int mx, my;
+};
+
+//.cpp
+void Myclass::foo(){
+    mx = 10;
+}
+
+void Myclass::foo() const{
+    mx = 12;
+}
+
+int main()
+{
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+const üye fonksiyonları sınıfın nonstatic data type'larını değiştirmez
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo()const;
+
+private:
+    int mx, my;
+};
+
+//.cpp
+void Myclass::foo() const{
+    Myclass a;
+    a.mx = 22;
+
+    mx = 22; //    sentaks hatası
+}
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo()const;
+
+private:
+    int mx, my;
+};
+
+//.cpp
+
+
+int main()
+{
+    Myclass m1;
+    //const Myclass m2;
+
+    m1.foo();
+    m1.func();
+    m2.foo();
+    m2.func(); // sentaks hatası
+
+    /*
+     * const T* ----> T* donusum yok
+     * T* ------> const T* donusum var
+     *
+     */
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    void func();
+    void foo()const;
+    void fuu()const;
+
+private:
+    int mx, my;
+};
+
+//.cpp
+void Myclass::func(){
+    foo();
+    //T*  ---> const T* donusum var
+}
+
+void Myclass::foo() const{
+    func();// sentaks hatası
+    //const T* ---> T* donusum yok
+    fuu();
+}
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+Üye fonksiyonları ve const overloading
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    //const overloading
+    void func();
+    void func()const;
+
+private:
+    int mx, my;
+};
+
+//.cpp
+void Myclass::func(){
+    cout << "Myclass::func()" << endl;
+}
+
+void Myclass::func() const{
+    cout << "Myclass::func() const" << endl;
+}
+
+
+int main()
+{
+    Myclass m1;
+    m1.func();
+
+    //const Myclass m2;
+    m2.func(); // const olan cagrılacaktı
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+this anahtar sözcüğüne ---- this pointer
 
 
 

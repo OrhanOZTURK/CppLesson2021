@@ -4,7 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        myclass.cpp
 
 DISTFILES += \
  notlar.txt
+
+HEADERS += \
+ myclass.hpp

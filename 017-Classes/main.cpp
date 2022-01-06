@@ -2,23 +2,36 @@
 
 using namespace std;
 
-//member function
+
+//.hpp
 class Myclass{
 public:
-    void func(int);
+    //const overloading
+    void func();
+    void func()const;
+
+private:
+    int mx, my;
 };
 
+//.cpp
+void Myclass::func(){
+    cout << "Myclass::func()" << endl;
+}
 
-//global function
-//free function
-//stand-alone function
-
-int foo(void);
+void Myclass::func() const{
+    cout << "Myclass::func() const" << endl;
+}
 
 
 int main()
 {
-    cout << "sizeof (Myclass) : " << sizeof (Myclass) << endl;
+    Myclass m1;
+    m1.func();
+
+    //const Myclass m2;
+    m2.func(); // const olan cagrılacaktı
+
     return 0;
 }
 
