@@ -2,35 +2,30 @@
 
 using namespace std;
 
-
 //.hpp
 class Myclass{
 public:
-    //const overloading
     void func();
-    void func()const;
 
 private:
     int mx, my;
 };
 
-//.cpp
+struct Data{
+    int x;
+};
+
+Myclass gm;
+
 void Myclass::func(){
-    cout << "Myclass::func()" << endl;
+    this = &gm; // sentaks hatası
+    //this R value expr dir
+    //this pointer kendisi const dur bu yüzden gecersizdir
 }
-
-void Myclass::func() const{
-    cout << "Myclass::func() const" << endl;
-}
-
 
 int main()
 {
-    Myclass m1;
-    m1.func();
 
-    //const Myclass m2;
-    m2.func(); // const olan cagrılacaktı
 
     return 0;
 }
