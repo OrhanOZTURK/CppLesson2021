@@ -1469,6 +1469,1078 @@ int main()
 /*********************************************/
 /*********************************************/
 
+Inline fonksiyonlar
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    inline int func(int); // inline buradaa olabilir
+
+private:
+    int mx, my;
+};
+
+inline int Myclass::func(int c){
+    return c;
+}
+
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    inline int func(int c){
+        return c;
+    }
+
+private:
+    int mx, my;
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+//implicity inline fonksiyon
+constexpr int func(int x)
+{
+    return x;
+}
+
+
+
+/*********************************************/
+/*********************************************/
+
+neler inline olaarak tanımlanır
+
+
+sınıfın
+
+  nonstatic member function
+  const
+  non const
+
+static member function
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    static int func(int c){ // inline
+        return c;
+    }
+};
+
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+public:
+    friend int func(int c){ // inline
+        return c;
+    }
+};
+
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+constructor / destructor
+
+special member functions
+
+
+constructor ismi sınıfın ismi ile aynı olmak zorunda
+ctor geri donus diye bir kavramı yok
+ctor uye fonksiyon olamaz
+global veya sınıfın static uye fonksiyonu olamaz
+ctor overload edilemez
+ctor sınıfın public veya private fonksiyonu olabilir
+
+
+
+
+class Myclass{
+
+public:
+     Myclass();
+};
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+     Myclass();
+     Myclass(int);
+     Myclass(double);
+     Myclass(int, int);
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+private:
+    Myclass();
+
+public:
+    // Myclass();
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+    Myclass();
+    void func();
+
+};
+
+
+int main()
+{
+    Myclass m;
+    m.func();
+    m.Myclass(); // sentaks hatası ctor cagrılmaz boyle
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+    Myclass()const; // ctor const fonksiyon olamaz
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+    static Myclass(); // ctor static fonksiyon olamaz
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+    Myclass(){
+        //inline olarak header içinde tanımlayabilirim
+    }
+
+};
+
+
+//.cpp inline oalrak tanımladım
+Myclass::Myclass(){
+    //inline olarak
+}
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+default ctor
+
+parametresi yoktur
+yada parametresi var ama varsayılan argüman alıyor ise hepsi
+
+default constructor == varsayilan kurucu işlev
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+class Myclass{
+
+public:
+    //Myclass();
+    Myclass(int x = 0);
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+//derleyici bizim sınıfn default ctor yazar
+class Myclass{
+
+public:
+
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+special member functions --- sınıfın ozel uye fonksiyonları
+
+
+6 tane fonksiyon ozel uye fonksiyon vardır
+
+
+default constructor
+copy constructor
+move constructor  //C++11
+copy assignment function
+move assignment function //C++11
+destructor
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+//derleyici artık senın ıcın ctor yazmaz
+class Myclass{
+
+public:
+    Myclass(int);
+
+};
+
+
+int main()
+{
+    Myclass m; //sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+destructor
+
+
+sınıfın nonstatic uye fonksiyon
+ismi sınıgın ismi ile aynı ~ (tilda karateri olması lazım)  ~Myclass()
+geri donus degeri kavramı yok
+dtor overload edilmez
+dtor parametresi yoktur olamaz
+dtor const olmaz
+dtor static ve global olamaz
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+
+};
+
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+
+};
+
+
+int main()
+{
+    Myclass m;
+
+    m.~Myclass(); // dtor cagra bilirim
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(int x, int y); //ctor
+    //defautl olarak ctor olmak zorunda değil
+
+    //ama default olarak dtor olmak zorunda
+
+};
+
+
+int main()
+{
+    Myclass m(2, 3);
+
+    m.~Myclass();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+//global nesneler main baslamdan once hayata gelir
+
+Myclass m;
+
+
+int main()
+{
+    cout << "mian basladi\n";
+
+    cout << "&m : " << &m << endl;
+
+    cout << "main sonlaniyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+
+void func(){
+    static int cnt = 0;
+
+    cout << "func islebine yapilan  " << ++cnt << ". cagri\n";
+
+    static Myclass m;
+}
+
+
+int main()
+{
+    cout << "mian basladi\n";
+
+    for (int i = 0; i < 10; ++i ) {
+        func();
+    }
+
+    cout << "main sonlaniyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+int main()
+{
+    cout << "mian basladi\n";
+
+    for (int i = 0; i < 10; ++i ) {
+        static Myclass m;
+    }
+
+    cout << "main sonlaniyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+int main()
+{
+    cout << "mian basladi\n";
+    {
+        Myclass m;
+        cout << "main devam ediyor 1\n";
+    }
+
+    cout << "main devam ediyor 2\n";
+
+    cout << "main sonlaniyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+int main()
+{
+    cout << "mian basladi\n";
+    if(1){
+        Myclass m1;
+        if(2){
+            Myclass m2;
+        }
+    }
+
+    cout << "main sonlaniyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    cout << "Myclass default ctor ... this : " << this << endl;
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+int main()
+{
+    Myclass a[10];
+    _getwch();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(); //ctor
+    ~Myclass(); //dtor
+};
+
+//.cpp
+Myclass::Myclass(){
+    static int x = 0;
+    cout << x++ << " ";
+}
+
+Myclass::~Myclass(){
+   cout << "Myclass default dtor ... this : " << this << endl;
+}
+
+int main()
+{
+    Myclass a[50];
+    _getwch();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    auto p = new Myclass;
+
+    cout << "main devam ediyor 1\n";
+    cout << "main devam ediyor 2\n";
+
+    //delete p;
+
+    cout << "main devam ediyor 3\n";
+    cout << "main devam ediyor 4\n";
+    delete p;
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    Myclass m;
+    Myclass *p = &m;
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    Myclass m;
+    Myclass &r = m;
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    Myclass m;
+    auto &r = m;
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+void func(Myclass &r){
+
+}
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    Myclass m;
+
+    for (int i = 0; i < 10; ++i ) {
+        func(m);
+    }
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//.hpp
+
+class Myclass{
+private:
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+//.cpp
+
+void func(Myclass r){
+
+}
+
+
+int main()
+{
+    cout << "main basliyor\n";
+
+    Myclass m;
+
+    //copy ctor cagrılıyor
+    //ileriki derlerde cevabımızı alacaz
+    for (int i = 0; i < 10; ++i ) {
+        func(m);
+    }
+
+    cout << "main sona eriyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+
+
+
+
+
 
 
 

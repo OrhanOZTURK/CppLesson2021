@@ -2,30 +2,43 @@
 
 using namespace std;
 
+
 //.hpp
+
 class Myclass{
-public:
-    void func();
-
 private:
-    int mx, my;
+    int mx[5]{};
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
 };
 
-struct Data{
-    int x;
-};
+//.cpp
 
-Myclass gm;
+void func(Myclass r){
 
-void Myclass::func(){
-    this = &gm; // sentaks hatası
-    //this R value expr dir
-    //this pointer kendisi const dur bu yüzden gecersizdir
 }
+
 
 int main()
 {
+    cout << "main basliyor\n";
 
+    Myclass m;
+
+    //copy ctor cagrılıyor
+    //ileriki derlerde cevabımızı alacaz
+    for (int i = 0; i < 10; ++i ) {
+        func(m);
+    }
+
+    cout << "main sona eriyor\n";
 
     return 0;
 }
