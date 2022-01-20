@@ -2534,6 +2534,1186 @@ int main()
 /*********************************************/
 /*********************************************/
 
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass m1; // default initialazation
+    //default ctor cagrılır
+    //cop deger ile hayata gelir
+
+
+    Myclass m2{}; //default value initialazation
+    //zero sıfır degeri ile deglir
+    //default ctor cagrılır
+
+
+    Myclass a[10]; // default initialazation
+    //default ctor cagrılır
+    //cop deger ile hayata gelir
+
+
+    Myclass b[10]{}; //default value initialazation
+    //zero sıfır degeri ile deglir
+    //default ctor cagrılır
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    Myclass(){
+        cout << "Myclass default ctor ... this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass mx{}; //nesne tanımı
+    Myclass my(); //bir fonksiyon bildirimidir dikkat
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    Myclass(int x){
+        cout << "Myclass default ctor ... x = " << x << " this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass m; //sentaks hatası
+    Myclass m1(2); //parametreli ctor cagrılır // direct initilazation
+
+
+    Myclass m2{22}; // paramterli ctor cagır // uniform initilazation
+    //modern C++ -- C++11
+
+
+    Myclass m3 = 30; // copy initilization -- ctor argüman olarak gönderilir
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+explicit ctor
+
+genelde tek aprametreli ctorlar olur
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    explicit Myclass(int x){
+        cout << "Myclass default ctor ... x = " << x << " this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass m = 3; //copy init.. sentaks hatsı olacak
+    //ileride görecez
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+ctor overloading
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+private:
+    int x, y, z;
+
+public:
+    Myclass(int x){
+        cout << "Myclass (int) ctor ... x = " << x << " this : " << this << endl;
+    }
+
+    Myclass(double x){
+        cout << "Myclass (double) ctor ... x = " << x << " this : " << this << endl;
+    }
+
+    Myclass(int, int){
+        cout << "Myclass (int, int) ctor ... x = " << x << " this : " << this << endl;
+    }
+
+    ~Myclass(){
+       cout << "Myclass default dtor ... this : " << this << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass m1{1.3};
+    Myclass m2{22};
+    Myclass m3{2, 3};
+    Myclass m4{2.0f}; //
+    //Myclass m5{2u}; // sentaks hatası
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+constructor initializer list // güncel ismi
+member initializer list (M.I.L syntax) //eski isimlendirme
+
+
+
+non-static data memberlara ilk deger verme sentaksı
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+
+private:
+    int x, y;
+    double dval;
+
+};
+
+//.cpp
+Myclass::Myclass()
+{
+    x = 10; //ilk deger verme olmaz, atama olur
+}
+
+
+int main()
+{
+
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+
+private:
+    int &r;
+    const int x;
+
+};
+
+int g = 10;
+
+//.cpp
+Myclass::Myclass()
+{
+    r = g; //sentaks hatası ilk deger vermiş olmyız
+
+    x = 5; //sentaks hatası ilk deger vermiş olmyız
+}
+
+
+int main()
+{
+
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+initializer_list --> C++ standard list sınıfıdır -- sınıf türü
+
+
+constructor initializer list ile karıstımraylım
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+
+private:
+    int mx, my, mz;
+
+};
+
+
+//.cpp
+Myclass::Myclass() : mx(10), my(20), mz(30) //constructor initializer list ** M.I.L
+{
+    cout << mx  << " " << my  << " " << mz << "\n";
+}
+
+
+int main()
+{
+
+    Myclass m;
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+    void print()const
+    {
+        cout << "mx = " << mx  << " my = " << my  << " mz = " << mz << "\n";
+    }
+
+private:
+    int mx, my, mz;
+
+};
+
+
+//.cpp
+Myclass::Myclass() : mx(10) //constructor initializer list ** M.I.L
+{
+
+}
+
+
+int main()
+{
+
+    Myclass m;
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+    void print()const
+    {
+        cout << "mx = " << mx  << " my = " << my  << " mz = " << mz << "\n";
+    }
+
+private:
+    int mx, my, mz;
+
+};
+
+
+//.cpp
+Myclass::Myclass() : mx{10}, my{}, mz{20} //C++11
+{
+
+}
+
+
+int main()
+{
+
+    Myclass m;
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+    void print()const
+    {
+        for(int i = 0; i < 10; ++i)
+            cout << a[i] << "  ";
+        cout << "\n";
+    }
+
+private:
+    int a[10];
+
+};
+
+
+//.cpp
+Myclass::Myclass() : a{1, 2, 3, 4, 5}
+{
+
+}
+
+
+int main()
+{
+
+    Myclass m;
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    Myclass();
+    void print()const
+    {
+        cout << "mx = " << mx  << " my = " << my  << " mz = " << mz << "\n";
+    }
+
+private:
+    int mx, my, mz;
+
+};
+
+int f1(){return 1;}
+int f2(){return 2;}
+int f3(){return 3;}
+
+
+//.cpp
+Myclass::Myclass() : mx{f1()}, my{f2()}, mz{f3()} //C++11
+{
+
+}
+
+
+int main()
+{
+
+    Myclass m;
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//.hpp
+class Myclass{
+public:
+    //Myclass(int a, int b) : mx{a}, my{b}
+    Myclass(int a, int b) : mx{a}, my{b}{} // böyle yazmam lazım
+
+    void print()const
+    {
+        cout << "mx = " << mx  << " my = " << my  << " mz = " << mz << "\n";
+    }
+
+private:
+    int mx, my, mz;
+
+};
+
+//.cpp
+
+
+int main()
+{
+
+    Myclass m;
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+delete  anahtar sözcük
+
+modern C++ ile fonksiyon silme aracı eklendi
+
+fonksiyonu delete edebiliriz ama cagrı yapamayız
+
+
+
+#include <iostream>
+
+using namespace std;
+
+void func(int x, int y) = delete;
+
+int main()
+{
+    func(1, 2); // sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//3 tane overload fonksiyon var delete edilende buna dahildir
+void func(int);
+void func(double) = delete;
+void func(int *);
+
+int main()
+{
+    func(1);
+    func(2.3); // sentaks hatası cagrı yapamadıgından
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+//Mulakat sorusu
+//bir fonksiyonun sadece int argumanlarla cagrılmasına olanak veren bir yapı olusturun
+
+void func(int);
+
+template<typename  T>
+void func(T x) = delete;
+
+int main()
+{
+    func(2);
+    func(3.); // sentaks hatası
+    func(2.F); // sentkas hatsı
+    func(3U); // sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+default //C++11
+
+bir sınıfın üye fonksiyonunu default edilmesi
+yanlızca sınıfınn üye fonksiyonlarını default edebilirim
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass() = default; // derleyici bu fonksiyonu benim içiin yaz
+    ~Myclass() = default;
+};
+
+int main()
+{
+
+    return 0;
+}
+
+
+/*********************************************/
+/*********************************************/
+
+C++11
+
+default member initialization
+in-class initialization
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+
+private:
+    int mx = 10;
+    //T mx = expr;
+    //T mx{expr};
+    //T mx(expr) // bunda sentaks hatası
+};
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+
+private:
+    int mx = 10;
+    int my{20}; // hatta fonksiyon cagrısı ilede ilk deger verebilirim
+    //int mz(30); // sentaks hatası
+
+    int ma[5] = {1, 2, 3, 4, 5};
+    int mb[] = {1, 2, 3, 4, 5}; // gecersiz dizi boyutu vermek zorundayiz
+};
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+
+int mg;
+
+//hpp
+class Myclass{
+public:
+
+private:
+    int *p = &mg;
+    int &r = mg;
+};
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+
+    //Myclass() : mx{10}, my{20}
+    /*
+    Myclass()
+    {
+        cout << "default ctor\n";
+    }*/
+
+    Myclass() = default;
+
+
+private:
+    int mx = 10, my = 20;
+};
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+
+    //Myclass() : mx{10}, my{20}
+    /*Myclass()
+    {
+
+    }*/
+
+    Myclass() = default;
+
+    void print()const{
+        cout <<"mx = " << mx << "\n";
+        cout <<"my = " << my << "\n";
+    }
+
+
+private:
+    int mx = 10, my = 20;
+};
+
+int main()
+{
+     Myclass m;
+     m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+C++11
+
+mutable  anahtar sözcüğü  ---> değiştirilebilir demek
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    void func()const
+    {
+        ++count;
+    }
+
+private:
+    mutable int count;
+};
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+special member functions --- sınıfın ozel uye fonksiyonları
+
+
+6 tane fonksiyon ozel uye fonksiyon vardır
+
+
+default constructor
+copy constructor
+move constructor  //C++11
+copy assignment function
+move assignment function //C++11
+destructor
+
+
+not declared  ---- user declared --- implicity declared
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
