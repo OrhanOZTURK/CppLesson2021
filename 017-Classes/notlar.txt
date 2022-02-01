@@ -3358,6 +3358,564 @@ destructor
 not declared  ---- user declared --- implicity declared
 
 
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass(int);
+    //burada default ctor yoktur -- not declared durum
+
+private:
+};
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+user declared
+
+ defined
+ defaulted
+ deleted
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    //Myclass(); //user declared -- defined
+    //Myclass(){}; //user declared
+    //Myclass() = default; -- defaulted
+    Myclass() = delete; //--deleted
+
+private:
+};
+
+int main()
+{
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+implicity declared
+
+2 ayrılır
+
+defaulted
+deleted
+
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Member{
+public:
+    Member(int, int);
+
+};
+
+class Myclass{
+
+private:
+    Member mx;
+};
+
+int main()
+{
+    Myclass m; //implicity deleted default
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+copy constructor --- kopyalayan kurucu işlev
+
+
+x ve y T sınıfı turunden nesneler
+
+T x = y;
+
+copy ctor durumlar
+
+Myclass m2 = m1;
+Myclass m2(m1);
+Myclass m2{m1};
+
+
+
+void func(Myclass m)
+
+Myclass mx;
+func(mx); // m nesenesi hayata gelir iken mx nesnesi için copy ctor cagıralacak ve hayata gelecek
+
+
+Myclass g;
+
+Myclass func()
+{
+
+   return g;
+
+}
+
+*****************************************************
+
+
+derleyici tarafından yazılan copy ctor
+
+1- sınıfın nonstatic, public üye fonksiyonudur
+2- inline olaarak tanımlanmış kabul edilir
+3- şu imzaya sahiptir
+
+   Myclass(const Myclass &r);
+
+   Myclass x = y;
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(const Myclass &other) : a{other.a}, b{other.b}
+    {
+
+    }
+
+private:
+    int a;
+    double b;
+
+};
+
+
+int main()
+{
+    Myclass m1;
+
+    ///
+    Myclass m2 = m1;
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(const Myclass &other) : mx{other.mx}, md{other.md}
+    {
+        cout << "Myclass copy ctor\n";
+    }
+
+    void print()const
+    {
+        cout << "mx  = " << mx << " md = " << md << "\n";
+    }
+
+    void set(int x, double d){
+        mx = x;
+        md = d;
+    }
+
+private:
+    int mx = 10;
+    double  md = 2.3;
+
+};
+
+
+int main()
+{
+    Myclass m1;
+    m1.print();
+    m1.set(22, 1.2);
+    m1.print();
+
+
+    Myclass m2 = m1;
+    m2.print();
+    m2.set(33, 5.5);
+    m2.print();
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << endl;
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass default dtor this : " << this << endl;
+    }
+
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << endl;
+        cout << "&other                 : " << &other << endl;
+    }
+};
+
+
+int main()
+{
+    Myclass m1;
+    cout << "&m1    :  " << &m1 << endl;
+    Myclass m2 = m1; // m2 icin copy ctor cagrılacak
+    cout << "&m2    :  " << &m2 << endl;
+    /*
+    Myclass m3(m1); // m3 icin copy ctor cagrılacak
+    Myclass m4{m1};// m4 icin copy ctor cagrılacak
+    auto m5{m1};  // m5 icin copy ctor cagrılacak
+    */
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << endl;
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass default dtor this : " << this << endl;
+    }
+
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << endl;
+        cout << "&other                 : " << &other << endl;
+    }
+};
+
+void func(Myclass mf)
+{
+    cout << "func islevi cagrildi\n";
+}
+
+
+int main()
+{
+    Myclass m1;
+    cout << "&m1    :  " << &m1 << endl;
+    func(m1);
+    cout << "main devam ediyor\n";
+
+    _getch();
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class MyString{
+public:
+    MyString(const char *pstr) : mlen{strlen(pstr)}
+    {
+        mp = static_cast<char *>(malloc(mlen + 1));
+        if(!mp){
+            cerr << "bellek yetersiz\n";
+            exit(EXIT_FAILURE);
+        }
+
+        cout << "constructur this : " << this << "\n";
+        cout << "the address of allocated block : " << (void *) mp << "\n";
+
+        strcpy(mp, pstr);
+
+     }
+
+    ~MyString(){
+        cout << "destructor this  : " << this << "\n";
+        if(mp){
+            free(mp);
+        }
+        cout << "the address of free block : " << (void *) mp << "\n";
+    }
+
+
+    //copy ctor --- deep
+    MyString(const MyString &other) : mlen{other.mlen}
+    {
+        cout << "MyString copy ctor this : " << this << "\n";
+
+        mp = static_cast<char *>(malloc(mlen + 1));
+        if(!mp){
+            cerr << "bellek yetersiz\n";
+            exit(EXIT_FAILURE);
+        }
+
+        cout << "the address of allocated block : " << (void *) mp << "\n";
+        cout << "other mp                       : " << (void *)other.mp << "\n";
+
+        strcpy(mp, other.mp);
+    }
+
+
+    size_t length()const{
+        return mlen;
+    }
+
+    void print()const{
+        cout << "[" << mp << "]\n" << endl;
+    }
+
+private:
+    size_t mlen;
+    char *mp;
+};
+
+
+void func(MyString str)
+{
+    cout << "func cagrildi\n";
+    str.print();
+    cout << "func sona eriyor\n";
+}
+
+int main()
+{
+    MyString ms("Orhan OZTURK");
+    std::cout << "length ::  " << ms.length() << "\n";
+    ms.print();
+    func(ms);
+    _getch();
+
+    //derleyici yazar ise shalow copy ctor
+    //aynı veriyi kullan demek
+
+    //burada yapmamız gerekn iki tane farklı yer olmaası gerekli
+    //bu sebepten copy ctor bizim yazmamız lazım
+
+    ms.print();
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
