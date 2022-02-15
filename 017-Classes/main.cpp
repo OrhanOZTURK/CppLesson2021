@@ -1,54 +1,72 @@
 #include <iostream>
-#include <cstring>
-#include <cstdlib>
-#include <conio.h>
 
 using namespace std;
 
+//soru
+
 //hpp
-
 class Myclass{
-private:
-   int mx = 0;
-
 public:
-    Myclass() : mx(0)
+    Myclass()
     {
-        cout << "Myclass() this : " << this << "\n";
+        cout << "Myclass default ctor this : " << this << "\n";
     }
 
-    Myclass(int val) : mx{val}
+    Myclass(int x)
     {
-        cout << "Myclass(int val) val : "<< val << " this : " << this << "\n";
+        cout << "Myclass int ctor this : " << this << "\n";
     }
 
-    ~Myclass(){
+    ~Myclass()
+    {
         cout << "Myclass dtor this : " << this << "\n";
     }
 
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << "\n";
+    }
 
+    void set1(int x)
+    {
+        //
+    }
+
+    void set2(int x)
+    {
+        //
+    }
 };
 
+//RVO => return value optimization
+//C++11 ile mandatory copy elision
 
-void func(Myclass &&r) //Rvalue
-{
-    cout << "func Myclass && cagrildi\n";
-}
+//NRVO => named return value optimization
+//yazacagımız bir cok fonksiyon bu kategoriye giriyor
+//C++17 ile mandatory copy elision
 
-void func(const Myclass &r) //Lvalue
+Myclass foo()
 {
-    cout << "func const Myclass & cagrildi\n";
+    cout << "foo agrildi\n";
+    Myclass m;
+
+    cout << "foo devam ediyor\n";
+    m.set1(22);
+    m.set2(33);
+
+    cout << "foo sona eriyor\n";
+
+    return m;
 }
 
 int main()
 {
-    cout << "Main basladı\n";
+    cout << "Main basladi\n";
 
-    Myclass m{2};
-
-    func(m);
+    Myclass mx = foo();
 
     cout << "Main devam ediyor\n";
+
 
     return 0;
 }

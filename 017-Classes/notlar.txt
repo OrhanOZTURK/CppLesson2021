@@ -4769,6 +4769,343 @@ int main()
 
 
 
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+
+class Myclass{
+private:
+   int mx = 0;
+
+public:
+    Myclass() : mx(0)
+    {
+        cout << "Myclass() this : " << this << "\n";
+    }
+
+    Myclass(int val) : mx{val}
+    {
+        cout << "Myclass(int val) val : "<< val << " this : " << this << "\n";
+    }
+
+    ~Myclass(){
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+
+};
+
+
+void func(Myclass &&r) //Rvalue
+{
+    cout << "func Myclass && cagrildi\n";
+}
+
+void func(const Myclass &r) //Lvalue
+{
+    cout << "func const Myclass & cagrildi\n";
+}
+
+int main()
+{
+    cout << "Main basladı\n";
+
+    func(Myclass{});
+
+    cout << "Main devam ediyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+
+class Myclass{
+private:
+   int mx = 0;
+
+public:
+    Myclass() : mx(0)
+    {
+        cout << "Myclass() this : " << this << "\n";
+    }
+
+    Myclass(int val) : mx{val}
+    {
+        cout << "Myclass(int val) val : "<< val << " this : " << this << "\n";
+    }
+
+    ~Myclass(){
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+};
+
+void func(Myclass &&r) //Rvalue
+{
+    cout << "func Myclass && cagrildi\n";
+}
+
+void func(const Myclass &r) //Lvalue
+{
+    cout << "func const Myclass & cagrildi\n";
+}
+
+int main()
+{
+    cout << "Main basladi\n";
+
+    if(true){
+        //life extension
+        const Myclass &r = Myclass{12};
+        cout << "Main devam ediyor 1\n";
+        cout << "Main devam ediyor 2\n";
+    }
+
+    cout << "Main devam ediyor 3\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+convertion constructor --- dönüştüren krucu işlev
+
+
+
+
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class Data{
+public:
+    Data();
+};
+
+int main()
+{
+    Data mydata;
+
+    mydata = 10;  //sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class Data{
+public:
+    Data();
+    Data(int);
+};
+
+int main()
+{
+    Data mydata;
+
+    mydata = 10;
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class Data{
+public:
+    Data();
+    Data(int);
+};
+
+int main()
+{
+    Data mydata;
+
+    mydata = 10;
+
+    //dereleyici sözde bir kod yazar bizim içn
+    //geçici nesene olusturur
+    //Data(10);// seklinde
+    //ve derleyici söyle kod uretir
+    mydata.operator=(Data(10));
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+#include <conio.h>
+
+using namespace std;
+
+//hpp
+class Counter{
+private:
+    int cnt;
+public:
+    Counter(): cnt{0}
+    {
+        cout << "default ctor this : " << this << "\n";
+    }
+
+    Counter(int val): cnt{val}
+    {
+        cout << "Counter int ctor val : " << val << "  this : " << this << "\n";
+    }
+
+    ~Counter()
+    {
+        cout << "Counter dtor this : " << this << "\n";
+    }
+
+    Counter &operator=(const Counter &other)
+    {
+        cout << "copy assignment this : " << this << " &other" << &other << "\n";
+        cnt = other.cnt;
+
+        return *this;
+    }
+
+};
+
+int main()
+{
+
+    Counter c;
+
+    c = 234; //Counter{234};
+
+    //c.operator=(Counter(234));
+
+    cout << "main devam ediyor\n";
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+    Myclass(int);
+};
+
+void func(Myclass m);
+void foo(const Myclass &);
+void fuuu(Myclass &);
+
+
+int main()
+{
+
+    Myclass m;
+
+    m = 13; //Myclass{13}
+
+    int ival = 10;
+    func(ival);
+    foo(ival);
+    fuu(ival); //sentaks hatası
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+explicit anahtar sözcüğü
+
+explicit ctor
+bu ctor tür dönüşümü için kullanılabilir
+ama bu dönüşüm tür donusturme operatoru ile yapılırsa
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+    explicit Myclass(int);
+};
+
+void func(Myclass m);
+void foo(const Myclass &);
+void fuuu(Myclass &);
+
+
+int main()
+{
+
+    Myclass m;
+
+    m = 13; //sentaks hatası explicit den
+
+    int ival = 10;
+    func(ival);//sentaks hatası explicit den
+    foo(ival);//sentaks hatası explicit den
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
 
 
 
@@ -4776,36 +5113,455 @@ int main()
 
 
 
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+    explicit Myclass(int);
+};
+
+void func(Myclass m);
+void foo(const Myclass &);
+void fuuu(Myclass &);
+
+
+int main()
+{
+    Myclass m;
+
+    m = static_cast<Myclass>(13); //Myclass{13}
+
+    int ival = 10;
+    func(static_cast<Myclass>(ival));
+    foo(static_cast<Myclass>(ival));
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+    explicit Myclass(int); //explicit anahtar sözcüğü sadece hpp dosyasında kullanılır
+};
+
+//cpp
+
+
+int main()
+{
+
+    Myclass m = 10;//copy ctor artık sentaks hatsı explicit oldugu
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+    explicit Myclass(int); //explicit anahtar sözcüğü sadece hpp dosyasında kullanılır
+
+};
+
+//cpp
+Myclass::Myclass(int)
+{
+    //
+}
+
+int main()
+{
+
+    Myclass m = 10;//copy ctor artık sentaks hatsı explicit oldugu
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+private:
+    int mx = 0, my = 0;
+public:
+    Myclass() = default;
+    Myclass(int a, int b) : mx{a}, my{b}{}
+    void print()const
+    {
+        cout << "mx = " << mx << " my = " << my << "\n";
+    }
+};
+
+
+int main()
+{
+    //birden fazla parametrede olunca ortülü dönüşüm salanır
+    //parametreli ctor explicit yapar isek sentaks hatası alırız
+
+    Myclass m;
+
+    m = {12, 17};
+
+    m.print();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+public:
+    Myclass();
+
+};
+
+Myclass func()
+{
+    ///
+
+    return {};
+}
+
+int main()
+{
+
+    Myclass m = {};
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+//hpp
+class Myclass{
+public:
+    explicit Myclass(int)
+    {
+        cout << "Myclass int\n";
+    }
+
+    Myclass(double)
+    {
+        cout << "Myclass double\n";
+    }
+};
+
+int main()
+{
+
+   int ival = 10;
+
+   //Myclass m(ival); //ınt ctor cagrılır
+
+   Myclass m = ival; ///double ctor cagrılır
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+Copy elision -- copy elimination
+
+derleyici durumdan vazife çıkartarak
+copyalama yapamadan kod üretir
+
+
+söyle de denir
+
+mandatory copy elision
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << "\n";
+    }
+
+    Myclass(int x)
+    {
+        cout << "Myclass int ctor this : " << this << "\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << "\n";
+    }
+
+};
+
+void func(Myclass mx)
+{
+    cout << "func cagrildi\n";
+}
+
+int main()
+{
+  //C++11 ile eklenmiştir
+    cout << "Main basladi\n";
+
+    //Myclass m;
+
+    //func(Myclass{});
+    func(Myclass{10});
+
+    cout << "Main devam ediyor\n";
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << "\n";
+    }
+
+    Myclass(int x)
+    {
+        cout << "Myclass int ctor this : " << this << "\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+    Myclass(const Myclass &other) = delete;
+
+
+};
+
+void func(Myclass mx)
+{
+    cout << "func cagrildi\n";
+}
+
+int main()
+{
+    cout << "Main basladi\n";
+
+    //Myclass m;
+
+    //func(Myclass{});
+    func(Myclass{10});
+
+    cout << "Main devam ediyor\n";
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
 
 
 
 
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << "\n";
+    }
+
+    Myclass(int x)
+    {
+        cout << "Myclass int ctor this : " << this << "\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << "\n";
+    }
 
 
+};
+
+//RVO => return value optimization
+//C++11 ile mandatory copy elision
+
+Myclass foo()
+{
+    return Myclass{10};
+    //mx bu nesnenin yerine geçiyormuş gibi düşünün
+}
+
+int main()
+{
+    cout << "Main basladi\n";
+
+    Myclass mx = foo();
+
+    cout << "Main devam ediyor\n";
 
 
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//soru
+
+//hpp
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "Myclass default ctor this : " << this << "\n";
+    }
+
+    Myclass(int x)
+    {
+        cout << "Myclass int ctor this : " << this << "\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "Myclass dtor this : " << this << "\n";
+    }
+
+    Myclass(const Myclass &other)
+    {
+        cout << "Myclass copy ctor this : " << this << "\n";
+    }
+
+    void set1(int x)
+    {
+        //
+    }
+
+    void set2(int x)
+    {
+        //
+    }
+};
+
+//RVO => return value optimization
+//C++11 ile mandatory copy elision
+
+//NRVO => named return value optimization
+//yazacagımız bir cok fonksiyon bu kategoriye giriyor
+//C++17 ile mandatory copy elision
+Myclass foo()
+{
+    cout << "foo agrildi\n";
+    Myclass m;
+
+    cout << "foo devam ediyor\n";
+    m.set1(22);
+    m.set2(33);
+
+    cout << "foo sona eriyor\n";
+
+    return m;
+}
+
+int main()
+{
+    cout << "Main basladi\n";
+
+    Myclass mx = foo();
+
+    cout << "Main devam ediyor\n";
 
 
+    return 0;
+}
 
+/*********************************************/
+/*********************************************/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+dinamik omurlu nesneler uzerıne konusacaz
+sınıfın static veri elemanları ve uye fonksiyonları
 
 
 
