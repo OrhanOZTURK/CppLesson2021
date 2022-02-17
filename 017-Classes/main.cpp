@@ -2,70 +2,34 @@
 
 using namespace std;
 
-//soru
+//soru 3
 
 //hpp
 class Myclass{
+private:
+    static int mx;
+
 public:
-    Myclass()
-    {
-        cout << "Myclass default ctor this : " << this << "\n";
-    }
+    static void func(int);
 
-    Myclass(int x)
-    {
-        cout << "Myclass int ctor this : " << this << "\n";
-    }
-
-    ~Myclass()
-    {
-        cout << "Myclass dtor this : " << this << "\n";
-    }
-
-    Myclass(const Myclass &other)
-    {
-        cout << "Myclass copy ctor this : " << this << "\n";
-    }
-
-    void set1(int x)
-    {
-        //
-    }
-
-    void set2(int x)
-    {
-        //
-    }
 };
 
-//RVO => return value optimization
-//C++11 ile mandatory copy elision
 
-//NRVO => named return value optimization
-//yazacagımız bir cok fonksiyon bu kategoriye giriyor
-//C++17 ile mandatory copy elision
-
-Myclass foo()
-{
-    cout << "foo agrildi\n";
-    Myclass m;
-
-    cout << "foo devam ediyor\n";
-    m.set1(22);
-    m.set2(33);
-
-    cout << "foo sona eriyor\n";
-
-    return m;
-}
+//cpp
 
 int main()
 {
-    cout << "Main basladi\n";
+    Myclass m;
 
-    Myclass mx = foo();
+    //m.func(11); //programcı boyle cagırd statıc oldugun bilmeden
+    //sentaks hatası degil
+    //ama cagrının m ile lakası yok
 
-    cout << "Main devam ediyor\n";
+    Myclass::func(11); //bunla alakası yok yukarıdakı cagırını
+
+    //iki turlude cagrılabılır
+    //nesnee ile cagırmak sadece bir namelookup amacı ile kullanılır
+    //sentaks hatası yok
 
 
     return 0;
