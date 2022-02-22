@@ -6606,36 +6606,505 @@ int main()
 /*********************************************/
 /*********************************************/
 
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+private:
+    static int mx;
+
+public:
+    static void func(int);
+    void func();
+
+};
+
+
+//cpp
+
+int main()
+{
+    Myclass mx;
+
+    mx.func(12); //static func.
+    mx.func(); //non static func.
+
+
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//hpp
+class Myclass{
+private:
+    static int mx;
+
+public:
+    static void func(int);
+    void func();
+
+    void foo() //non static
+    {
+        func();
+        func(12);
+    }
+
+};
+
+
+//cpp
+
+int main()
+{
+    Myclass m;
+
+    m.foo();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//C++17
+
+//hpp
+class Myclass{
+private:
+    inline static int mx = 10;
+    //derleyici bunu bir çok dosyasında olmasına karsı bir tane görecek
+    //ve header dosyasında boyle tanımlamamıza izin verecek
+};
+
+
+//cpp
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//C++17
+
+//hpp
+class Date{
+    static const int daytabs[];
+
+public:
+    static Date RandomDate(){
+        daytabs[2];
+        //acces erişimi oldugu için
+    }
+};
+
+//bu statik veri elemanını direk olarak kullanabilirmi
+Date RandomDate()
+{
+    daystabs[1];
+    //acces erişim yok
+}
+
+//cpp
+
+int main()
+{
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//iki tane ctor tanımlamak istiyor
+//bunun için fabrika fonksiyonu yazarız
+
+//burada derleyici bizim için default ctor olsutur
+
+//hpp
+class Complex{
+private:
+    Complex(double r, double i, int);
+    Complex(double distance, double angle);
+
+public:
+    static Complex createCartesian(double r, int i)
+    {
+        return Complex(r, i, 0);
+    }
+
+    static Complex createPolar(double distance, double angle)
+    {
+        return Complex(distance, angle);
+    }
+};
+
+
+//cpp
+
+int main()
+{
+    auto c1 = Complex::createCartesian(2.1, 22);
+    auto c2 = Complex::createPolar(1.2, 44);
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+singleton oruntusu
+design pattern
+
+pattern dilden bagımsızdır
+
+object oriented design pattern
+
+bu konu aslında şehir planlama dan gelir
+ilk defa orada kullanılmıstır
+
+bazı problem ortay cıkması ile aynı problemleri
+czmek için bazı kalıplar üretilmiştir
+
+bunlara design pattern denilmiştir
+
+olusturdukları tasarım kalıpları sistematik sekilde dokumante etmişler
+
+
+Gamma
+Vilissides
+Johnson
+Helm
+
+
+bunlara 4 kafadar olarak isimlendirmişler
+
+Gang of four olarak isimlendirilir
+
+
+23 tasarım kalibi vardır
+GOF pattern debir
+
+
+---------
+
+baslangıc için daha raht veeglenceli kitap,
+Head first design patterns
+eric freeman
+
+-----
+
+modern C++ design
+Andrei Alexandres
+
+---------------------------------------------------
+
+
+singleton pattern
+
+bir sınıfın turunden tek bir nesne olacak
+ve bu nesneye global acces soz konusu olacak
+
+
+singleton pattern uygulamını birden fazla yöntemi var
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+//hpp
+class Singleton{
+public:
+    static Singleton *getInstance();
+
+    //kopyalamaya karsı kapalı
+    Singleton(const Singleton &) = delete;
+    Singleton &operator=(const Singleton &) = delete;
+
+    void func();
+    void foo();
+
+private:
+    static Singleton *mp;
+    Singleton();
+
+};
+
+//cpp
+Singleton *Singleton::mp = nullptr;
+Singleton *Singleton::getInstance()
+{
+    if(!mp)
+        mp = new Singleton;
+    return mp;
+}
+
+
+int main()
+{
+    auto ps = Singleton::getInstance();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+//scott meyers singleton pattern implemention
+
+//kitap
+//scott meyers Effective modern C++ = 11 ve 14 mevcut
+
+
+//hpp
+class Singleton{
+private:
+    Singleton();
+
+public:
+    static Singleton &getInstance()
+    {
+        static Singleton s; // fonksiyon ilk cagrıldıgında hayata gelir tekrar tekrar hayat gelmez
+        //aynı nesne sürekli olarak geri döndürülücek
+
+        return s;
+    }
+
+};
+
+//cpp
+
+
+int main()
+{
+    auto &s = Singleton::getInstance();
+
+    auto &s1 = Singleton::getInstance();
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
+
+
+mülakat sorusu
+
+öyle bir sınıf olsuturun ki
+sınıfın hayatta olan nesnelerin sayisini geri verecek
+hayatta kalan veya hayatta olan nesnelerin sayısını sınıf bilecek
 
 
 
 
 
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+//hpp
+class Fighter{
+public:
+    Fighter()
+    {
+        ++ms_live_count;
+        ++ms_total_count;
+    }
+    Fighter(std::string name, int age) : m_name{std::move(name)}, m_age{age}
+    {
+        ++ms_live_count;
+        ++ms_total_count;
+    }
+
+    ~Fighter()
+    {
+        --ms_live_count;
+    }
+
+    Fighter(const Fighter &) = delete;
+    Fighter &operator=(const Fighter &) = delete;
+
+    int Age()const
+    {
+        return m_age;
+    }
+
+    std::string Name()const
+    {
+        return m_name;
+    }
+
+    void kill();
+    void run();
+
+    static int get_live_count();
+    static int get_total_count();
+
+private:
+    static int ms_live_count;
+    static int ms_total_count;
+
+    std::string m_name = "isimsiz";
+    int m_age = 0;
+
+};
+
+//cpp
+#define STATIC
+
+int Fighter::ms_live_count{};
+int Fighter::ms_total_count{};
+
+STATIC int Fighter::get_live_count()
+{
+    return ms_live_count;
+}
+
+STATIC int Fighter::get_total_count()
+{
+    return ms_total_count;
+}
 
 
 
+int main()
+{
+    cout << "Hayatta olan savasci sayisi : " << Fighter::get_live_count() << "\n";
+    Fighter f1{"Orhan", 30};
+    Fighter f2{"Ahmet", 22};
+
+    cout << "Hayatta olan savasci sayisi : " << Fighter::get_live_count() << "\n";
+
+    if(1)
+    {
+        auto pf1 = new Fighter { "Aleattin", 55};
+        auto pf2 = new Fighter { "Seda", 21};
+
+        cout << "Hayatta " << Fighter::get_live_count() << "  savasci var\n";
+        cout << "Hayata gelmis toplam savasci sayisi  " << Fighter::get_total_count() << "\n";
+
+        delete pf1;
+        delete pf2;
+    }
+
+    cout <<  "\n";
+    cout << "Hayatta " << Fighter::get_live_count() << "  savasci var\n";
+    cout << "Hayata gelmis toplam savasci sayisi  " << Fighter::get_total_count() << "\n";
+
+    /*
+    Fighter x{f1};
+    Fighter y{f2};
+    */
+
+    return 0;
+}
+
+/*********************************************/
+/*********************************************/
 
 
+scope leakage
+
+void func()
+{
+  int x = foo();
+  if(x > 10){
+
+  }
+
+  x //yanlıslıkla
 
 
+}
 
 
+C++17 ile
+core syntax etkilenyen yeni bir if eklendi
 
 
+if with initializer dir
 
 
+#include <iostream>
+#include <string>
 
+using namespace std;
 
+int func(int);
 
+int main()
+{
+    //C++17
+    if(auto y = 2; y > 10)
+    {
+        func(y);
+    }
+}
 
+/*********************************************/
+/*********************************************/
 
+#include <iostream>
+#include <string>
 
+using namespace std;
 
+int func(int);
 
+int main()
+{
+    //eskiden beri gelen bir özellik
+    if(int y = 5)
+    {
+        func(y);
+    }
+}
 
-
-
+/*********************************************/
+/*********************************************/
 
 
 

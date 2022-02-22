@@ -1,38 +1,17 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-//soru 3
-
-//hpp
-class Myclass{
-private:
-    static int mx;
-
-public:
-    static void func(int);
-
-};
-
-
-//cpp
+int func(int);
 
 int main()
 {
-    Myclass m;
-
-    //m.func(11); //programcı boyle cagırd statıc oldugun bilmeden
-    //sentaks hatası degil
-    //ama cagrının m ile lakası yok
-
-    Myclass::func(11); //bunla alakası yok yukarıdakı cagırını
-
-    //iki turlude cagrılabılır
-    //nesnee ile cagırmak sadece bir namelookup amacı ile kullanılır
-    //sentaks hatası yok
-
-
-    return 0;
+    //eskiden beri gelen bir özellik
+    if(int y = 5)
+    {
+        func(y);
+    }
 }
 
 /*********************************************/
