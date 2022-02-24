@@ -7108,11 +7108,360 @@ int main()
 
 
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+
+//hpp
+class Fighter{
+public:
+    Fighter()
+    {
+        msvec.push_back(this);
+    }
+
+    Fighter(std::string name, int age) : m_name{std::move(name)}, m_age{age}
+    {
+        msvec.push_back(this);
+    }
+
+    ~Fighter()
+    {
+        /*
+        auto iter = std::find(msvec.begin(), msvec.end(), this);
+
+        if(iter != msvec.end())
+            msvec.erase(iter);
+        else
+            std::cerr << "hata : arana deger bulunamadi\n";
+        */
+
+        //C++17 if with initilizer...
+        if(auto iter = std::find(msvec.begin(), msvec.end(), this); iter != msvec.end())
+            msvec.erase(iter);
+        else
+            std::cerr << "hata : arana deger bulunamadi\n";
+    }
+
+    Fighter(const Fighter &) = delete;
+    Fighter &operator=(const Fighter &) = delete;
+
+    void ask_help()
+    {
+        //range for loop
+        //C++11 ile geldi
+
+        cout << "Dusmanlar beni oldurecek\n";
+        for(auto f : msvec){
+              if(f != this)
+                  cout << f->m_name << " ";
+        }
+
+        cout << "\nYardima kosun!!!!\n";
+
+    }
+
+    int Age()const
+    {
+        return m_age;
+    }
+
+    std::string Name()const
+    {
+        return m_name;
+    }
+
+    void kill();
+    void run();
+
+private:
+
+    std::string m_name = "isimsiz";
+    int m_age = 0;
+    static std::vector<Fighter *> msvec;
+
+};
+
+
+//cpp
+std::vector<Fighter*> Fighter::msvec{};
+
+
+int main()
+{
+    Fighter f1{ "alican", 12};
+    Fighter f2{ "kemal", 21};
+    Fighter f3{ "hacer", 13};
+    Fighter f4{ "muhammet", 55};
+
+    auto pf1 = new Fighter { "hasan", 45};
+    auto pf2 = new Fighter { "salih", 23};
+    auto pf3 = new Fighter { "irem", 16};
+
+    delete pf2;
+    delete pf1;
+
+    f1.ask_help();
+    //alican, kemal, hacer, muhammet .... yardıma kosun ... dusmnalar beni oldurecek
+
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+ new operator
+ array new operator
+ delete
+ array delete
+
+
+new operator
+
+tek bir nesne olusturan operator new dir
+
+C++ da new opratoru soyle
+
+void *operator new(size_t n)
+
+operator new fonksiyonu ile yer elde etmede başarılı olursa
+
+malloc ta oldugu gibi elde edilen adresi dönecek
+
+başarısız olur ise exception handking mekanizması devre girer
+bad alacotion mesajı verir
+
+
+new operator yaptıgı sey arka trafta
+
+new Point(1, 2, 3)
+
+((Point *)(operator new(sizeof(Point)))->Point(1, 2, 3);
+
+
+bu sayede dinamik omurlu nesneler olusturmus oluruz
+
+
+#include <iostream>
+#include "point.hpp"
+
+using namespace std;
+
+int main()
+{
+    Point *p = new Point();
+    Point *p1 = new Point(2, 3, 5);
+    Point *p2{ new Point(3, 6, 7) };
+
+    auto *p3 = new Point();
+
+    delete p;
+    delete p1;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+operator delete isimli fonksiyon
+
+
+void operator delete(void *vp);
+
+delete dinamik omurlu nesnelerin bellek bloklarını geri vermesini saglar
+ve sınıfın destructorını cagırır
+
+
+delete p
+
+p->~Point();
+
+
+1. eger nesne delete edilmez ise
+
+ a- destructor cagrılmaz
+ b- operator delete işlevi cagrılmaz
+
+resource leak -- kaynak sızıntısı yasanır
+
+
+2. dinamik omurlu ve hayatı bıten nesneyi gösteren poıinter dangling hale gelmiş olur
 
 
 
 
 
+
+#include <iostream>
+#include "point.hpp"
+
+using namespace std;
+
+int main()
+{
+    Point *p = new Point();
+    Point *p2 = p;
+
+    cout << "p : " << p << "\n";
+    p->print();
+
+    delete p;
+
+    p->print();  //dangling pointer
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "point.hpp"
+
+using namespace std;
+
+int main()
+{
+    Point *p = new Point();
+    Point *p2 = p;  //copy ctor
+
+    p2 = p;//copy assigment
+
+    cout << "p : " << p << "\n";
+    p->print();
+
+    delete p;
+
+    p2->print();  //dangling pointer -- tanımsız davranış olmus olur
+    p->print();  //dangling pointer
+
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+array new
+bir degil birden fazla nesne yi hayata getirmek için kullanılır
+
+
+
+
+
+#include <iostream>
+#include "point.hpp"
+
+using namespace std;
+
+int main()
+{
+    int n;
+
+    cout << "kac nesne : ";
+    cin >> n;
+
+    Point *p = new Point[n];
+
+    //delete p; // tanımsız davranıs olur
+
+
+    //array delete
+    delete[]p;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+smart pointer ve unique_ptr  devreye giriyor
+
+delete kullanmadan belleklerini geri vermenizi saglar
+
+
+bulundukları baslık dosyası
+
+<memory>
+
+
+modern C++ en onemli ögelerinden
+
+
+
+#include <iostream>
+#include "point.hpp"
+#include <memory>
+
+using namespace std;
+
+int main()
+{
+    unique_ptr<Point> p{new Point(1, 2, 3)};
+    p->print();
+    p->set(2, 3 , 5);
+    p->print();
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "point.hpp"
+#include <memory>
+
+using namespace std;
+
+int main()
+{
+    unique_ptr<Point> p{new Point(1, 2, 3)};
+    p->print();
+    p->set(2, 3 , 5);
+    p->print();
+
+   // auto p2 = p; // copy ctor delete edilmiş
+
+    auto p4 = move(p); // artık kaynagını p4 verildi p nin
+
+    p4->print();
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+operator overloading
 
 
 

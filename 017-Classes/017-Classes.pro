@@ -11,4 +11,5 @@ DISTFILES += \
  notlar.txt
 
 HEADERS += \
- myclass.hpp
+ myclass.hpp \
+ point.hpp
