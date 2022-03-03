@@ -1,21 +1,35 @@
 #include <iostream>
-#include "point.hpp"
-#include <memory>
 
 using namespace std;
 
+class Myclass{
+public:
+
+};
+
+
+bool operator<(const Myclass &a, const Myclass &b)
+{
+    cout << "global operator\n";
+    cout << "&a  :  " << &a << "\n";
+    cout << "&b =  " << &b << "\n";
+
+    return true;
+}
+
 int main()
 {
-    unique_ptr<Point> p{new Point(1, 2, 3)};
-    p->print();
-    p->set(2, 3 , 5);
-    p->print();
 
-   // auto p2 = p; // copy ctor delete edilmiş
+    Myclass mx, my;
 
-    auto p4 = move(p); // artık kaynagını p4 verildi p nin
+    cout << "&mx : " << &mx << "\n";
+    cout << "&my : " << &my << "\n";
 
-    p4->print();
+    bool b = mx < my;
+
+    cout << "b = " << b << "\n";
+
+
 
     return 0;
 }

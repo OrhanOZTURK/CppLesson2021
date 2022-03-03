@@ -7461,7 +7461,584 @@ int main()
 /***************************************************/
 /***************************************************/
 
-operator overloading
+operator overloading  --- operator yüklemesi
+
+
+bir sınıfın nesnesi bir operatorun operandı olmus ise
+derleyici duurumdan vazife çıkartarak bunu fonksiyona cevirir
+
+neden böyle bir araç var
+programcının işini kolaylastırmak ıcın
+
+
+
+run time maliyeti yok problem yasamayız
+cunku bu işlem ceviri surecinde gercekleşir
+
+
+
+
+#include <iostream>
+#include <string>
+
+
+using namespace std;
+
+int main()
+{
+    string s1 {"Orhan"};
+    string s2 {"Ozturk"};
+
+    auto s3 = s1 + s2; //toplama operatorunu kullanıyorum
+
+    if(s1 == s2){
+
+    }
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+operator fonksiyonu
+
+1- global operator function
+2- member operator function
+   non-static member function -- olmak zorunda
+
+olablir
+
+
+
+her operator overload edilemez
+
+
+nokta operaotru
+sizeof operatoru
+:: scope resolution
+.* operatoru
+? : operatoru
+typeid operatoru overload edilemez
+
+
+overload edilebilne  operatorlerden bazıları
+
+*
+->
+&
+[]
+()
+tür donusturme
+....
+
+
+
+
+operator fonksiyonu nasıl tnaıumlanmalı
+
+operator fonksiyonu ismi "operator" leyword taşıyacak bundan sonra hangi operator
+overload ediliyor ise yazılacak
+
+operator!
+operator<
+
+-------------------------
+
+varsayilan argüman almazlar (default argüman)
+
+sadece bir istisna hariç
+function call () overload eden fonksiyon dışındaki hiç bir operator fonksiyonu
+varsayılan argüman alamaz
+
+
+
+----------------------------------------------------
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+//!x;
+
+
+bool operator!(Myclass m);
+
+//bir tane parametresi olmaz zorunda dır ! operatorunun
+
+bool operator!(); //sentaks hatası
+bool operator!(Myclass m1, Myclass m2); //sentaks hatası
+
+
+int main()
+{
+    Myclass m;
+
+    !m;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    bool operator!()const;  //
+    bool operator!(Myclass m)const;  // sentaks hatası
+};
+
+//!x;
+
+
+
+
+
+
+int main()
+{
+    Myclass m;
+
+    !m;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+global fonksiyon olarak overload edilen unary operatorler tek parametre alacak
+üye fonksiyon olarak overload edilen unary operatorler parametre almayacak
+
+-----------------------------------------------------
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    bool operator>(Myclass m1);
+    bool operator>(Myclass m1, Myclass m2); //sentaks hatsı
+
+};
+
+
+bool operator>(Myclass m1); //sentaks hatası
+
+bool operator>(Myclass m1, Myclass m2);
+
+
+
+
+int main()
+{
+    Myclass m1, m2;
+
+    auto m3 = m1 > m2;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+global fonksiyon olarak overload edilen binary operatorler iki parametre alacak
+üye fonksiyon olarak overload edilen binary operatorler bir parametre alacak
+
+
+----------------------------------------------------------
+
+bazır operatorlar bir veya iki operand alabilir
+
+
+*x
+x*y
+
++a
+a+b
+
+-b
+a-b
+
+&a
+a&b
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    int &operator*(); //ıcerık operatoru
+    //dereferens
+
+};
+
+
+
+class Matrix{
+public:
+    Matrix operator*(const Matrix &); // carpma operatoru
+
+};
+
+
+
+int main()
+{
+    Myclass m1, m2;
+
+    *m1;
+
+    Matrix mt1, mt2;
+
+    auto mt3 = mt1 * mt2;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+
+
+};
+
+int &operator*(Myclass m); //ıcerık operatoru
+//dereferens
+
+
+class Matrix{
+public:
+
+
+};
+
+Matrix operator*(const Matrix &, const Matrix &); // carpma operatoru
+
+
+
+int main()
+{
+    Myclass m1, m2;
+
+    *m1;
+
+    Matrix mt1, mt2;
+
+    auto mt3 = mt1 * mt2;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass operator*(Myclass)const;
+    Myclass operator+(Myclass)const;
+    Myclass operator-(Myclass)const;
+    bool operator<(Myclass)const;
+
+};
+
+
+int main()
+{
+    Myclass m1, m2, m3, m4;
+
+    auto fg = m1*m2 + m3 < m4;
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass operator*(Myclass)const;
+    Myclass operator+(Myclass)const;
+    Myclass operator-(Myclass)const;
+    bool operator<(Myclass)const;
+
+};
+
+
+int main()
+{
+    Myclass m1, m2, m3, m4;
+
+    auto fg = m1 * m2 + m3 < m4;
+
+    //derleyici
+
+    //öncelik yönü
+    //aslında soyle olcak derleyci tarafından
+
+    fg = m1.operator*(m2).operator+(m3).operator<(m4);
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+
+
+};
+
+//global fonksiyonlar const olamaz
+
+Myclass operator*(Myclass, Myclass);
+Myclass operator+(Myclass, Myclass);
+Myclass operator-(Myclass, Myclass);
+bool operator<(Myclass, Myclass);
+
+
+int main()
+{
+    Myclass m1, m2, m3, m4;
+
+    auto fg = m1 * m2 + m3 < m4;
+
+    //derleyici
+
+    //öncelik yönü
+    //aslında soyle olcak derleyci tarafından
+
+    fg = operator<(operator+(operator*(m1,m2),m3),m4);
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+class ostream{
+public:
+  ostream &operator<<(int);
+  ostream &operator<<(double);
+  ostream &operator<<(long);
+
+
+};
+
+std::ostream &operator<<(std::ostream &, const std::string &s);
+
+
+cout <<
+
+-------------------------------------------
+
+
+#include <iostream>
+
+using namespace std;
+
+class Counter{
+public:
+    Counter operator+(int)const;
+};
+
+
+
+
+int main()
+{
+    Counter c;
+
+    auto cx = c + 5;  // 5 + c
+    cx = c.operator+(5);
+    cx = 5 + c; //sentaks hatası
+
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Counter{
+public:
+    //Counter operator+(int)const;
+};
+
+
+Counter operator+(Counter, int);
+Counter operator+(int, Counter);
+
+int main()
+{
+    Counter c;
+
+    auto cx = c + 5;  // 5 + c
+    //cx = c.operator+(5);
+    cx = 5 + c; //sentaks hatası
+
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    bool operator<(const Myclass &other)const
+    {
+        cout << "Myclass::operator<(const Myclass &other)\n";
+        cout << "this  :  " << this << "\n";
+        cout << "&other =  " << &other << "\n";
+
+        return true;
+    }
+};
+
+
+int main()
+{
+
+    Myclass mx, my;
+
+    cout << "&mx : " << &mx << "\n";
+    cout << "&my : " << &my << "\n";
+
+    bool b = mx < my;
+
+    cout << "b = " << b << "\n";
+
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+
+};
+
+
+bool operator<(const Myclass &a, const Myclass &b)
+{
+    cout << "global operator\n";
+    cout << "&a  :  " << &a << "\n";
+    cout << "&b =  " << &b << "\n";
+
+    return true;
+}
+
+int main()
+{
+
+    Myclass mx, my;
+
+    cout << "&mx : " << &mx << "\n";
+    cout << "&my : " << &my << "\n";
+
+    bool b = mx < my;
+
+    cout << "b = " << b << "\n";
+
+
+
+    return 0;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+friend kaldık
+
 
 
 
