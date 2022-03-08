@@ -1,39 +1,18 @@
 #include <iostream>
+#include "mint.hpp"
 
 using namespace std;
 
-class Myclass{
-public:
-
-};
-
-
-bool operator<(const Myclass &a, const Myclass &b)
-{
-    cout << "global operator\n";
-    cout << "&a  :  " << &a << "\n";
-    cout << "&b =  " << &b << "\n";
-
-    return true;
-}
 
 int main()
 {
+    Mint m1, m2{15};
 
-    Myclass mx, my;
-
-    cout << "&mx : " << &mx << "\n";
-    cout << "&my : " << &my << "\n";
-
-    bool b = mx < my;
-
-    cout << "b = " << b << "\n";
-
+    m1 += m2;  //Lvalue
 
 
     return 0;
 }
-
 
 
 /***************************************************/

@@ -5,11 +5,13 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
+        mint.cpp \
         myclass.cpp
 
 DISTFILES += \
  notlar.txt
 
 HEADERS += \
+ mint.hpp \
  myclass.hpp \
  point.hpp

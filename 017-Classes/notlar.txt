@@ -8037,14 +8037,360 @@ int main()
 /***************************************************/
 
 
-friend kaldık
+friend declaration
+arkaslik bildirimi
+
+
+sinifa ait bir kod veya sınıfa ait olmayan fonksiyon sınıfın private
+elemanlarına erişmesini istiyoruz. Bir kodun bizim arkadaşımız odlugunu
+bildirir isek bunu sentaks hatası olarak bildirmeyecek
+
+
+1. global bir fonksiyona arkadaslık vermek
+2. bir sınıfın bir uye fonksiyonuna arkadaslık vermek
+3. bir sınıfa arkadaslık vermek
+
+
+
+1. global bir fonksiyona arkadaslık vermek
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+private:
+    void pfunc();
+    friend void gfoo(int);
+public:
+
+};
+
+
+void gfoo(int x)
+{
+    ++x;
+    Myclass m;
+    m.pfunc(); //sentaks hatası friend olarka tanımlamadıgımız için
+}
+
+
+int main()
+{
+
+    Myclass mx, my;
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+friend bildirimi public veya private tada yapılaiblir  sonuc olarak anlam değişmez
 
 
 
 
 
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+private:
+    void pfunc();
+    friend void gfoo(Myclass p);
+public:
+
+};
 
 
+void gfoo(Myclass m)
+{
+    Myclass m1;
+    m1.pfunc(); //sentaks hatası friend olarka tanımlamadıgımız için
+}
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class orhn{
+public:
+    void foo();
+};
+
+class Myclass{
+public:
+    friend void foo();
+
+private:
+    void pfunc();
+
+};
+
+void foo()
+{
+    Myclass m;
+    m.pfunc();
+}
+
+
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+class Myclass{
+public:
+    friend class orhn; //sınıfn hepsine freindlik verildi
+
+private:
+    void pfunc();
+
+};
+
+class orhn{
+public:
+    void f1()
+    {
+        Myclass m;
+        m.pfunc();
+    }
+};
+
+int main()
+{
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+class Myclass{
+public:
+    friend bool operator<(Myclass m1, Myclass m2) //inline
+    {
+        return m1.mx < m2.mx;
+    }
+
+private:
+    int mx;
+};
+
+
+
+int main()
+{
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+A sınıfı B sınıfının arkadaslık vverilmiş ise
+B sınıfı A sınınfının arkadaslık verilmiş ise
+
+A sınınıfın C sınıfına .... arkasdlık vermiş olmaz
+
+
+---------------------------------------------------------------
+
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Mint m1, m2{23};
+
+    cout << m1 << " " << m2 << "\n";
+    cout << "iki tam sayi girin: ";
+    cin >> m1 >> m2;
+    cout << m1 << " " << m2 << "\n";
+
+    if(m1 == m2)
+        printf("esitler\n");
+    else
+        printf("degil esit\n");
+
+    cout << boolalpha; //manipilator
+
+    cout << m1 << " <  "  << m2  << " = " << (m1 <  m2) << "\n";
+    cout << m1 << " <= "  << m2  << " = " << (m1 <= m2) << "\n";
+    cout << m1 << " >  "  << m2  << " = " << (m1 >  m2) << "\n";
+    cout << m1 << " >= "  << m2  << " = " << (m1 >= m2) << "\n";
+    cout << m1 << " == "  << m2  << " = " << (m1 == m2) << "\n";
+    cout << m1 << " != "  << m2  << " = " << (m1 != m2) << "\n";
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+aritmatik operatorleri
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Mint m1, m2{23};
+
+    cout << m1 << " " << m2 << "\n";
+    cout << "iki tam sayi girin: ";
+    cin >> m1 >> m2;
+    cout << m1 << " " << m2 << "\n";
+
+    cout << m1 << " + "  << m2  << " = " << (m1 + m2) << "\n";
+    cout << m1 << " - "  << m2  << " = " << (m1 - m2) << "\n";
+    cout << m1 << " * "  << m2  << " = " << (m1 * m2) << "\n";
+    cout << m1 << " / "  << m2  << " = " << (m1 / m2) << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Mint m1{10}, m2{15}, m3{19};
+
+    auto m4 = m1 += m2 *= m3;
+
+    cout << "m2 = " << m2 << "\n";
+    cout << "m1 = " << m1 << "\n";
+    cout << "m4 = " << m4 << "\n";
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+++m  //prefix Lvalue
+m++  //posfix Rvalue
+
+--m  Lvalue
+m--  Rvalue
+
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Mint m1, m2{15};
+
+    m1 = ++m2;
+
+    cout << "m1 = " << m1 << "\n";
+    cout << "m2 = " << m2 << "\n";
+
+    m1 = m2++;
+
+    cout << "m1 = " << m1 << "\n";
+    cout << "m2 = " << m2 << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
++m   --> işaret  ---> Rvalue
+-m    ---> Rvalue
+
+
+------------------------------
+
+şimdi sıra özel operatorleri overload etmeye
+
+
+[ ] index -- subscript operatoru
+*    operatoru -- derefence
+
+->   ok operatoru
+
+fonsiyon cagrı operatoru
+tür donusturme operatoru
 
 
 
