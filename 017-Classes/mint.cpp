@@ -11,3 +11,4 @@ std::istream &operator>>(std::istream &is, Mint &val)
 {
     return is >> val.mval;
 }
+

@@ -53,6 +53,16 @@ public:
         return *this;
     }
 
+    //Lvalue -- Rvalue
+    /*
+    Mint operator+(Mint other)
+    {
+        //tmp.mval = this->mval + other.mval;
+        Mint tmp = (*this);
+        return tmp += other;
+    }
+    */
+
     Mint& operator-=(Mint other)
     {
         mval -= other.mval;
@@ -78,6 +88,19 @@ public:
     {
         return x.mval < y.mval;
     }
+
+    /*
+    bool operator>(const Mint &y)
+    {
+        return this->mval > y.mval;
+    }
+
+    bool operator>=(const Mint &y)
+    {
+        return this->mval >= y.mval;
+    }
+    */
+
 
     friend bool operator==(const Mint &x, const Mint &y)
     {
