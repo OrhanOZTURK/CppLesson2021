@@ -107,6 +107,11 @@ public:
         return x.mval == y.mval;
     }
 
+    explicit operator bool()const
+    {
+        return mval != 0;
+    }
+
     friend std::ostream &operator<<(std::ostream &os, const Mint val);
     friend std::istream &operator>>(std::istream &is, Mint &val);
 

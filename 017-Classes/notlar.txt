@@ -8478,6 +8478,1267 @@ int main()
 /***************************************************/
 /***************************************************/
 
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+class Array{
+public:
+    Array(size_t size, int val = 0);
+    ~Array();
+    Array(const Array &) = delete;
+    Array &operator=(const Array &) = delete;
+
+    int &operator[](size_t idx);
+    const int &operator[](size_t idx)const;
+
+    size_t size()const{return msize;}
+
+    //inserter dunctions
+    friend std::ostream& operator<<(std::ostream &os, const Array &a);
+
+private:
+    size_t msize;
+    int *mpa;
+
+};
+
+Array::Array(size_t size, int val) : msize{size}, mpa{new int[msize]}
+{
+    for(size_t i = 0; i < msize; ++i)
+        mpa[i] = val;
+}
+
+Array::~Array()
+{
+    delete []mpa;
+}
+
+int &Array::operator[](size_t idx)
+{
+    return mpa[idx];
+}
+
+
+const int &Array::operator[](size_t idx)const
+{
+    return mpa[idx];
+}
+
+
+std::ostream& operator<<(std::ostream &os, const Array &a)
+{
+    os << "[";
+    for (size_t i = 0; i < a.msize - 1; ++i) {
+        os << a.mpa[i] << ", ";
+    }
+
+    os << a.mpa[a.msize - 1] << "]";
+
+    return os;
+}
+
+int main()
+{
+
+    //bunu const yapmamız durumunda
+    //alttaki atama sentaks hatası olur
+    //peki neden sentaks hatası oldu
+    //cunku [] const uye fonksiyon değil
+    //const olmayan bir uye fonkksiyon için cagramazsınız
+    //yani const olan nesne const olan uye fonksıyonu cagırabilir
+
+    //gecerli kılmak için operator [] const yapar isek olmaz
+
+
+    //bunun için const overloading yapacaz
+    //bu sayaede hem const array kullanabilecegiz
+    //hemde const olmayan halinide
+
+    const Array a{10, 5};
+
+    auto val = a[4];
+    //auto val1 = a.operator[](4);//aslında arka tarafta derleyicinin yaptıgı sey bu
+
+    a[5] = 45; //array const oldugu için sentaks hatası oluyor
+
+    Array a1{10, 2};
+
+    a1[2] = 34;
+
+
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+class Array{
+public:
+    Array(size_t size, int val = 0);
+    ~Array();
+    Array(const Array &) = delete;
+    Array &operator=(const Array &) = delete;
+
+    int &operator[](size_t idx);
+    const int &operator[](size_t idx)const;
+
+    size_t size()const{return msize;}
+
+    //inserter dunctions
+    friend std::ostream& operator<<(std::ostream &os, const Array &a);
+
+private:
+    size_t msize;
+    int *mpa;
+
+};
+
+Array::Array(size_t size, int val) : msize{size}, mpa{new int[msize]}
+{
+    for(size_t i = 0; i < msize; ++i)
+        mpa[i] = val;
+}
+
+Array::~Array()
+{
+    delete []mpa;
+}
+
+int &Array::operator[](size_t idx)
+{
+    return mpa[idx];
+}
+
+
+const int &Array::operator[](size_t idx)const
+{
+    return mpa[idx];
+}
+
+
+std::ostream& operator<<(std::ostream &os, const Array &a)
+{
+    os << "[";
+    for (size_t i = 0; i < a.msize - 1; ++i) {
+        os << a.mpa[i] << ", ";
+    }
+
+    os << a.mpa[a.msize - 1] << "]";
+
+    return os;
+}
+
+int main()
+{
+    Array a{10};
+
+    //range for loop yapabilirmiyim
+
+    //suan için gecerli değil ama yapmaak mumkun ileride görecez ve yapacaz
+    for (auto val : a) {
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+içerik operatoru [dereferencing]
+
+-> operatoru - member selection - arrow op
+
+
+
+
+#include <iostream>
+
+
+using namespace std;
+
+
+class Tint
+{
+public:
+    Tint() = default;
+    explicit Tint(int val) : mval{val}
+    {
+        cout << "Tint constructor val = " << val << "  this = " << this << "\n";
+    }
+
+    ~Tint()
+    {
+        cout << "Tint destructor this = " << this << "\n";
+    }
+
+    int Tint::getMval() const
+    {
+        return mval;
+    }
+
+    void Tint::setMval(int value)
+    {
+        mval = value;
+    }
+
+
+    friend std::ostream &operator<<(std::ostream &os, const Tint val);
+    friend std::istream &operator>>(std::istream &is, Tint &val);
+
+private:
+    int mval{};
+};
+
+std::ostream &operator<<(std::ostream &os, const Tint val)
+{
+    return os << "[ " << val.mval << " ] ";
+}
+
+std::istream &operator>>(std::istream &is, Tint &val)
+{
+    return is >> val.mval;
+}
+
+//dinamik omurlu tint nesne gibi davranacak
+//içerik ve ok operatorunu overload edecez
+
+class TintPtr{
+public:
+    explicit TintPtr(Tint *pt) :  mptr{pt}{}
+
+    TintPtr(const TintPtr &) = delete;
+    TintPtr &operator=(const TintPtr &) = delete;
+
+    ~TintPtr()
+    {
+        if(mptr)
+            delete mptr;
+    }
+
+    Tint &operator*()
+    {
+        return *mptr;
+    }
+
+    //ptr->func()
+    //derleyici su sekil ele alıyor
+    //ptr.operator->()->func()
+
+    Tint *operator->()
+    {
+        return mptr;
+    }
+
+private:
+      Tint *mptr;
+};
+
+int main()
+{
+    cout << "main basladi\n";
+
+    {
+        //constructur explicit oldugu için bu sentaks hatası
+        //TintPtr ptr = new Tint{2};
+
+        TintPtr ptr{new Tint{2}};
+
+        std::cout << *ptr << "\n";
+
+        std::cout << ptr->getMval() << "\n";
+        ptr->setMval(12);
+        std::cout << ptr->getMval() << "\n";
+
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+using namespace std;
+
+
+class Tint
+{
+public:
+    Tint() = default;
+    explicit Tint(int val) : mval{val}
+    {
+        cout << "Tint constructor val = " << val << "  this = " << this << "\n";
+    }
+
+    ~Tint()
+    {
+        cout << "Tint destructor this = " << this << "\n";
+    }
+
+    int Tint::getMval() const
+    {
+        return mval;
+    }
+
+    void Tint::setMval(int value)
+    {
+        mval = value;
+    }
+
+
+    friend std::ostream &operator<<(std::ostream &os, const Tint val);
+    friend std::istream &operator>>(std::istream &is, Tint &val);
+
+private:
+    int mval{};
+};
+
+std::ostream &operator<<(std::ostream &os, const Tint val)
+{
+    return os << "[ " << val.mval << " ] ";
+}
+
+std::istream &operator>>(std::istream &is, Tint &val)
+{
+    return is >> val.mval;
+}
+
+//Meta koda ceviriyorum
+//ileriki konulara deyinmek için
+
+template <typename  T>
+class SmartPtr{
+public:
+    explicit SmartPtr(T *pt) :  mptr{pt}{}
+
+    SmartPtr(const SmartPtr &) = delete;
+    SmartPtr &operator=(const SmartPtr &) = delete;
+
+    ~SmartPtr()
+    {
+        if(mptr)
+            delete mptr;
+    }
+
+    T &operator*()
+    {
+        return *mptr;
+    }
+
+    //ptr->func()
+    //derleyici su sekil ele alıyor
+    //ptr.operator->()->func()
+
+    T *operator->()
+    {
+        return mptr;
+    }
+
+private:
+      T *mptr;
+};
+
+int main()
+{
+    cout << "main basladi\n";
+
+    {
+        SmartPtr<Tint> ptr{new Tint{2}};
+
+
+        cout << *ptr << "\n";
+
+        cout << ptr->getMval() << "\n";
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+ yeni konu endl
+
+
+#include <iostream>
+
+using namespace std;
+
+//mumkun oldugunca kullanmayın
+//sadece amacımız bir alt satıra gecmek ise
+//"\n" kullanıın gereksiz yere flush kullanmayınız
+
+std::ostream &Endl(std::ostream& os)
+{
+    os << "\n";
+    os.flush(); //flush
+
+    return os;
+}
+
+
+int main()
+{
+
+    int ival = 10;
+    double dval = 3.45;
+
+    cout << ival << Endl << dval << Endl;
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+Fonksiyon cagrı operatorunun ıverload edilmesi
+
+#include <iostream>
+
+using namespace std;
+
+class Functor{
+public:
+    int  operator()(int val)const
+    {
+        cout << "int Functor::operator()(int val)\n";
+        cout << "val = " << val << "\n";
+        cout << "this : " << this << "\n";
+
+        return val*val;
+    }
+};
+
+
+int main()
+{
+    Functor f;
+    cout << "&f = " << &f << "\n";
+
+    auto val = f(10);
+    cout << "val = " << val << "\n";
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Functor{
+public:
+    //varsayılan arguman alabilir
+    int  operator()(int val = 15)const
+    {
+        cout << "int Functor::operator()(int val)\n";
+        cout << "val = " << val << "\n";
+        cout << "this : " << this << "\n";
+
+        return val*val;
+    }
+};
+
+
+int main()
+{
+    Functor f;
+    cout << "&f = " << &f << "\n";
+
+    auto val = f();
+    cout << "val = " << val << "\n";
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Functor{
+public:
+    //varsayılan arguman alabilir
+    int  operator()(int val = 15)const
+    {
+        cout << "int Functor::operator()(int val)\n";
+        cout << "val = " << val << "\n";
+        cout << "this : " << this << "\n";
+
+        return val*val;
+    }
+
+    int operator()(int x, int y)const
+    {
+        return x + y;
+    }
+};
+
+
+int main()
+{
+    Functor f;
+    cout << "&f = " << &f << "\n";
+
+    auto val = f();
+    cout << "val = " << val << "\n";
+
+    auto val2 = f(3, 4);
+    cout << "val2 = " << val2 << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Functor{
+public:
+    //varsayılan arguman alabilir
+    int  operator()(int val = 15)const
+    {
+        cout << "int Functor::operator()(int val)\n";
+        cout << "val = " << val << "\n";
+        cout << "this : " << this << "\n";
+
+        return val*val;
+    }
+
+    int operator()(int x, int y)const
+    {
+        return x + y;
+    }
+};
+
+
+int main()
+{
+    Functor f;
+    cout << f.operator()(12) << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Random{
+public:
+    Random(int low, int high) : mlow{low}, mhigh{high}{}
+    int operator()()
+    {
+        ++cnt;
+        return rand() % (mhigh - mlow - 1) + mlow;
+    }
+
+    int getCnt() const
+    {
+        return cnt;
+    }
+
+private:
+    int mlow, mhigh;
+    int cnt = 0;
+};
+
+
+int main()
+{
+    Random rand1{234, 555};
+
+    for (int i = 0; i < 10; ++i) {
+        cout << rand1() << "  ";
+    }
+    cout << "\n";
+    cout << "\n";
+
+    Random rand2{21, 33};
+
+    for (int i = 0; i < 22; ++i) {
+        cout << rand2() << "  ";
+    }
+    cout << "\n";
+    cout << "\n";
+
+    cout << "rand1 icin call count = " << rand1.getCnt() << "\n";
+    cout << "rand2 icin call count = " << rand2.getCnt() << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Random{
+public:
+    Random(int low, int high) : mlow{low}, mhigh{high}{}
+    int operator()()
+    {
+        ++cnt;
+        return rand() % (mhigh - mlow - 1) + mlow;
+    }
+
+    int getCnt() const
+    {
+        return cnt;
+    }
+
+private:
+    int mlow, mhigh;
+    int cnt = 0;
+};
+
+void foo(Random x)
+{
+    cout << "foo cagrildi\n";
+    int val = x();
+}
+
+int main()
+{
+    foo(Random{12, 55});
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+tur donusturme operator fonksiyonu overload edilmesi
+
+
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+
+};
+
+int main()
+{
+    Myclass m;
+
+    int ival{};
+
+    ival = m; //bu turun otomatik tur donusumu yok sentaks hatsı
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(int val) : mval{val}{}
+    operator int()const; // int turune donusum yapılması ıcın
+    operator double()const; //double tur dnusumu var
+
+private:
+    int mval;
+
+};
+
+int main()
+{
+    Myclass m;
+
+    int ival{};
+
+    ival = m; //bu turun otomatik tur donusumu yok sentaks hatsı
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(int val) : mval{val}{}
+    operator int()const
+    {
+        return mval;
+    }
+
+private:
+    int mval;
+
+};
+
+int main()
+{
+    Myclass m{15};
+
+    int ival{};
+
+    ival = m;
+    //ival = m.operator int();
+
+    cout << "ival = " << ival << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(int val) : mval{val}{}
+    operator int()const
+    {
+        return mval;
+    }
+
+private:
+    int mval;
+
+};
+
+int main()
+{
+    Myclass m{15};
+
+    double ival{};
+
+    ival = m;
+    //olay soyle ılerlıyor
+    //ilk once m int turune donusuyor
+    //sonra da double turune otomatik tür donusumu oluyor
+    //tabı boyle donusumleri kullanmayınız
+
+
+    cout << "ival = " << ival << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(int val) : mval{val}{}
+    explicit operator int()const
+    {
+        return mval;
+    }
+
+private:
+    int mval;
+
+};
+
+int main()
+{
+    Myclass m{15};
+
+    double ival{};
+
+    ival = m; //artık gecersiz
+
+    cout << "ival = " << ival << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass() = default;
+    Myclass(int val) : mval{val}{}
+    explicit operator int()const
+    {
+        return mval;
+    }
+
+private:
+    int mval;
+
+};
+
+int main()
+{
+    Myclass m{15};
+
+    double ival{};
+
+    ival = static_cast<int>(m); //artık gecerli, bilincli olarak yaptıgımız icin
+
+    cout << "ival = " << ival << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+int main()
+{
+    string str = "orhan"; //const char * dan string donusum var
+
+    //const char *p = str; //string den const char * donusum yok
+
+    const char *p1 = str.c_str();
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+int main()
+{
+    int ival = 10;
+
+    if(ival){
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+using namespace std;
+
+class Myclass{
+public:
+
+};
+
+int main()
+{
+    Myclass m;
+
+    if(m){ //gecersiz bool turunde bir donusum olması lazım  sınıfın
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    operator bool()const
+    {
+        return true;
+    }
+};
+
+int main()
+{
+    Myclass m;
+
+    if(m){ //gecersiz bool turunde bir donusum olması lazım  sınıfın
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+  !expr
+
+ expr && epxr2
+ expr || expr3
+
+ bunun gibi lojik ifadeler bool oalrak degerlendirilir
+
+
+
+
+#include <iostream>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    operator int()const
+    {
+        return true;
+    }
+};
+
+int main()
+{
+    Myclass m;
+
+    if(m){ //şimdi gecerli ama dikkat
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    operator bool()const
+    {
+        return true;
+    }
+};
+
+int main()
+{
+    Myclass m;
+
+    if(m){ //şimdi daha iyi
+
+
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Mint m;
+
+    cout << "bir tam sayi giriniz : ";
+    cin >> m;
+    cout << "x = " << m << "\n";
+
+    if(m)
+        cout << "dogru\n";
+    else
+        cout << "yanlis\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "mint.hpp"
+#include <memory>
+
+using namespace std;
+
+
+int main()
+{
+    //explicit oldugu iiçin copy init ile veremeyiz deger
+    //unique_ptr<Mint> uptr = new Mint{1};
+
+    unique_ptr<Mint> uptr;
+    unique_ptr<Mint> uptr1{new Mint{1}};
+
+    if(uptr)
+        cout << "uptr dogru\n";
+    else
+        cout << "uptr yanlis\n";
+
+    if(uptr1)
+        cout << "uptr1 dogru\n";
+    else
+        cout << "uptr1 yanlis\n";
+
+    Mint uptr2{3};
+    int ival = (uptr2); // setaks hatası bool tür donusumu explixit oldugu için convert ederken sentaks hatsı olru
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+composition
+nested types
+string sınıfı
+
+enum class
+++
+-- operatorlerini overload emtek gerekiyor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,69 +1,29 @@
 #include <iostream>
 #include "mint.hpp"
+#include <memory>
 
 using namespace std;
 
-
-class Array{
-public:
-    Array(size_t size, int val = 0);
-    ~Array();
-    Array(const Array &) = delete;
-    Array &operator=(const Array &) = delete;
-
-    int &operator[](size_t idx);
-
-    size_t size()const{return msize;}
-
-    //inserter dunctions
-    friend std::ostream& operator<<(std::ostream &os, const Array &a);
-
-private:
-    size_t msize;
-    int *mpa;
-
-};
-
-Array::Array(size_t size, int val) : msize{size}, mpa{new int[msize]}
-{
-    for(size_t i = 0; i < msize; ++i)
-        mpa[i] = val;
-}
-
-Array::~Array()
-{
-    delete []mpa;
-}
-
-int &Array::operator[](size_t idx)
-{
-    return mpa[idx];
-}
-
-std::ostream& operator<<(std::ostream &os, const Array &a)
-{
-    os << "[";
-    for (size_t i = 0; i < a.msize - 1; ++i) {
-        os << a.mpa[i] << ", ";
-    }
-
-    os << a.mpa[a.msize - 1] << "]";
-
-    return os;
-}
-
 int main()
-{          
+{
+    //explicit oldugu iiçin copy init ile veremeyiz deger
+    //unique_ptr<Mint> uptr = new Mint{1};
 
-    Array a{10};
+    unique_ptr<Mint> uptr;
+    unique_ptr<Mint> uptr1{new Mint{1}};
 
-    cout << a << "\n";
+    if(uptr)
+        cout << "uptr dogru\n";
+    else
+        cout << "uptr yanlis\n";
 
-    for(size_t i = 0; i < a.size(); ++i)
-        a[i] = i; //Lvalue
+    if(uptr1)
+        cout << "uptr1 dogru\n";
+    else
+        cout << "uptr1 yanlis\n";
 
-    cout << a << "\n";
-
+    Mint uptr2{3};
+    int ival = (uptr2); // setaks hatası bool tür donusumu explixit oldugu için convert ederken sentaks hatsı olru
 
     return 0;
 }
@@ -71,6 +31,9 @@ int main()
 
 /***************************************************/
 /***************************************************/
+
+
+
 
 
 
