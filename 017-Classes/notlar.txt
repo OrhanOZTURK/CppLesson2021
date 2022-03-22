@@ -9606,6 +9606,1128 @@ enum class
 -- operatorlerini overload emtek gerekiyor
 
 
+#include <iostream>
+
+using namespace std;
+
+//underline type secebiliyoruz
+enum class WeekDay : int {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+
+std::ostream &operator<<(std::ostream &os, WeekDay wd)
+{
+    static constexpr const char *const pwdays[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    return os << "(" << pwdays[static_cast<int>(wd)] << ")";
+}
+
+int main()
+{
+    WeekDay wd{WeekDay::Monday};
+
+    cout << wd << "\n";
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//underline type secebiliyoruz
+enum class WeekDay : int {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+
+std::ostream &operator<<(std::ostream &os, WeekDay wd)
+{
+    static constexpr const char *const pwdays[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    return os << "(" << pwdays[static_cast<int>(wd)] << ")";
+}
+
+//önek ++ operatoru overloading
+WeekDay &operator++(WeekDay &wd)
+{
+    return wd = wd == WeekDay::Saturday ? WeekDay::Sunday : static_cast<WeekDay>(static_cast<int>(wd) + 1);
+}
+
+int main()
+{
+    WeekDay wd{WeekDay::Monday};
+
+    for (; ;) {
+        cout << ++wd;
+        getchar();
+    }
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+composition - containment (içerme) -- bir sınıfın bir baska sınıf turunden nesneye sahip olması
+
+
+sınıflar arasında ilişkiler var, bu snıflar arasında işbirliği içinde çalışması gerekiyor
+buna compositionilişkisi denir
+
+bu iki sınıf türünden nesne haytaları aynı anda bitecek
+cunku bir sınıf diger sınıfın türünden nesneye sahip
+
+
+class Engine{
+
+};
+
+class Car{
+private:
+   Engine eng;
+};
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//incomplite tanım
+class Engine;
+
+//incomplete type türünden elemana sahip olamaz compliti sınıf
+class Car{
+private:
+    Engine eng;
+};
+
+
+int main()
+{
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Engine sınıfını butun elemanların erişim vermemek
+//clientlara private elemanlara göstermemek
+//buna pimpl idiomu denir
+
+
+class Engine
+{
+public:
+    void start();
+    void stop();
+    void run();
+};
+
+class Car{
+public:
+
+private:
+    Engine eng;
+};
+
+
+int main()
+{
+    Car mycar;
+
+    //egine sınıfından elemana sahip olmak publice erişim anlamına gelmez
+    mycar.run(); //sentaks hatası
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Engine sınıfını butun elemanların erişim vermemek
+//clientlara private elemanlara göstermemek
+//buna pimpl idiomu denir
+
+
+class Engine
+{
+private:
+    void maintain();
+    void repair();
+
+public:
+    void start();
+    void stop();
+    void run();
+};
+
+class Car{
+public:
+    void func()
+    {
+        //car sınıfıunı içinden
+        //publice erişim var
+        //private erişim yok
+        eng.run();
+    }
+
+private:
+    Engine eng;
+};
+
+
+int main()
+{
+    Car mycar;
+
+    //egine sınıfından elemana sahip olmak publice erişim anlamına gelmez
+    mycar.run(); //sentaks hatası
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//Engine sınıfını butun elemanların erişim vermemek
+//clientlara private elemanlara göstermemek
+//buna pimpl idiomu denir
+
+
+class Engine
+{
+private:
+    void maintain();
+    void repair();
+
+public:
+    void start();
+    void stop();
+    void run();
+};
+
+class Car{
+public:
+    void func()
+    {
+        //car sınıfıunı içinden
+        //publice erişim var
+        //private erişim yok
+        eng.run();
+    }
+
+private:
+    Engine eng;
+};
+
+
+int main()
+{
+    Car mycar;
+    Engine eng;
+
+    mycar = eng; // bunlar arasında hiçbir ilişki yoktur
+    //bu yuzdende otomatık donusum olmaz
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//Engine sınıfını butun elemanların erişim vermemek
+//clientlara private elemanlara göstermemek
+//buna pimpl idiomu denir
+
+
+class Engine
+{
+public:
+    void start()
+    {
+        cout << "Engine has started\n";
+    }
+    void stop();
+    void run();
+};
+
+class Car{
+public:
+    void start()
+    {
+        eng.start();
+    }
+
+private:
+    Engine eng;
+};
+
+
+int main()
+{
+    Car mycar;
+
+    mycar.start();
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Member{
+public:
+    Member()
+    {
+        cout << "Member default ctor\n";
+    }
+
+    ~Member()
+    {
+        cout << "Member dctor\n";
+    }
+
+};
+
+class Owner{
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+class Member{
+public:
+    Member()
+    {
+        cout << "Member default ctor\n";
+    }
+
+    ~Member()
+    {
+        cout << "Member dctor\n";
+    }
+
+};
+
+class Owner{
+public:
+    Owner() : mx{}
+    {
+        cout << "Owner default ctor\n";
+    }
+
+    ~Owner()
+    {
+        cout << "Owner destructor\n";
+        //derleyici soyle yapar
+        //mx.~Member();
+    }
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+using namespace std;
+
+class Member{
+public:
+    Member(int x)
+    {
+        cout << "Member (int x) ctor x = " << x << "\n";
+    }
+
+    ~Member()
+    {
+        cout << "Member dctor\n";
+    }
+
+};
+
+class Owner{
+public:
+    //Owner() = delete; bunu tanımlamazsan derleyici otomatik delete eidyor bu sekılde
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    //derleyici default ctor delete etti Owner Classın
+    Owner ox;
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Member{
+public:
+    Member(int x)
+    {
+        cout << "Member (int x) ctor x = " << x << "\n";
+    }
+
+};
+
+class Owner{
+public:
+    Owner() : mx{10}
+    {
+        cout << "Owner defaurlt ctor\n";
+    }
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    //artık gecerli biz yazdıgımız için
+    Owner ox;
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass(size_t n) : mvec(n)
+    {
+
+    }
+
+private:
+        std::vector<std::string> mvec;
+};
+
+
+int main()
+{
+    Myclass m{200};
+    //Myclass m; //sentaks hatası default ctor olmadıgı için
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class Myclass{
+public:
+
+private:
+     std::string mstr;
+};
+
+
+int main()
+{
+    Myclass m;//derleyici default ctor yazdı
+    //eger string kutuphanesinin default ctro olmasaydı
+    //myclassın default ctor olacaktı ama derleyici delete edecekti bunu
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass(size_t n) : mstr(n, 'A'){}
+    Myclass(size_t n, char c) : mstr(n, c){}
+    void print()const
+    {
+        cout << mstr << "\n";
+    }
+
+private:
+     std::string mstr;
+};
+
+
+int main()
+{
+    Myclass m{5};
+    m.print();
+
+    Myclass m1{13, 'T'};
+    m1.print();
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <vector>
+#include <string>
+
+
+using namespace std;
+
+class Myclass{
+public:
+    void print()const
+    {
+        cout << mstr << "\n";
+    }
+
+private:
+    std::string mstr{"orhan"};
+    //bunu yazmamız ile default ctor buna göre olsuurulacak
+};
+
+
+int main()
+{
+    Myclass m;
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Myclass{
+public:
+    void print()const
+    {
+        cout << "( " << mx << " )" <<"\n";
+    }
+
+private:
+    Mint mx;
+};
+
+
+int main()
+{
+    Myclass m;
+
+    m.print();
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Myclass{
+public:
+    void print()const
+    {
+        cout << "( " << mx << " )" <<"\n";
+    }
+
+private:
+    Mint mx = 20; //explicit oldugu için sentaks hatası
+};
+
+
+int main()
+{
+    Myclass m;
+
+    m.print();
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Myclass{
+public:
+    void print()const
+    {
+        cout << "( " << mx << " )" <<"\n";
+    }
+
+private:
+    Mint mx{20}; //şimdik gecerli
+};
+
+
+int main()
+{
+    Myclass m;
+
+    m.print();
+
+    return 0;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+Ozel diğer uye fonksiyponların composition daki durumları
+
+
+
+copy ctor
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Member{
+public:
+    Member() = default;
+    Member(const Member &)
+    {
+        cout << "member copy ctor\n";
+    }
+
+
+private:
+};
+
+class Owner{
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+    Owner oz{ox}; //copy ctor deryici yazar
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Member{
+public:
+    Member() = default;
+    Member(const Member &)
+    {
+        cout << "member copy ctor\n";
+    }
+
+
+private:
+};
+
+class Owner{
+public:
+    Owner() = default;
+
+    /* derleyici boyle yazar
+    Owner(const Owner &other) : mx{other.mx}
+    {
+        cout << "Owner copy ctor\n";
+    }
+    */
+    //ben yazmaya nyet ettim
+    //default ctor cagrıldı
+    //mx {other.mx } yazmamı gerekliydi
+    Owner(const Owner &other)
+    {
+        cout << "Owner copy ctor\n";
+    }
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+    Owner oz{ox};
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+copy assigment
+
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Member{
+public:
+    Member &operator=(const Member &other)
+    {
+        cout << "member copy assignment function\n";
+        return *this;
+    }
+
+
+private:
+};
+
+class Owner{
+public:
+
+    Owner &operator=(const Owner &other)
+    {
+        cout << "Owner copy assignment function\n";
+
+        //eger programcı yazar ise
+        //bunun sorumlulugu programcıda
+        //mx = other.mx;
+
+        return *this;
+    }
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+    Owner oz;
+
+    oz = ox;
+
+}
+
+
+/***************************************************/
+/***************************************************/
+/***************************************************/
+/***************************************************/
+move ctor
+
+Myclass(Myclass &&other) : ax{std::move(other.ax)), by{std::move(other.by)}{}
+
+eger biz yazıyor isek bunu oglerın tasınma işleminide biz yapmamız lazım
+
+
+/***************************************/
+
+move assasignment
+#include <iostream>
+#include "mint.hpp"
+
+using namespace std;
+
+class Member{
+public:
+    Member &operator=(const Member &other)
+    {
+        cout << "member copy assignment function\n";
+        return *this;
+    }
+
+
+private:
+};
+
+class Owner{
+public:
+
+    Owner &operator=(const Owner &other)
+    {
+        cout << "Owner copy assignment function\n";
+
+        //eger programcı yazar ise
+        //bunun sorumlulugu programcıda
+        //mx = other.mx;
+
+        return *this;
+    }
+
+    Owner &operator=(Owner &&other)
+    {
+        cout << "Owner move assigmnet function\n";
+        //bunun sorumlulugu bende
+        mx = std::move(other.mx);
+
+        return *this;
+    }
+
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    Owner ox;
+
+    Owner oz;
+
+    oz = ox;
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class istack{
+public:
+    void push(int val);
+    void pop();
+    int &top();
+    const int &top()const;
+    bool empty()const;
+    size_t size()const;
+
+private:
+    vector<int> mvec;
+
+};
+
+void istack::push(int val)
+{
+    mvec.push_back(val);
+}
+
+void istack::pop()
+{
+    mvec.pop_back(); //cıakrtma
+}
+
+int & istack::top()
+{
+    return mvec.back();
+}
+
+const int & istack::top() const
+{
+    return mvec.back();
+}
+
+bool istack::empty() const
+{
+    return mvec.empty();
+}
+
+size_t istack::size() const
+{
+    return mvec.size();
+}
+
+int main()
+{
+
+    istack mystack;
+
+    for (int i = 0; i < 10; ++i) {
+        mystack.push(i);
+    }
+
+    cout << "size : " << mystack.size() << "\n";
+
+    while (!mystack.empty()) {
+        cout << mystack.top() << "\n";
+        mystack.pop();
+    }
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+içsel türler (nested types)
+
+types members
+member types
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

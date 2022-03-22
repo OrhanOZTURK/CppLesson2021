@@ -1,37 +1,73 @@
 #include <iostream>
-#include "mint.hpp"
-#include <memory>
+#include <vector>
 
 using namespace std;
 
+class istack{
+public:
+    void push(int val);
+    void pop();
+    int &top();
+    const int &top()const;
+    bool empty()const;
+    size_t size()const;
+
+private:
+    vector<int> mvec;
+
+};
+
+void istack::push(int val)
+{
+    mvec.push_back(val);
+}
+
+void istack::pop()
+{
+    mvec.pop_back(); //cıakrtma
+}
+
+int & istack::top()
+{
+    return mvec.back();
+}
+
+const int & istack::top() const
+{
+    return mvec.back();
+}
+
+bool istack::empty() const
+{
+    return mvec.empty();
+}
+
+size_t istack::size() const
+{
+    return mvec.size();
+}
+
 int main()
 {
-    //explicit oldugu iiçin copy init ile veremeyiz deger
-    //unique_ptr<Mint> uptr = new Mint{1};
 
-    unique_ptr<Mint> uptr;
-    unique_ptr<Mint> uptr1{new Mint{1}};
+    istack mystack;
 
-    if(uptr)
-        cout << "uptr dogru\n";
-    else
-        cout << "uptr yanlis\n";
+    for (int i = 0; i < 10; ++i) {
+        mystack.push(i);
+    }
 
-    if(uptr1)
-        cout << "uptr1 dogru\n";
-    else
-        cout << "uptr1 yanlis\n";
+    cout << "size : " << mystack.size() << "\n";
 
-    Mint uptr2{3};
-    int ival = (uptr2); // setaks hatası bool tür donusumu explixit oldugu için convert ederken sentaks hatsı olru
+    while (!mystack.empty()) {
+        cout << mystack.top() << "\n";
+        mystack.pop();
+    }
 
-    return 0;
 }
 
 
 /***************************************************/
 /***************************************************/
-
 
 
 
