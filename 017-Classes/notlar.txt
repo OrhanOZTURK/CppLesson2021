@@ -10582,6 +10582,1151 @@ types members
 member types
 
 
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+    class Data{
+
+    };
+
+    enum class  Color{Blue, Red, Green};
+
+    typedef int World;
+
+    using iptr = int;
+
+};
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    class Data{
+
+    };
+
+};
+
+
+int main()
+{
+    //sentaks hatası
+    //Data mydata;
+
+    Myclass::Data mydata; // içsel türden nesne
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+
+    Data mydata; //sentaks hatası tanımı alt kısımda kaldıgı için
+    class Data{
+
+    };
+
+};
+
+
+int main()
+{
+    //sentaks hatası
+    //Data mydata;
+
+    Myclass::Data mydata; // içsel türden nesne
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    class Data{
+
+    };
+
+    Data mydata; //artık gecerli
+};
+
+
+int main()
+{
+    //sentaks hatası
+    //Data mydata;
+
+    Myclass::Data mydata; // içsel türden nesne
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+typedef int Data;
+
+class Myclass{
+public:
+    Data mydata; //eş isim olan int türünün Data sı
+    class Data{
+
+    };
+
+};
+
+
+int main()
+{
+    //sentaks hatası
+    //Data mydata;
+
+    Myclass::Data mydata; // içsel türden nesne
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+typedef int Data;
+
+class Myclass{
+public:
+    Data myHacer; //typedef eş isminin türü
+
+    class Data{
+
+    };
+
+    Data mydata; // class Data nin türü
+};
+
+
+int main()
+{
+    //sentaks hatası
+    //Data mydata;
+
+    Myclass::Data mydata; // içsel türden nesne
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+class Word{
+public:
+    void foo();
+};
+
+class Myclass{
+private:
+    void func()
+    {
+        Word w;  // int eş ismi
+        w.foo(); //sentaks hatası
+    }
+
+    typedef int Word;
+};
+
+//cpp
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+    class Nested{
+    private:
+        void foo();
+    };
+
+    void func()
+    {
+        Nested ns;
+        ns.foo(); // sentaks hatası erişim yok neden private;
+    }
+};
+
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+    class Nested{
+    private:
+        friend class Encloser;
+        void foo();
+    };
+
+    void func()
+    {
+        Nested ns;
+        ns.foo(); // fiend verildşğiiçin gecerli
+    }
+};
+
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Data{
+
+    };
+
+    class Nested{
+        Data md;
+        //eski c++ gecerli değildi
+        //modern c++ ile gecerli
+    };
+};
+
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    static void sfunc();
+
+    class Nested{
+        void foo()
+        {
+            sfunc();
+            //eskiden bu gecerli değildi
+            //modern c++ ile gecerli hale geldi
+        }
+    };
+};
+
+
+
+int main()
+{
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Nested{
+
+    };
+
+public:
+    static Nested foo();
+};
+
+
+int main()
+{
+    //clientların erişimi yok
+    Encloser::Nested ns = Encloser::foo(); //sentaks hatsı private erişim yok
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Nested{
+    public:
+        void nf();
+    };
+
+public:
+    static Nested foo();
+};
+
+
+int main()
+{
+    //clientların erişimi yok
+    //Encloser::Nested ns = Encloser::foo(); //sentaks hatsı private erişim yok
+    auto as = Encloser::foo(); //boyle erişim mevcut
+    as.nf();
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Nested{
+
+    };
+
+    Encloser::Nested x; //bu sekılde tanımlama yapabiliriz
+
+};
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Nested{
+
+    };
+
+    void func();
+
+};
+
+//cpp
+void Encloser::func()
+{
+    Nested x;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        void func(Nested x);
+
+    };
+
+};
+
+//cpp
+void Encloser::Nested::func(Nested x)
+{
+    Nested y;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+private:
+    class Nested{
+    public:
+        void func(Nested x);
+
+    };
+
+};
+
+//cpp
+void Encloser::Nested::func(Nested x)
+{
+    Nested y;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        void func(Nested x);
+        Nested foo();
+
+    };
+
+};
+
+//cpp
+void Encloser::Nested::func(Nested x)
+{
+    Nested y;
+}
+
+Encloser::Nested Encloser::Nested::foo()
+{
+    return Nested{};
+}
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        Nested(const Nested &); //copy ctor
+
+    };
+
+};
+
+//cpp
+
+Encloser::Nested::Nested(const Nested &)
+{
+
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        int func(int x)
+        {
+            //
+            return x;
+        }
+
+    };
+
+};
+
+//cpp
+
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        int func(int x)
+        {
+            //
+            return x;
+        }
+
+        int foo(int y);
+
+    };
+
+};
+
+//cpp
+int Encloser::Nested::foo(int y)
+{
+    return y;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+//içsel türe sahip olan sınıf ---> Enclosing type
+//içsel türe ---> nested type
+
+
+class Encloser{
+public:
+    class Nested{
+    public:
+        int func(int x)
+        {
+            //
+            return x;
+        }
+
+        int foo(int y);
+        int f(int);
+
+    };
+
+    //boyle bir tnaımlama yapılamaz
+    int Nested::f(int)
+    {
+
+    }
+
+};
+
+//cpp
+int Encloser::Nested::foo(int y)
+{
+    return y;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    vector<int>::iterator;
+    vector<int>::difference_type;
+    vector<int>::const_iterator;
+    vector<int>::size_type;
+    vector<int>::pointer;
+    vector<int>::reference;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+yuzeysel bir iterator yapısı mantık olusması için yaptık
+
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass{};
+
+class Vector{
+public:
+
+    class iterator{
+        //
+    public:
+        Myclass &operator *();
+        Myclass *operator->();
+    };
+
+    iterator begin();
+    iterator end();
+};
+
+int main()
+{
+    Vector myvec;
+
+    Vector::iterator iterBegin = myvec.begin();
+    Vector::iterator iterEnd = myvec.end();
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+public:
+    void func();
+};
+
+int main()
+{
+    vector<Myclass> myvec;
+
+    vector<Myclass>::iterator iterBegin = myvec.begin();
+
+    auto iterB = myvec.begin();
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+eski pimpl idomuna ornek verelim
+
+cashire cat
+handle body
+pimpl
+opaque pointer
+
+
+veri gizleme için kullanılmaktadır
+
+
+eski pimpl
+#include <iostream>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass();
+    ~Myclass();
+
+    void func();
+
+private:
+    struct Pimpl; //pointer implementain
+    Pimpl *ptr;
+    //opac pointer
+};
+
+//cpp
+struct Myclass::Pimpl{
+    //bu türler class türü de oşlablir
+    //ki kullanımı coktur
+    int a;
+    double b;
+    void fuu();
+};
+
+Myclass::Myclass() : ptr{new Pimpl}
+{
+
+}
+
+void Myclass::func()
+{
+    ptr->a;
+    ptr->b;
+    ptr->fuu();
+}
+
+
+Myclass::~Myclass()
+{
+    delete ptr;
+}
+
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+yeni pimpl
+
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass();
+    ~Myclass();
+
+    void func();
+
+private:
+    struct Pimpl; //pointer implementain
+    unique_ptr<Pimpl> uptr;
+    //opac pointer
+};
+
+//cpp
+struct Myclass::Pimpl{
+    //bu türler class türü de oşlablir
+    //ki kullanımı coktur
+    int a;
+    double b;
+    void fuu();
+};
+
+Myclass::Myclass() : uptr{new Pimpl}
+{
+
+}
+
+void Myclass::func()
+{
+    uptr->a;
+    uptr->b;
+    uptr->fuu();
+}
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+HW 1 odevi verildi Data sınıfı
+Date : 05.04.2022
+
+//test kodu
+
+#include <iostream>
+#include "date.hpp"
+
+using namespace std;
+
+
+int main()
+{
+    Date mydate; //1.1.1900
+    Date t1 = {12, 3, 1987};
+    //Date t2 = {"05.04.1983"};  //explicit yapılır ise bu sentaks hatsına duser
+    //şimdi gecerli explicit olsada
+    Date t2{"05.04.1983"};
+
+    Date t3{15000000};
+
+    t2.set_month_day(22);
+    cout << mydate.get_year_day();
+
+    cout << t1 + 145 << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+delegating constructor
+user defined literals
+
+string class ı
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
