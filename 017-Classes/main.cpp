@@ -1,23 +1,15 @@
 #include <iostream>
+#include <array>
 #include "date.hpp"
+#include <cstdlib>
 
 using namespace std;
 
-//test kodu
 int main()
 {
-    Date mydate; //1.1.1900
-    Date t1 = {12, 3, 1987};
-    //Date t2 = {"05.04.1983"};  //explicit yapılır ise bu sentaks hatsına duser
-    //şimdi gecerli explicit olsada
-    Date t2{"05.04.1983"};
+    auto date =  "03.06.1992"_d;
 
-    Date t3{15000000};
 
-    t2.set_month_day(22);
-    cout << mydate.get_year_day();
-
-    cout << t1 + 145 << "\n";
 }
 
 

@@ -3,6 +3,7 @@
 
 #include <iosfwd>
 #include <ctime>
+#include <cstdlib>
 
 class Date {
 public:
@@ -59,5 +60,14 @@ Date::Weekday& operator++(Date::Weekday &r); //30
 Date::Weekday operator++(Date::Weekday &r, int); //30
 Date::Weekday& operator--(Date::Weekday &r); //30
 Date::Weekday operator--(Date::Weekday &r, int); //30}
+
+inline Date operator""_d(const char *p, size_t size)
+{
+    auto day = std::atoi(p);
+    auto mon = std::atoi(p+3);
+    auto year = std::atoi(p+6);
+
+    return Date{day, mon, year};
+}
 
 #endif // DATE_HPP
