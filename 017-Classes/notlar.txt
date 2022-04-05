@@ -11888,6 +11888,543 @@ int main()
 
 ---- string -----
 
+cstring dediğimizde --> sonunda "\0" karateri tutan bir yazı
+
+
+"ahmet" artık C de ki gibi char * dizi degil const char * dizisidir
+
+
+stl in standart kutuphanesiinn bir konteynarıdır
+
+<string>
+
+<cstring> --> karıztırmıyoruz bu C nin C++ daki halidr
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+
+    //string str;
+    //string aslında eş ismi budur
+    basic_string<char, char_traits<char>>;
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+
+    cout << typeid (string).name() << "\n";
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+
+    cout << "sizeof string : " << sizeof (string) << "\n";
+    cout << "sizeof char * : " << sizeof (char *) << "\n";
+
+    //small string optimization oldugu için
+    //eger girilen string kucuk ise string sınıfının içinde hazır bir dizi yapısı
+    //bu dizide tutulur
+    //buyuk ise o zman daha fazla alan alınır heap ten
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+//standart algoritma sınıfları bu alttaki gibidir
+
+#include <algorithm>
+#include <numeric>
+
+
+
+int main()
+{
+
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+
+int main()
+{
+
+    string::size_type size;
+
+    /*
+     * yazının uzunlugunun turudur
+     * index türüdür
+     * tane adet türüdür
+     */
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+
+int main()
+{
+
+    string str; //default ctor
+
+    //size lenght  ikiside aynı amaca sahip
+    //size aslında konteynarlar için ortak arayuzlerinden bir tanesi
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+int main()
+{
+
+    string str{"orhan ozturk gelesne"};
+
+    cout << "size : " << str.size() << "\n";
+    cout << "lenght : " << str.length() << "\n";
+    cout << "capacity : " << str.capacity() << "\n";//dinamik bellek boyutunu gösterir
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+   string str("alican");
+   string str1{"orhn"}; //eski C++ gecerli degildi
+   string str2 = "orkun"; //explicit degil
+
+   display_string(str);
+   display_string(str1);
+   display_string(str2);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //altaki tanımlamaların heps farklıdır
+    //ilişki yoktur farklı kaynak kullanır
+    string s1{"orhan ozturk"};
+    string s2(s1);
+    string s3{s1};
+    string s4 = s1;
+
+   display_string(s2);
+   display_string(s3);
+   display_string(s4);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string s1{"orhan ozturk"};
+    string s2(move(s1)); //move ctor
+
+     display_string(s1);
+    display_string(s2);
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //data ctor
+
+    char str[] = "0123456789";
+
+    string s1{str, 4};
+    string s2{str + 3, 3};
+    string s3{str, 40};//tanımsız davranış dikkat
+
+
+    display_string(s1);
+    display_string(s2);
+    display_string(s3);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string s1{"orhan ozturk"};
+    string s2(s1, 2, 3);
+    string s3(s1, 0, 5);
+
+    display_string(s2);
+    display_string(s3);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string s1{"orhan ozturk"};
+    string s2(s1, 2);
+    string s3(s1, 0);
+
+    display_string(s2);
+    display_string(s3);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string s1{"orhan ozturk"};
+    string s2(s1, 2, 1000); //bu gecerli durum geriye kalan hepsini demek
+
+
+    display_string(s2);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //fill ctor
+
+    string s1(80, 'A');
+    display_string(s1);
+
+    string s2{80, 'A'}; //burda 80 ni karater kodu olarak algılıyor bu yuzden PA pcıkıyor
+    display_string(s2);
+
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    char str[] = {"0123456789"};
+
+    string s1(str+2, 5);
+    string s2{str + 2, str+5};
+
+    display_string(s1);
+    display_string(s2);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
