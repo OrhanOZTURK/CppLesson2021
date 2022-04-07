@@ -12326,6 +12326,1515 @@ int main()
 /***************************************************/
 /***************************************************/
 
+string --> basic_string<char, <char_traits,>>
+
+
+default ctor
+copy ctor --> const string &
+move ctor --> string &&
+const string &s, size_type idx
+const string &s, size_type idx, size_type n
+ctring(const char *)
+data(const cahr *, size_type)
+fill (size_t, char c)
+initilizer_lict
+range ctor
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+   string str = "orhan ozturk derste rahatsiz etmeyin";
+   auto cap = str.capacity();
+   cout << "initial capcity : " << cap << "\n";
+   auto size = str.size();
+   cout << "initial size : " << size << "\n";
+
+   while (true) {
+       str += 'A';
+       if(str.capacity() > cap){
+           cout << "size = " << str.size() << " new cap = " << str.capacity() << "\n";
+            cap = str.capacity();
+            getchar();
+       }
+   }
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+   string str;
+   str.reserve(50000); //bu kadar  yer ayırtıyorum
+   auto cap = str.capacity();
+   cout << "capacity : " << cap << "\n";
+
+   while (true) {
+       str += 'A';
+       if(str.capacity() > cap){
+           cout << "size = " << str.size() << " new cap = " << str.capacity() << "\n";
+            cap = str.capacity();
+            getchar();
+       }
+   }
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+   string str;
+   str.reserve(50000); //bu kadar  yer ayırtıyorum
+   auto cap = str.capacity();
+
+   cout << str.size() << "\n";
+   cout << str.capacity() << "\n";
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+   string s1("a");
+   string s2{'B'};
+   string s3{1, 'C'};
+   string s4{'D', 1};
+   string s5(10, 'A');
+
+   display_string(s1);
+   display_string(s2);
+   display_string(s3);
+   display_string(s4);
+    display_string(s5);
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //string sınıfında null karateri '\0' yaznın sonu anlamınada kullanılmaz
+   string s1(10, '\0');
+
+   display_string(s1);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"orhan ozturk"};
+
+    cout << str[3] << "\n";
+
+
+    for (size_t i{}; i < str.size(); ++i) {
+        cout << str[i] << " ";
+    }
+
+    cout << "\n";
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya"};
+    display_string(str);
+
+    str[0] = 'm';
+
+    display_string(str);
+
+    str[2] = 's';
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //string sınıfının cont overloding [] vardır
+    const string str{"kaya"};
+    display_string(str);
+
+    str[0] = 'm'; //bu sebepten bunlarda atama yapamayız
+
+    display_string(str);
+
+    str[2] = 's';
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya"};
+
+    try {
+        auto c = str[20]; //tanımsız davranış
+    }  catch (std::exception &ex) {
+        cout << "hata yakalandi : " << ex.what() << "\n";
+    }
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya"};
+
+    try {
+        auto c = str[4]; // yazısının sonunda null karakteri bulunmasada
+        cout << "c = " << static_cast<int>(c) << "\n"; // bu tanımsız davranıs değil
+        //son karakterin null karateri olma garantisi var
+    }  catch (std::exception &ex) {
+        cout << "hata yakalandi : " << ex.what() << "\n";
+    }
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya akdag"};
+
+    for (size_t i{}; i < str.size(); ++i) {
+        cout << str.at(i) << " ";
+    }
+
+    cout << "\n";
+
+
+    /*
+     * AT() İN [] DEN FARKI EXCEPtion throw etmesi
+     * [] gecersiz bir index girer isek tanımsız davranıs
+     * at ise exception throe eder
+     */
+
+
+    try {
+        auto c = str.at(456); //gecersiz index exception throw edecek
+    }  catch (std::exception &ex) {
+        cout << "hata yakalandi : " << ex.what() << "\n";
+    }
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya akdag"};
+    display_string(str);
+
+    str.front() = 'm'; // konteynerda tutulan ilk ogeye referans verir
+    str.back()  = 'n';
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    //const atamaya tabi tutulmustur
+    const string str{"kaya akdag"};
+    display_string(str);
+
+    str.front() = 'm'; // konteynerda tutulan ilk ogeye referans verir
+    str.back()  = 'n';
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    const string str{"kaya akdag"};
+
+    //range for loop
+
+    for (auto c : str) {
+        cout << c << " " << static_cast<int>(c) << "\n";
+    }
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya akdag"};
+
+    //range for loop
+
+    for (auto &c : str) {
+        ++c;
+    }
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+    string str{"kaya akdag"};
+
+    for(auto iter = str.begin(); iter != str.end(); ++iter ){
+        cout << *iter << " ";
+    }
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string s1 = "ali";
+    string s2 = "ali";
+    string s3 = "can";
+
+    cout << boolalpha << (s1 == s2) << "\n";
+    cout << boolalpha << (s1 == s3) << "\n";
+    cout << boolalpha << (s1 < s3) << "\n";
+    cout << boolalpha << (s1 > s3) << "\n";
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string psw = "blue bird";
+
+    if(psw == "blue bird")
+        cout << "dogru parola\n";
+    else
+        cout << "yanlis parola\n";
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string psw = "blue bird";
+
+    //boyle bir karsılastıma tek karaterle mumkun değil
+    if(psw == 'c')
+        cout << "dogru parola\n";
+    else
+        cout << "yanlis parola\n";
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican"};
+
+    cout << "compare : " << str.compare("alican") << "\n";
+    cout << "compare : " << str.compare("alacan") << "\n";
+    cout << "compare : " << str.compare("mehmet") << "\n";
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican aglar"};
+
+    string name{"mehmet doganer"};
+
+    display_string(str);
+
+    //str = name;
+    //str = "hasancan oglu";
+
+    str = {'a', 'b', 'c', 'u'}; //initliazer _ list atam yapabiliriz
+
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"ali"};
+    display_string(str);
+
+    str.push_back('c');
+    display_string(str);
+
+    str.push_back('a');
+    display_string(str);
+
+    str.push_back('n');
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string s1{"ali"};
+    string s2{"han"};
+
+    display_string(s1);
+
+    s1 += s2;
+
+    display_string(s1);
+
+    s1 += " erler";
+    display_string(s1);
+
+    s1 += 'c';
+    display_string(s1);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican"};
+
+    //str.insert(3, "12345");
+    //display_string(str);
+
+    string s{"45678"};
+    //str.insert(3, s);
+    //display_string(str);
+
+    //str.insert(3, s, 2);
+    //display_string(str);
+
+    str.insert(3, s, 2, 2);
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican"};
+
+    display_string(str);
+
+    str.insert(str.begin(), 'X');
+    display_string(str);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican"};
+
+    display_string(str);
+
+    //str.insert(str.begin() + 2, 10,'8');
+    //display_string(str);
+
+    char s1[] = "12345678";
+    //str.insert(3, s1+1, 4);
+    //display_string(str);
+
+    str.insert(3, s1, 2, 4);
+    display_string(str);
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string str{"alican"};
+
+    display_string(str);
+
+    str.insert(0, "orhanozturk").at(2) = 'q';
+
+    display_string(str);
+}
+
+
+/***************************************************/
+/***************************************************/
+
+string::npos
+
+string sınıfının public static constexpr string::size_type türünden npos isimli veri elemanıdır
+
+string size_type alaceği en buyuk deger
+
+npos degeri string nesnesinin tutugu yazının gecerli bir indeksi olamaz
+
+
+string sınıfının cok sayıda arama fonksiyonu var
+arama fonksiyonularının hepsinin geri donus deger inex degeridir bulunan
+bulunamaz ise string  npos sabiti döndürür
+
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    cout << string::npos << "\n";
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string name;
+
+    cout << "bir isim giriniz :";
+    getline(cin, name); //veri almak için
+
+    display_string(name);
+
+    auto idx = name.find('a');
+
+    if(idx != string::npos){
+        cout << "bulundu idx = " << idx << "\n";
+        name[idx] = '!';
+        display_string(name);
+     }
+    else{
+        cout << "bulunmadi\n";
+    }
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
+int main()
+{
+
+    string name{"alican"};
+    string str{"mustafa"};
+
+    //name.insert(3, str, 1, 4);
+    //display_string(name);
+
+    //butun elelmnaları heosini alınmasını saglar
+    name.insert(3, str, 1, string::npos);
+
+    display_string(name);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+initializer_list
+
+<initializer_list>
+
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+
+int main()
+{
+    initializer_list<double> mylist1{1.3, 2.4, 5.6, 2.2, 112.5};
+    initializer_list<double> mylist2 = {1.3, 2.4, 5.6, 2.2, 112.5};
+
+    auto mylist3 = {1.3, 2.4, 5.6, 2.2, 112.5};
+
+    //auto mylist4{1.3, 2.4, 5.6, 2.2, 112.5}; //sentaks hatasıboyle bir initializer list yok
+
+    auto ival{12}; //gecerli fakat initializer list değil
+    auto x = {12}; //gecerli initializer list
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+void func(initializer_list<int> x);
+
+
+int main()
+{
+
+      int x = 10, y = 20, z = 30;
+      func({1, 2, 3, 4,5});
+      func({1});
+      func({});
+      func({x, y, z});
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+initializer_list<int> func(initializer_list<int> x)
+{
+    return initializer_list<int>{1,2,3,4,5};
+}
+
+
+int main()
+{
+
+      int x = 10, y = 20, z = 30;
+      func({1, 2, 3, 4,5});
+      func({1});
+      func({});
+      func({x, y, z});
+
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+
+int main()
+{
+    initializer_list<int> mylist{10, 20, 30, 40, 50};
+    initializer_list<int> mylist2{};
+
+    cout << mylist.size() << "\n";
+    cout << mylist2.size() << "\n";
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+
+int main()
+{
+    initializer_list<int> mylist{10, 20, 30, 40, 50};
+
+    for (auto iter = mylist.begin(); iter != mylist.end(); ++iter) {
+        cout << *iter << "\n";
+    }
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+
+int main()
+{
+    //initializer list conts olarak kabul edilir derleyici tarafından
+    initializer_list<int> mylist{10, 20, 30, 40, 50};
+
+    auto iter = mylist.begin();
+
+    *iter = 55; //sentask hatası const oldugu için
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+
+class Myclass{
+public:
+    Myclass(){cout << "default ctor\n";}
+    Myclass(const Myclass &r){cout << "copy ctor\n";}
+};
+
+void func(initializer_list<Myclass> x)
+{
+    cout << "func caggrildi\n";
+}
+
+int main()
+{
+    initializer_list<Myclass> mylist{Myclass(), Myclass(), Myclass()};
+
+    func(mylist); //copy ctor cagrılmaz
+    //cunku referans semantıgı kullandıgı için initializer_list in
+
+    cout << "main devam ediyor\n";
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <initializer_list>
+
+using namespace std;
+
+void func(int x)
+{
+    cout << "x = " << x << "\n";
+}
+
+int main()
+{
+    for (auto val : {2, 3, 4,5 ,78, 77}) {
+        func(val);
+    }
+}
+
+
+/***************************************************/
+/***************************************************/
+
+initializer_list modern c++ gelen bir ozelliktir
+
+ve
+
+konteynır ctorlarının initializer_list parametreleri bulunmkatadır
+
+
+
+
+#include <iostream>
+#include <initializer_list>
+#include <vector>
+
+using namespace std;
+
+
+int main()
+{
+    vector<int> ivec{2, 3, 4, 6, 7};
+
+    cout << ivec.size() << "\n";
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <initializer_list>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+
+int main()
+{
+    string str{'A', 'B', 'C'};
+
+    cout << str.size() << "\n";
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <initializer_list>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+
+int main()
+{
+    string str;
+
+    str = {'A', 'B', 'C'};
+
+    cout << str.size();
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
