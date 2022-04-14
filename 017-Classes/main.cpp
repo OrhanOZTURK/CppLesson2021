@@ -1,18 +1,26 @@
 #include <iostream>
 #include <initializer_list>
-#include <vector>
 #include <string>
+#include <cstring>
+#include <iomanip>
 
 using namespace std;
 
 
+void display_string(const string &s)
+{
+    cout << "[" << s.length() << "] (" << s << ")\n";
+}
+
+
 int main()
 {
-    string str;
+    string str{"kazimnazimehmet"};
 
-    str = {'A', 'B', 'C'};
+    //str.end -1 işlemine takabul eder
+    auto iter = str.erase(next(str.begin(), 2));
 
-    cout << str.size();
+    display_string(str);
 }
 
 
