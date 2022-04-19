@@ -15519,6 +15519,1247 @@ int main()
 /***************************************************/
 
 
+namespace
+
+isim alanları -- isim uzayı
+
+isim çakışmasının önğne geçmek için tasarlanmıştır
+
+namespace bir scope dur
+
+isim alanın içindeki elemnalar publictir
+
+namespace bir anahtar sözcüktür
+
+
+
+
+
+namespace Orhn {
+    int x = 10;
+    void func(int);
+    class Myclas;
+
+    class Date{
+
+    };
+
+    namespace timer {
+        namespace  {
+
+        }
+    }
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+qualified name
+unqualifed name
+
+:: scope resulation
+
+
+eger ben çözünütlük operatoru ile kullanırsam qualified name
+
+std::vector
+
+egger çözününrlük operatoru kullanmıyorsak unqualifed name
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+namespace Orhn {
+    int x = 10;
+    void func(int);
+    double x = 2.2; // aynı isimde değişken tanımlayamayız
+    //fakat farklı namespace içindekiler aynı olablir
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+namespace Orhn {
+    int x = 10;
+    void func(int);
+
+}
+
+int main()
+{
+    //x = 20;//sentaks hatası
+
+    //geçerli erişm budur
+    Orhn::x = 20;
+    Orhn::func(12);
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+namespace Orhn {
+    int x = 10;
+    void func(int);
+
+}
+
+namespace ozturk {
+    int x = 20;
+}
+
+
+namespace kocaeli {
+    int x = 30;
+}
+
+int main()
+{
+    std::cout << Orhn::x << "\n";
+    std::cout << ozturk::x << "\n";
+    std::cout << kocaeli::x << "\n";
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+//function overloading
+namespace Orhn {
+    void func(int);
+    void func(double);
+}
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+//unnamespace
+//buna ileride değinecez
+namespace {
+    int x = 20;
+    int y = 12;
+}
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+namespace orhan{
+    int x = 20;
+    int y = 12;
+}
+
+namespace orhan{
+    int a = 20;
+    int b = 12;
+}
+
+int main()
+{
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+//nested namespace
+namespace orhan{
+    int x = 20;
+    int y = 12;
+    namespace fikret {
+        int a = 20;
+        namespace engin {
+            int v = 50;
+        }
+    }
+}
+
+int main()
+{
+    orhan::x;
+    orhan::fikret::a;
+    orhan::fikret::engin::v;
+}
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <vector>
+
+
+int main()
+{
+    std::cout << std::endl;
+
+    std::vector<std::string> ivec;
+
+}
+
+
+/***************************************************/
+/***************************************************/
+
+using declaration (using bildirim)
+using namespace directive
+ADL(argument dependant lookup (argümana baglı isim arama))
+
+
+using declaration (using bildirim)
+
+
+
+#include <iostream>
+
+namespace  orhan{
+    int x, y;
+    void func(int);
+}
+
+using orhan::x;
+using std::cout;
+using std::endl;
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+using std::cout;
+
+int main()
+{
+    int x = 10;
+    cout << x << std::endl;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+void func()
+{
+   using std::cout;
+   using std::endl;
+
+   int x = 20;
+   cout << x << endl;
+}
+
+int main()
+{
+    int x = 10;
+    std::cout << x << std::endl;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+namespace orhan {
+    int a, b, c;
+}
+
+int a = 11;
+using orhan::a; //sentaks hatası
+
+int main()
+{
+    using orhan::a;
+    a;
+
+    int a = 22; //sentaks hatasına düşer
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+namespace orhan {
+    namespace ali {
+        namespace veli {
+            int a, b, c;
+        }
+    }
+}
+
+using orhan::ali::veli::a;
+
+int main()
+{
+    a = 45;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+namespace orhan {
+    int a, b;
+    void func();
+    class Myclass{
+
+    };
+}
+
+using namespace orhan;
+
+void f1()
+{
+    a = 30;
+}
+
+
+void f2()
+{
+    b = 30;
+    func();
+}
+
+int main()
+{
+    a;
+    b;
+    func();
+}
+
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+namespace orhan {
+    int a = 12, b;
+    void func();
+    class Myclass{
+
+    };
+}
+
+using namespace orhan;
+
+int main()
+{
+    //int a = 40;
+
+    std::cout << a << "\n";
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+namespace orhan {
+    int a = 12, b;
+    void func();
+    class Myclass{
+
+    };
+}
+
+using namespace orhan;
+
+
+int a = 40;
+
+int main()
+{
+    //sentaks hatası
+    //std::cout << a << "\n";
+
+    std::cout << ::a << "\n";
+
+    std::cout << orhan::a << "\n";
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+ADL(argument dependant lookup (argümana baglı isim arama))
+
+#include <iostream>
+
+namespace orhan {
+    void func(int);
+    class Myclass{
+
+    };
+
+    void foo(Myclass)
+    {
+        std::cout << "orhan foo call\n";
+    }
+}
+
+int main()
+{
+    orhan::Myclass m;
+
+    //orhan::foo(m);
+
+    foo(m);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+int main()
+{
+
+    std::string str{"orhan"};
+
+    //<< operator overloading
+    //ADL fonksiyonu
+    std::cout << str;
+
+    //std::operator<<(std::cout, str);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+//.hpp
+namespace orhan {
+    class Myclass{
+    public:
+        void foo(int);
+        void func(int);
+    };
+
+    void gf(Myclass m);
+}
+
+
+//client.cpp
+int main()
+{
+
+    orhan::Myclass m;
+
+    m.foo(12);
+    m.func(55);
+
+    //ADL sayesinde bunu yapabiliyoruz
+   gf(m);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+//.hpp
+namespace orhan {
+    class Myclass{
+    public:
+
+    };
+
+    void foo(Myclass m);
+}
+
+
+void foo(orhan::Myclass m)
+{
+
+}
+
+
+//client.cpp
+int main()
+{
+
+    orhan::Myclass m;
+
+    foo(m); //sentaks hatası
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+//.hpp
+namespace orhan {
+    class Myclass{
+    public:
+
+    };
+
+    void foo(Myclass m);
+}
+
+//client.cpp
+int main()
+{
+
+    orhan::Myclass m;
+
+    int foo = 22;
+
+    foo(m);//sentaks hatası
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+
+int main()
+{
+    //sentaks hatası
+    std::cout << "Hello world" << endl;
+
+    //bu global isimde fonsiyon ismi oldugu için geçerli
+    endl(std::cout);
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+namespace orhan {
+    class Myclass{
+
+    };
+
+    void f1(Myclass);
+    void f2(Myclass *);
+    void f3(std::vector<Myclass>);
+    enum Color{White, Black};
+    void f4(Color);
+}
+
+
+int main()
+{
+    orhan::Myclass mx;
+
+    //ADL
+    f1(mx);
+
+    //ADL
+    f2(&mx);
+
+    std::vector<orhan::Myclass> myvec;
+    f3(myvec); //ADL
+
+    f4(orhan::Black); //ADL
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+namespace Ali {
+    namespace Veli {
+        namespace Selami {
+            int x = 10;
+        }
+    }
+}
+
+
+int main()
+{
+    Ali::Veli::Selami::x = 33;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++17
+
+namespace Ali::Veli::Selami {
+    int x = 2;
+}
+
+namespace Ali {
+    int y =10;
+}
+
+namespace Ali::Veli {
+        int z = 20;
+}
+
+int main()
+{
+    Ali::Veli::Selami::x = 33;
+    Ali::Veli::z =22;
+    Ali::y =55;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++17
+
+namespace A {
+
+}
+
+namespace A::B {
+
+}
+
+namespace A::B::C {
+
+}
+
+int main()
+{
+
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+namespace orhan {
+    namespace Nested {
+        int x = 10;
+        void foo(int);
+    }
+
+    using namespace Nested;
+}
+
+
+
+int main()
+{
+    orhan::Nested::x = 20;
+    orhan::Nested::foo(22);
+
+    orhan::x = 21;
+    orhan::foo(34);
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+namespace orhan {
+    inline namespace Nested {
+        int x = 10;
+        void foo(int);
+    }
+}
+
+
+
+int main()
+{
+    orhan::Nested::x = 20;
+    orhan::Nested::foo(22);
+
+    orhan::x = 21;
+    orhan::foo(34);
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+namespace orhan {
+    int a = 50;
+    inline namespace Nested {
+        int x = 10;
+        void foo(int);
+    }
+}
+
+
+
+int main()
+{
+    orhan::x = 100;
+    orhan::foo(12);
+    orhan::a++;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+namespace orhan {
+    int a = 50;
+    inline namespace Ali {
+        int x = 10;
+        void foo(int);
+    }
+
+    inline namespace Veli {
+        int y = 22;
+        void func(int);
+    }
+}
+
+
+
+int main()
+{
+    orhan::x = 100;
+    orhan::a++;
+    orhan::y = 11;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+namespace orhan {
+    int a = 50;
+    inline namespace Ali {
+        int x = 10;
+        void foo(int);
+
+        inline namespace Veli {
+            int y = 22;
+            void func(int);
+        }
+    }
+}
+
+
+
+int main()
+{
+    orhan::x = 100;
+    orhan::a++;
+    orhan::y = 11;
+
+    orhan::Ali::y = 55;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include <string>
+#include <vector>
+
+//C++11
+//inline namespace
+
+inline namespace orhan {
+    int a = 50;
+    inline namespace Ali {
+        int x = 10;
+        void foo(int);
+
+        inline namespace Veli {
+            int y = 22;
+            void func(int);
+        }
+    }
+}
+
+
+
+int main()
+{
+    y;
+    x;
+    a;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+#define NEW_VERSION
+
+namespace orhan {
+
+#ifndef NEW_VERSION
+    inline
+#endif
+    namespace old_version {
+        class Myclass{
+        public:
+            Myclass()
+            {
+                std::cout << "Myclass old version\n";
+            }
+        };
+    }
+
+#ifdef NEW_VERSION
+    inline
+#endif
+    namespace new_version {
+        class Myclass{
+        public:
+            Myclass()
+            {
+                std::cout << "Myclass new version\n";
+            }
+        };
+    }
+
+}
+
+//client.cpp
+int main()
+{
+    orhan::Myclass m;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

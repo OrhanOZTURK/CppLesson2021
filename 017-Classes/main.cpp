@@ -1,27 +1,44 @@
 #include <iostream>
-#include <initializer_list>
-#include <string>
-#include <cstring>
-#include <iomanip>
 
-using namespace std;
+#define NEW_VERSION
 
+namespace orhan {
 
-void display_string(const string &s)
-{
-    cout << "[" << s.length() << "] (" << s << ")\n";
+#ifndef NEW_VERSION
+    inline
+#endif
+    namespace old_version {
+        class Myclass{
+        public:
+            Myclass()
+            {
+                std::cout << "Myclass old version\n";
+            }
+        };
+    }
+
+#ifdef NEW_VERSION
+    inline
+#endif
+    namespace new_version {
+        class Myclass{
+        public:
+            Myclass()
+            {
+                std::cout << "Myclass new version\n";
+            }
+        };
+    }
+
 }
 
-
+//client.cpp
 int main()
 {
-    string str{"kazimnazimehmet"};
+    orhan::Myclass m;
 
-    //str.end -1 işlemine takabul eder
-    auto iter = str.erase(next(str.begin(), 2));
-
-    display_string(str);
 }
+
 
 
 /***************************************************/
