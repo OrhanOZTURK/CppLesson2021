@@ -16480,6 +16480,1593 @@ int main()
 /***************************************************/
 /***************************************************/
 
+unnamespace
+
+
+//internal linkage
+static int func(int);
+
+
+//veli.h
+extern int g;
+exter int foo();
+
+int c; // bu internal
+
+veli.cpp
+int g = 20;
+int foo();
+
+
+ali.c
+static int gf = 10;
+static void foo(int);
+
+
+cpp da ise static depracte edilmiş durumda bunun yerine unnamespace gelmiştir
+
+
+#include <iostream>
+
+//buradaki tanımları dış modulere kapatıldı
+//sadece kendi moullümüze kullanbiliriz
+//static ler yerine geçmiştir
+//isim ile direk olarka kullanabiliiriz
+
+namespace  {
+    int x = 10;
+    int foo();
+    class Myclass{
+
+    };
+}
+
+int main()
+{
+    x = 2;
+    foo();
+    Myclass m;
+
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+//buradaki tanımları dış modulere kapatıldı
+//sadece kendi moullümüze kullanbiliriz
+//static ler yerine geçmiştir
+//isim ile direk olarka kullanabiliiriz
+
+namespace  {
+    int x = 10;
+    int foo();
+    class Myclass{
+
+    };
+}
+
+namespace  {
+    int a = 22;
+}
+
+int main()
+{
+    x = 2;
+    foo();
+    Myclass m;
+
+    a = 44;
+}
+
+
+
+/***************************************************/
+/***************************************************/
+
+//eski cpp var
+
+namespace alias
+
+namespace se verieln eş isim
+
+
+
+
+#include <iostream>
+
+namespace sd = std;
+
+int main()
+{
+    sd::cout << "veli\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+namespace orhan {
+int x = 10;
+}
+
+namespace veli = orhan;
+
+int main()
+{
+
+    veli::x;
+    orhan::x;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+namespace orhan_proj_file_documents {
+    int x = 10;
+}
+
+namespace myproject = orhan_proj_file_documents;
+
+int main()
+{
+    myproject::x;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+namespace orhan_proj_file_documents {
+    int x = 10;
+}
+
+
+int main()
+{
+    namespace myproject = orhan_proj_file_documents;
+    myproject::x;
+
+}
+
+void func()
+{
+    myproject::x; //sentaks hatsı
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+namespace orhan {
+    namespace ali {
+        namespace veli {
+            int x = 11;
+        }
+    }
+}
+
+namespace ax = orhan::ali::veli;
+
+int main()
+{
+    ax::x;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+namespace orhan {
+    namespace old_version {
+        class Myclass{
+        public:
+            Myclass() {std::cout << "Myclass old ctor\n";}
+        };
+    }
+
+    namespace new_version {
+        class Myclass{
+        public:
+            Myclass() {std::cout << "Myclass new ctor\n";}
+        };
+    }
+}
+
+
+namespace oldV = orhan::old_version;
+namespace newV = orhan::new_version;
+
+int main()
+{
+    oldV::Myclass m1;
+    newV::Myclass m2;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+raw string literals (ham yazı sabiti)
+C++11 ile dile eklendi
+
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p = "orhan";
+    //c de bu char *
+
+    //cpp da const char *
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p = "orhan";
+
+    "bugun gunlerden pazar ve hava cok guzel
+      acaba disarimi cıksak
+              beraber parka gideriz"
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p = "bugun gunlerden pazar ve hava cok guzel \
+                    acaba disarimi cıksak\
+                    beraber parka gideriz";
+
+    std::puts(p);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+int main()
+{
+    //compile time da bu stringler birleştrilir
+    const char *p = "bugun gunlerden pazar ve hava cok guzel "
+                    "acaba disarimi cıksak "
+                    "beraber parka gideriz";
+
+    std::puts(p);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+int main()
+{
+    //compile time da bu stringler birleştrilir
+    const char *p = "benim evim \" senin \" evin dedi";
+
+    std::puts(p);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+mehmet dediki ayseye "merhaba hanımefendi"
+ayse da "evet buyurun" dedi
+daha sonra \orhan\ olaylar gelisit
+"hikaye boyle devam etti"
+
+
+
+raw string literals burada devreye giriyor
+
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p = R"(bugun hava guzel)";
+
+    std::puts(p);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p =
+            R"(bugun hava guzel" dedi kadin
+            1. bu madde cok onemli
+                "mehmet" nerede
+            2. sabah kalkmak lazim
+               "ceylan" gelcek")";
+
+    std::cout << p << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p =
+            R"(mustafa mehmet ..)" ahmet ibrahim nese)";
+
+    std::cout << p << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+int main()
+{
+    const char *p =
+            R"abc(mustafa mehmet ..)" ahmet ibrahim nese)abc";
+
+    std::cout << p << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+kalıtım - inheritance
+
+composition --> has a relations
+inheritance ---> is-a relationship
+
+
+
+public inheritance
+private inheritance
+protected inheritance
+
+
+Araba
+//kalıtım terminolojisi
+super class
+parent class
+
+c++ da
+base class
+
+Mercedes
+child class
+sub class
+
+c++ da
+drived class
+
+
+
+#include <iostream>
+
+//incomplete type
+class Base;
+//buunun kalıtımını yapabilmemiz için
+//base sınıfınnın complete type olması lazım
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+};
+
+//private kalıtım olur bu
+class Der : Base{
+public:
+
+};
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+};
+
+class Der : public Base{
+public:
+
+};
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+};
+
+//struct a ise public kabul ediyor
+struct Der : Base{
+
+};
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+    class Nested{};
+    static void gf();
+};
+
+class Der : public Base{
+
+};
+
+
+int main()
+{
+    Der myder;
+    myder.foo();
+    myder.func();
+    Der::gf();
+    Der::Nested nes;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+    class Nested{};
+    static void gf();
+};
+
+class Der : public Base{
+public:
+    void f1();
+    void f2();
+
+};
+
+
+int main()
+{
+    Der myder;
+    myder.foo();
+    myder.func();
+    myder.f1();
+    myder.f2();
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    void func();
+    void foo();
+};
+
+class Der : public Base{
+public:
+    void f1();
+    void f2();
+
+};
+
+
+int main()
+{
+    Der myder;
+    Der *p{&myder};
+    Der &dr = myder;
+
+    myder.f1();
+    //isim arama şu şekilde
+    //ilk nesnenin olsuturuldugu sınıfa bakar
+    //yani Der sınıfı
+    //Base sınıfa bakar
+
+    myder.func();
+
+    //basede buldu
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class MainBase{
+public:
+    void g();
+    static void gf();
+};
+
+class Base : public MainBase{
+public:
+    void func();
+    void foo();
+};
+
+class Der : public Base{
+public:
+    void f1();
+    void f2();
+
+};
+
+
+int main()
+{
+    Der myder;
+    Der *p{&myder};
+    Der &dr = myder;
+
+    myder.g();
+    //der bakarcak
+    //base
+    //mainbase buldu
+
+    //isim arama sistemi aynı şekilde ilerleyecek
+    p->g();
+    dr.g();
+
+    Der::gf();
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+class MainBase{
+public:
+    void g();
+    static void gf();
+};
+
+class Base : public MainBase{
+public:
+    void func();
+    void foo();
+};
+
+class Der : public Base{
+public:
+    void f1();
+    void f2();
+
+};
+
+
+int main()
+{
+    Der myder;
+    Der *p{&myder};
+    Der &dr = myder;
+
+    //direk erişim olmus olur
+    myder.Base::foo();
+    p->Base::func();
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+class MainBase{
+public:
+    void g();
+    static void gf();
+};
+
+class Base : public MainBase{
+public:
+    void func();
+    void foo();
+};
+
+class Der : public Base{
+public:
+    void f1();
+    void f2()
+    {
+        f1();
+        func();
+        g();
+    }
+
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+
+class Base{
+private:
+    void pri_func();
+
+protected:
+    void pro_func();
+
+public:
+    void pub_func();
+
+};
+
+class Der : public Base{
+public:
+    void derfunc()
+    {
+        pub_func();
+        pro_func();
+        //pri_func(); //sentaks hatası erişim yok
+    }
+};
+
+
+int main()
+{
+    Der myder;
+    myder.pub_func();  //sadece publice erişim var
+
+    Base mybase;
+    mybase.pub_func(); //sadece publice erişim var
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+class Base{
+public:
+    void func(int);
+
+};
+
+class Der : public Base{
+public:
+    void func(int, int);
+};
+
+
+int main()
+{
+    Der myder;
+
+    //isim arama
+    //ismi bulur ise diger kontrolleri yapıyor
+    myder.func(12); //sentaks hatası arguman sayısından
+
+    //direk erişim var
+    myder.Base::func(12); //bu gecerli
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+
+class Base{
+public:
+    void func(double);
+
+};
+
+class Der : public Base{
+private:
+    void func(int, int);
+
+};
+
+
+int main()
+{
+    Der myder;
+
+    //sisim arama
+    //der de var
+    //fakat arguman sayısına takıl
+    myder.func(2.3);
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+
+
+class Car{
+public:
+
+};
+
+class Mercedes : public Car{
+public:
+
+};
+
+
+int main()
+{
+    Mercedes *p = new Mercedes;
+
+    //gecerli, ilderger olarak verilir
+    //bu donuşum dogaldır
+    Car *ptr = p;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+class Car{
+public:
+
+};
+
+class Mercedes : public Car{
+public:
+
+};
+
+
+int main()
+{
+    Mercedes p;
+
+    //gecerli, ilderger olarak verilir
+    //bu donuşum dogaldır
+    //upcasting olayı denir
+    Car &rc{p};
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+
+class Car{
+public:
+
+};
+
+class Mercedes : public Car{
+public:
+
+};
+
+
+int main()
+{
+    Mercedes m;
+
+    //bu durumdan mumkun oldugunca kacınacaz
+    //bu durum sentask hatası değil fakat yanlıs durum
+    Car cr = m;
+    Car ca;
+
+    ca = m; //object slicing -- nesne dilimlemesi
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    int a, b;
+};
+
+class Der : public Base{
+public:
+
+    int x, y;
+
+};
+
+
+int main()
+{
+    std::cout <<"sizeof(Base) : " << sizeof (Base) << "\n";
+    std::cout <<"sizeof(Der) : " << sizeof (Der) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    ~Base()
+    {
+        std::cout << "Base dtor\n";
+    }
+
+};
+
+class Der : public Base{
+public:
+
+
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    //Base() = delete;
+    Base(int a)
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    ~Base()
+    {
+        std::cout << "Base dtor\n";
+    }
+
+};
+
+class Der : public Base{
+public:
+
+
+};
+
+
+int main()
+{
+    Der myder; //sentask hatası
+    //derleyci default ctor delete etti
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    ~Base()
+    {
+        std::cout << "Base dtor\n";
+    }
+
+};
+
+class Der : public Base{
+public:
+    Der()
+    {
+        std::cout << "Der default ctor\n";
+    }
+
+    ~Der()
+    {
+        std::cout << "Der dtor\n";
+    }
+
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    ~Base()
+    {
+        std::cout << "Base dtor\n";
+    }
+
+};
+
+class Member{
+public:
+    Member()
+    {
+        std::cout << "Member default ctor\n";
+    }
+
+    ~Member()
+    {
+        std::cout << "Member dtor\n";
+    }
+};
+
+class Der : public Base{
+    Member mx;
+public:
+    Der()
+    {
+        std::cout << "Der default ctor\n";
+    }
+
+    ~Der()
+    {
+        std::cout << "Der dtor\n";
+    }
+
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(int x)
+    {
+        std::cout << "Base x = " << x <<"\n";
+    }
+
+    Base(int x, int y)
+    {
+        std::cout << "Base x = " << x << " y = " << y << "\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der()
+    {
+        std::cout << "Der default ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(int x)
+    {
+        std::cout << "Base x = " << x <<"\n";
+    }
+
+    Base(int x, int y)
+    {
+        std::cout << "Base x = " << x << " y = " << y << "\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der() : Base(15)
+    {
+        std::cout << "Der default ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(int x)
+    {
+        std::cout << "Base x = " << x <<"\n";
+    }
+
+    Base(int x, int y)
+    {
+        std::cout << "Base x = " << x << " y = " << y << "\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der() : Base{12, 4}
+    {
+        std::cout << "Der default ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(int x)
+    {
+        std::cout << "Base x = " << x <<"\n";
+    }
+
+    Base(int x, int y)
+    {
+        std::cout << "Base x = " << x << " y = " << y << "\n";
+    }
+};
+
+class Member{
+public:
+    Member(int)
+    {
+        std::cout << "Member int \n";
+    }
+};
+
+class Der : public Base{
+    Member mx;
+public:
+    Der() : Base{12, 4}, mx{5}
+    {
+        std::cout << "Der default ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der myder;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

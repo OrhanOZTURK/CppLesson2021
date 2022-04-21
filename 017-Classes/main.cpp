@@ -1,45 +1,48 @@
 #include <iostream>
 
-#define NEW_VERSION
-
-namespace orhan {
-
-#ifndef NEW_VERSION
-    inline
-#endif
-    namespace old_version {
-        class Myclass{
-        public:
-            Myclass()
-            {
-                std::cout << "Myclass old version\n";
-            }
-        };
+class Base{
+public:
+    Base()
+    {
+        std::cout << "Base default ctor\n";
     }
 
-#ifdef NEW_VERSION
-    inline
-#endif
-    namespace new_version {
-        class Myclass{
-        public:
-            Myclass()
-            {
-                std::cout << "Myclass new version\n";
-            }
-        };
+    Base(int x)
+    {
+        std::cout << "Base x = " << x <<"\n";
     }
 
-}
+    Base(int x, int y)
+    {
+        std::cout << "Base x = " << x << " y = " << y << "\n";
+    }
+};
 
-//client.cpp
+class Member{
+public:
+    Member(int)
+    {
+        std::cout << "Member int \n";
+    }
+};
+
+class Der : public Base{
+private:
+    Member mx;
+
+public:
+    Der() : Base{12, 4}, mx{5}
+    {
+        std::cout << "Der default ctor\n";
+    }
+};
+
+
 int main()
 {
-    orhan::Myclass m;
+    Der myder;
 
 }
-
-
 
 /***************************************************/
 /***************************************************/
