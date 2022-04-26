@@ -17730,6 +17730,617 @@ int main()
 /***************************************************/
 
 
+#include <iostream>
+
+class Employee{
+public:
+    Employee(std::string name, int no);
+
+};
+
+
+class Developer : public Employee{
+public:
+    Developer(std::string name, int no, int status) : Employee(name, no)
+    {
+
+    }
+};
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base(){
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(const Base &){
+        std::cout << "Base copy ctor\n";
+    }
+};
+
+class Der : public Base{
+public:
+    //derleyici kendisi yazdı
+};
+
+
+int main()
+{
+    Der der1;
+    Der der2(der1);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base(){
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(const Base &){
+        std::cout << "Base copy ctor\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der() = default;
+    Der(const Der &){
+        std::cout << "Der copy ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der der1;
+    Der der2(der1);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base(){
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(const Base &){
+        std::cout << "Base copy ctor\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der() = default;
+    Der(const Der &other) : Base(other) //artık base copy ctor cagırabildik
+    {
+        std::cout << "Der copy ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der der1;
+    Der der2(der1);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base(){
+        std::cout << "Base default ctor\n";
+    }
+
+    Base(const Base &&){
+        std::cout << "Base move ctor\n";
+    }
+};
+
+class Der : public Base{
+public:
+    Der() = default;
+    Der(const Der &&other) : Base(std::move(other))
+    {
+        std::cout << "Der move ctor\n";
+    }
+};
+
+
+int main()
+{
+    Der der1;
+    Der der2{std::move(der1)};
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    Base &operator=(const Base &){
+        std::cout << "Base copy assignment\n";
+        return *this;
+    }
+};
+
+class Der : public Base{
+public:
+        //derleyiciye yazdırdık copy assignmnt ı
+};
+
+
+int main()
+{
+    Der der1;
+    Der der3;
+
+    der1 = der3;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Base{
+public:
+    Base &operator=(const Base &){
+        std::cout << "Base copy assignment\n";
+        return *this;
+    }
+};
+
+class Der : public Base{
+public:
+        Der &operator=(const Der &other)
+        {
+            std::cout << "Der copy assignment\n";
+            Base::operator=(other);
+
+            return *this;
+        }
+};
+
+
+int main()
+{
+    Der der1;
+    Der der3;
+
+    der1 = der3;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Base{
+public:
+    Base &operator=(const Base &&){
+        std::cout << "Base move assignment\n";
+        return *this;
+    }
+};
+
+class Der : public Base{
+public:
+        Der &operator=(const Der &&other)
+        {
+            std::cout << "Der move assignment\n";
+            Base::operator=(std::move(other));
+
+            return *this;
+        }
+};
+
+
+int main()
+{
+    Der der1;
+    Der der3;
+
+    der1 = std::move(der3);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Car{
+public:
+    void start()
+    {
+        std::cout << "car has started\n";
+    }
+    void run()
+    {
+        std::cout << "car is running\n";
+    }
+    void stop()
+    {
+        std::cout << "car has stopped\n";
+    }
+};
+
+
+class Mercedes : public Car{
+public:
+    void start()
+    {
+        std::cout << "Mercedes has started\n";
+    }
+    void run()
+    {
+        std::cout << "Mercedes is running\n";
+    }
+    void stop()
+    {
+        std::cout << "Mercedes has stopped\n";
+    }
+};
+
+void cargame(Car &r)
+{
+    r.start();
+    r.run();
+    r.stop();
+}
+
+int main()
+{
+    Mercedes mymercedes;
+
+    cargame(mymercedes);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Car{
+public:
+    virtual void start()
+    {
+        std::cout << "car has started\n";
+    }
+    virtual void run()
+    {
+        std::cout << "car is running\n";
+    }
+    virtual void stop()
+    {
+        std::cout << "car has stopped\n";
+    }
+};
+
+
+class Mercedes : public Car{
+public:
+    void start()
+    {
+        std::cout << "Mercedes has started\n";
+    }
+    void run()
+    {
+        std::cout << "Mercedes is running\n";
+    }
+    void stop()
+    {
+        std::cout << "Mercedes has stopped\n";
+    }
+};
+
+void cargame(Car &r)
+{
+    r.start();
+    r.run();
+    r.stop();
+}
+
+int main()
+{
+    Mercedes mymercedes;
+
+    cargame(mymercedes);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+Kalıtımda taban sınfın üye fonksiyonları
+
+3 fonksiyon kategorine ayrılır
+
+a- türemiş sınıfların hem bir interface(arayüz) hem de implementatoin (kod ) veriliyor
+b- türemiş sınıfların hem bir interface(arayüz) hem de defult implementatoin (kod ) veriliyor
+c- türemiş sınıfların hem bir interface(arayüz) ama implementatoin (kod ) veriliyor
+
+
+b ve c bir fonksiyona sahip sınıflar polimorfiktir
+
+c seklinde uye fonksiyonlara sahip sınıf va ise abstract sınıftır
+
+
+
+#include <iostream>
+
+class Airplane{
+    void fly();
+};
+
+class Chessna : public Airplane{
+    //a kategorisine giriyor
+    //fly fonksiyonuna sahip
+    //base sınıfın verdiği kodu kullancak
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+
+class Airplane{
+    void fly();
+    virtual void takeoff(); //sanal uye fonksiyonu
+
+    //eger fonksiyon static ise bu fonksiyon virtual bildirilemez
+
+
+};
+
+class Chessna : public Airplane{
+    //b kategorisine giriyor
+    //takeoff fonksiyonuna sahip
+    //base sınıfın verdiği kodu kullancak
+    //yadad kendi kodunu yazabilir
+
+
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+
+class Airplane{
+    void fly();
+    virtual void takeoff(); //sanal uye fonksiyonu
+    virtual void land() = 0; //pure virtual function
+    //sana sadece interface veririm
+    //sen bu interface'i implemante etmek zorundasın
+    //eger implement e etmesen benim gibi abstract olursun
+    //Abstract --> soyut sınıf
+    //soyut sınıflardan nesne olusturamayız
+    //sadece pointer ve reference arayüzü ile kullanbiliriz
+    //c kategori
+
+
+
+};
+
+class Chessna : public Airplane{
+    };
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+abstract class - soyut sınıf -- bu sınıf türünden nesne olsturulamaz
+concrete class - somut sınıf -- bu sımıf türünden nesne olusturabiliriz
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+Car *create_random_car()
+{
+    switch (rand() % 4) {
+    case 0: cout << "Mercedes...\n"; return new Mercedes;
+    case 1: cout << "Audi...\n"; return new Audi;
+    case 2: cout << "Fiat...\n"; return new Fiat;
+    case 3: cout << "Tofas...\n"; return new Tofas;
+    }
+
+    return nullptr;
+}
+
+
+void car_game(Car *ptr)
+{
+    ptr->start();
+    ptr->run();
+    ptr->stop();
+}
+
+int main()
+{
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    for(;;){
+        car_game(create_random_car());
+        _getch();
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

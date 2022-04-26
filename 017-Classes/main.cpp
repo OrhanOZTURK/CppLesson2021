@@ -1,46 +1,38 @@
-#include <iostream>
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
 
-class Base{
-public:
-    Base()
-    {
-        std::cout << "Base default ctor\n";
+using namespace std;
+
+Car *create_random_car()
+{
+    switch (rand() % 4) {
+    case 0: cout << "Mercedes...\n"; return new Mercedes;
+    case 1: cout << "Audi...\n"; return new Audi;
+    case 2: cout << "Fiat...\n"; return new Fiat;
+    case 3: cout << "Tofas...\n"; return new Tofas;
     }
 
-    Base(int x)
-    {
-        std::cout << "Base x = " << x <<"\n";
-    }
+    return nullptr;
+}
 
-    Base(int x, int y)
-    {
-        std::cout << "Base x = " << x << " y = " << y << "\n";
-    }
-};
 
-class Member{
-public:
-    Member(int)
-    {
-        std::cout << "Member int \n";
-    }
-};
-
-class Der : public Base{
-private:
-    Member mx;
-
-public:
-    Der() : Base{12, 4}, mx{5}
-    {
-        std::cout << "Der default ctor\n";
-    }
-};
-
+void car_game(Car *ptr)
+{
+    ptr->start();
+    ptr->run();
+    ptr->stop();
+}
 
 int main()
 {
-    Der myder;
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    for(;;){
+        car_game(create_random_car());
+        _getch();
+    }
 
 }
 

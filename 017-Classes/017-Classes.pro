@@ -14,6 +14,7 @@ DISTFILES += \
  notlar.txt
 
 HEADERS += \
+ car.hpp \
  date.hpp \
  mint.hpp \
  myclass.hpp \
