@@ -5,35 +5,40 @@
 
 using namespace std;
 
-Car *create_random_car()
-{
-    switch (rand() % 4) {
-    case 0: cout << "Mercedes...\n"; return new Mercedes;
-    case 1: cout << "Audi...\n"; return new Audi;
-    case 2: cout << "Fiat...\n"; return new Fiat;
-    case 3: cout << "Tofas...\n"; return new Tofas;
+class Base{
+public:
+    virtual void vfunc()
+    {
+        cout << "Base vfunc\n";
     }
 
-    return nullptr;
-}
+    ~Base()
+    {
+        cout << "Base nesnesinin geri veriyor\n";
+    }
+};
 
-
-void car_game(Car *ptr)
+class Der : public Base
 {
-    ptr->start();
-    ptr->run();
-    ptr->stop();
-}
+public:
+    Der()
+    {
+        cout << "Der kaynak alindi\n";
+    }
+
+    ~Der()
+    {
+        cout << "Der kaynak verildi\n";
+    }
+};
+
 
 int main()
 {
-    srand(static_cast<unsigned>(time(nullptr)));
+    Base *p =  new Der;
 
-    for(;;){
-        car_game(create_random_car());
-        _getch();
-    }
-
+    delete  p;
+    //dikkatli ol kaynak sızındtısı var
 }
 
 /***************************************************/

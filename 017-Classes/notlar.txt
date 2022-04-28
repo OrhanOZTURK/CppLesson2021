@@ -18234,6 +18234,1414 @@ int main()
 /***************************************************/
 
 
+foksiyon çağrıldıgı zaman dilim derleme zamnı ise
+static binding / early binding
+
+
+fonksiyon çağrıldıgı zaman dilimi run time da belli oluyor ise
+dynamic binding / late binding
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base {
+public:
+    virtual void func(int x);
+};
+
+class Der : public Base{
+public:
+    void func(double x); // overrride değil
+    //function ooverloading de degil
+};
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base {
+public:
+    virtual void func(int x);
+};
+
+class Der : public Base{
+public:
+    double func(int x); //suan sentaks hatası
+    //isim ve parametre aynı ama geri dönüş farklı oldugundan
+};
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base {
+public:
+    virtual void func(int x);
+};
+
+class Der : public Base{
+public:
+    void func(int x); //override olur artık
+    //C++ eski de yöntemi
+};
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+contextual keyword - baglamsal anahatar sözcük
+override
+final
+
+
+belirli bir baglamda kullanıldıgında anahtarszöcük olarak ele alınır
+eger belirli bir baglamda kullanı9lmazsa ise identfier  isim olarka kullanılır
+
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+void car_game(Car *ptr)
+{
+    ptr->start();
+    ptr->run();
+    ptr->stop();
+}
+
+int main()
+{
+    srand(static_cast<unsigned>(time(nullptr)));
+    Car *p = create_random_car();
+    car_game(p);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+void car_game(Car &ptr)
+{
+    ptr.start();
+    ptr.run();
+    ptr.stop();
+}
+
+int main()
+{
+    srand(static_cast<unsigned>(time(nullptr)));
+    Car *p = create_random_car();
+    car_game(*p);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+void car_game(Car ptr)
+{
+    ptr.start();
+    ptr.run();
+    ptr.stop();
+}
+
+int main()
+{
+    srand(static_cast<unsigned>(time(nullptr)));
+    Car *p = create_random_car();
+    car_game(*p);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+public:
+    virtual void func(int) const;
+    virtual void fooo(double);
+};
+
+class Der : public Base
+{
+    void func(int); //override degil cunku const olması lazım
+    void fooo(float); //override degil cunku parametre farklı
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+public:
+    void func(int);
+
+};
+
+class Der : public Base
+{
+    void func(int); //override degil taban sınıf sanal degil
+
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+public:
+    void func(int);
+
+};
+
+class Der : public Base
+{
+    void func(int) override; //sentaks hatası olur
+
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+public:
+    virtual void func(int);
+
+};
+
+class Der : public Base
+{
+    void func(int) override;
+
+};
+
+//cpp
+
+void Der::func(int)
+{
+
+}
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+public:
+    virtual void func(int)const;
+
+};
+
+class Der : public Base
+{
+    //void func(int) const override; //gecerli
+    void func(int) override const;  //sentask hatası
+
+};
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+//polimorfik sınıf
+class Base{
+public:
+    virtual void func();
+
+};
+
+
+int main()
+{
+    Base mybase;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+//abstract sınıf
+class Base{
+public:
+    virtual void func() = 0;
+
+};
+
+
+int main()
+{
+    Base mybase; //abstract sınıftan nesne olusturamayız
+}
+
+/***************************************************/
+/***************************************************/
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+//abstract sınıf
+class Base{
+public:
+    virtual void func() = 0;
+
+};
+
+class Der : public Base{
+
+};
+
+
+int main()
+{
+    Der myder;//abstract sınıftan nesne olusturamayız
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+//abstract sınıf
+class Base{
+public:
+    virtual void f1() = 0;
+    virtual void f2() = 0;
+    virtual void f3() = 0;
+
+};
+
+class Der : public Base{
+    void f1()override;
+    void f2()override;
+    void f3()override;
+};
+
+
+int main()
+{
+    Der myder;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+abstract sınıfların reference ve pointer semantiği ile kullanılır
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+//abstract sınıf
+class Base{
+public:
+    virtual void f1() = 0;
+    virtual void f2() = 0;
+    virtual void f3() = 0;
+
+};
+
+void foo(Base *baseptr)
+{
+    baseptr->f1();
+    baseptr->f2();
+    baseptr->f3();
+}
+
+void func(Base &baseptr)
+{
+    baseptr.f1();
+    baseptr.f2();
+    baseptr.f3();
+}
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+
+int main()
+{
+    Fiat f;
+    f.check();
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+    int x, y;
+
+public:
+    void func();
+};
+
+int main()
+{
+    cout << "sizeof Base = " << sizeof (Base) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+    int x, y;
+
+public:
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+    virtual void f4();
+    virtual void f5();
+    virtual void f6();
+    virtual void f7();
+    virtual void f8();
+    virtual void f9();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+
+};
+
+int main()
+{
+    cout << "sizeof Base = " << sizeof (Base) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+    int x, y;
+
+public:
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+};
+
+class Der : public Base{
+
+};
+
+int main()
+{
+    cout << "sizeof Base = " << sizeof (Base) << "\n";
+    cout << "sizeof Der = " << sizeof (Der) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+    int x, y;
+
+public:
+    virtual void f1();
+    virtual void f2();
+    virtual void f3();
+};
+
+class Der : public Base{
+    void f1()override;
+    void f2()override;
+    void f3()override;
+};
+
+int main()
+{
+    cout << "sizeof Base = " << sizeof (Base) << "\n";
+    cout << "sizeof Der = " << sizeof (Der) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc(){
+        cout << "Base::vfunc\n";
+    }
+};
+
+
+class Der : public Base{
+private:
+    void vfunc()override; //gecerli
+};
+
+
+int main()
+{
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc(){
+        cout << "Base::vfunc\n";
+    }
+};
+
+class Der : public Base{
+private:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+void func(Base &baseref)
+{
+    baseref.vfunc();
+}
+
+int main()
+{
+    Der myder;
+    func(myder); //gecerli
+
+    //myder.vfunc(); //sentaks private oldugu için
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc(int x = 10){
+        cout << "Base::vfunc x = " << x << "\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc(int x = 15)override //default arguman degerlerinin aynı verecez
+    {
+        cout << "Der::vfunc x = " << x << "\n";
+    }
+};
+
+void func(Base &baseref)
+{
+    baseref.vfunc();
+}
+
+int main()
+{
+    Der myder;
+    func(myder); //gecerli
+
+    myder.vfunc(); //sentaks private oldugu için
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    void foo()
+    {
+        vfunc();
+    }
+
+    virtual void vfunc(){
+        cout << "Base::vfunc\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+int main()
+{
+    Der myder;
+    myder.foo();
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    void foo()
+    {
+        vfunc();
+        this->vfunc();
+        Base::vfunc();
+    }
+
+    virtual void vfunc(){
+        cout << "Base::vfunc\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+int main()
+{
+    Der myder;
+    myder.foo();
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    Base()
+    {
+        cout << "Base default ctor\n";
+        vfunc();
+        //ctor içinde yapılan cagrılar sananlık olayşarı baglmaaz
+    }
+
+    virtual void vfunc(){
+        cout << "Base::vfunc\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+int main()
+{
+    Der myder;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    ~Base()
+    {
+        cout << "Base dtor\n";
+        vfunc();
+        //dtor içinde yapılan cagrılar sanallık mekanızması
+        //devreye girmez
+    }
+
+    virtual void vfunc(){
+        cout << "Base::vfunc\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+int main()
+{
+    Der myder;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    void foo()
+    {
+        vfunc();
+        Base::vfunc();
+    }
+
+    virtual void vfunc(){
+        cout << "Base::vfunc\n" ;
+    }
+};
+
+class Der : public Base{
+public:
+    void vfunc()override
+    {
+        cout << "Der::vfunc\n";
+    }
+};
+
+int main()
+{
+    Der myder;
+    myder.foo();
+}
+
+/***************************************************/
+/***************************************************/
+
+
+virtual constructor idiyomu
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual Base();//sentaks hatası
+};
+
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+void car_game(Car *ptr)
+{
+    auto p = ptr->clone();
+}
+
+
+int main()
+{
+    Car *pc = new Audi;
+    Car &r = *new Audi;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+void car_game(Car *ptr)
+{
+    auto p = ptr->clone();
+    ptr->start();
+    p->start();
+    getchar();
+}
+
+
+int main()
+{
+    for (; ; ) {
+        auto p = create_random_car();
+        car_game(p);
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc()
+    {
+        cout << "Base vfunc\n";
+    }
+
+    ~Base()
+    {
+        cout << "Base nesnesinin geri veriyor\n";
+    }
+};
+
+class Der : public Base
+{
+public:
+    Der()
+    {
+        cout << "Der kaynak alindi\n";
+    }
+    ~Der()
+    {
+        cout << "Der kaynak verildi\n";
+    }
+};
+
+
+int main()
+{
+    Der myder;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc()
+    {
+        cout << "Base vfunc\n";
+    }
+
+    ~Base()
+    {
+        cout << "Base nesnesinin geri veriyor\n";
+    }
+};
+
+class Der : public Base
+{
+public:
+    Der()
+    {
+        cout << "Der kaynak alindi\n";
+    }
+    ~Der()
+    {
+        cout << "Der kaynak verildi\n";
+    }
+};
+
+
+int main()
+{
+    Der *pd =  new Der;
+
+    delete  pd;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc()
+    {
+        cout << "Base vfunc\n";
+    }
+
+    ~Base()
+    {
+        cout << "Base nesnesinin geri veriyor\n";
+    }
+};
+
+class Der : public Base
+{
+public:
+    Der()
+    {
+        cout << "Der kaynak alindi\n";
+    }
+    ~Der()
+    {
+        cout << "Der kaynak verildi\n";
+    }
+};
+
+
+int main()
+{
+    Base *p =  new Der;
+
+    delete  p;
+    //dikkatli ol kaynak sızındtısı var
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
