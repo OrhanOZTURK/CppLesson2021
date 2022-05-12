@@ -2,10 +2,12 @@
 #define CAR_HPP
 
 #include <iostream>
+#include <random>
 
 class Car{
 public:
     virtual Car *clone() = 0;
+    virtual ~Car() = default;
 
     void check()
     {
@@ -180,7 +182,10 @@ public:
 
 Car *create_random_car()
 {
-    switch (rand() % 6) {
+    static std::mt19937 eng{std::random_device{}()};
+    static std::uniform_int_distribution<int> dist{0, 5};
+
+    switch (dist(eng)) {
     case 0: std::cout << "Mercedes...\n"; return new Mercedes;
     case 1: std::cout << "Audi...\n"; return new Audi;
     case 2: std::cout << "Fiat...\n"; return new Fiat;

@@ -1,44 +1,75 @@
 #include "car.hpp"
-#include <cstdlib>
-#include <cctype>
-#include <conio.h>
+#include <iostream>
 
 using namespace std;
+//elams formasyonu
 
-class Base{
+//DDD --> dreaded Dimond of derivation
+
+
+class EDevice{
+private:
+    bool mflag = false;
+
 public:
-    virtual void vfunc()
+    void turn_on()
     {
-        cout << "Base vfunc\n";
+        mflag = true;
     }
 
-    ~Base()
+    void turn_off()
     {
-        cout << "Base nesnesinin geri veriyor\n";
+        mflag = false;
+    }
+
+
+    bool isOn()const
+    {
+        return mflag;
     }
 };
 
-class Der : public Base
-{
-public:
-    Der()
-    {
-        cout << "Der kaynak alindi\n";
-    }
 
-    ~Der()
+class Modem : virtual public EDevice{
+public:
+    void sendData()
     {
-        cout << "Der kaynak verildi\n";
+        if(!isOn()){
+            cout << "cihaz kapali oldgun data gonderilemiyor\n";
+        }
+        else{
+            cout << "data gonderildi\n";
+        }
     }
+};
+
+class Fax : virtual public EDevice{
+public:
+    void sendFax()
+    {
+        if(!isOn()){
+            cout << "cihaz kapali oldgun fax gonderilemiyor\n";
+        }
+        else{
+            cout << "fax gonderildi\n";
+        }
+    }
+};
+
+class FaxModem : public Fax, public Modem{
+    ///
 };
 
 
 int main()
 {
-    Base *p =  new Der;
+    FaxModem fm;
 
-    delete  p;
-    //dikkatli ol kaynak sızındtısı var
+    fm.turn_on();
+    fm.sendFax();
+    fm.sendData();
+
+
 }
 
 /***************************************************/

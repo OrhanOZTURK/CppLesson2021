@@ -19362,6 +19362,1868 @@ int main()
 /***************************************************/
 
 
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void vfunc()
+    {
+        cout << "Base vfunc\n";
+    }
+
+    virtual~Base()
+    {
+        cout << "Base nesnesinin geri veriyor\n";
+    }
+};
+
+class Der : public Base
+{
+public:
+    Der()
+    {
+        cout << "Der kaynak alindi\n";
+    }
+
+    ~Der()
+    {
+        cout << "Der kaynak verildi\n";
+    }
+};
+
+
+int main()
+{
+    Base *p =  new Der;
+
+    delete  p;
+    //destructor virtual yapıldıgın sızıntı problemi ortadan kalktı
+}
+
+/***************************************************/
+/***************************************************/
+
+
+taban sınıfların dtor u public ise mutlaka vitual olacak
+Eger virtaul dtro olmasını istemiyor isek protected yapacaz
+
+
+derleyiciye kendimşiz yaz dememiz lazım
+virtual~Base() = default;
+
+
+/***************************************************/
+/***************************************************/
+
+
+sınıf içinde using bildirimleri
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+};
+
+
+class Der : public Base{
+
+};
+
+int main()
+{
+    Der myder;
+    myder.func(12); //sentaks hatası erişim yok
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+};
+
+
+class Der : public Base{
+public:
+    void func(int x)
+    {
+        //func(x); //recursive
+
+        Base::func(x);
+    }
+
+};
+
+int main()
+{
+    Der myder;
+    myder.func(12); //sentaks hatası erişim yok
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+    void func(int x, int y)
+    {
+        cout << "Base func x = " << x << " y = "<< y << "\n";
+    }
+};
+
+
+class Der : public Base{
+public:
+    void func(double dx)
+    {
+        cout << "Der func dx = " << dx << "\n";
+    }
+
+};
+
+int main()
+{
+    Der myder;
+    myder.func(12, 33); //sentaks hatsı
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+    void func(int x, int y)
+    {
+        cout << "Base func x = " << x << " y = "<< y << "\n";
+    }
+};
+
+
+class Der : public Base{
+public:
+    void func(double dx)
+    {
+        cout << "Der func dx = " << dx << "\n";
+    }
+
+    void func(int x)
+    {
+        Base::func(x);
+    }
+
+    void func(int x, int y)
+    {
+        Base::func(x, y);
+    }
+
+};
+
+int main()
+{
+    Der myder;
+    myder.func(12, 33); //şimdi gecerli
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+};
+
+
+class Der : public Base{
+public:
+    using Base::func;
+
+};
+
+int main()
+{
+
+    Der myder;
+
+    myder.func(12);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+protected:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+    void func(int x, int y)
+    {
+        cout << "Base func x = " << x  << " y = " << y << "\n";
+    }
+
+};
+
+
+class Der : public Base{
+public:
+    using Base::func;
+
+};
+
+int main()
+{
+
+    Der myder;
+
+    myder.func(12);
+    myder.func(12, 44);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+    private:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+    void func(int x, int y)
+    {
+        cout << "Base func x = " << x  << " y = " << y << "\n";
+    }
+
+};
+
+
+class Der : public Base{
+public:
+    using Base::func; //gecerli olmaz private oldugu için
+
+};
+
+int main()
+{
+
+    Der myder;
+
+    myder.func(12);
+    myder.func(12, 44);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+
+public:
+    void func(int x)
+    {
+        cout << "Base func x = " << x << "\n";
+    }
+
+    void func(int x, int y)
+    {
+        cout << "Base func x = " << x  << " y = " << y << "\n";
+    }
+
+    void func(double dx)
+    {
+        cout << "Base func dx = " << dx << "\n";
+    }
+
+};
+
+
+class Der : public Base{
+public:
+    using Base::func;
+    void func(double dx)
+    {
+        cout << "Der func dx = " << dx << "\n";
+    }
+
+};
+
+int main()
+{
+
+    Der myder;
+
+    myder.func(12);
+    myder.func(12, 44);
+
+    myder.func(123.3); //türemiş sınıftaki func ı dikkate alır
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    Base(int x);
+    Base(int x, int y);
+    Base(double dx);
+    int func();
+    int foo(double);
+    int f();
+
+};
+
+
+class Der : public Base{
+public:
+    void g();
+
+};
+
+int main()
+{
+
+    Der myder(12, 33);
+
+    //der in iki parametreli ctor i olmasıgı için sentaks hatası
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    Base(int x);
+    Base(int x, int y);
+    Base(double dx);
+    int func();
+    int foo(double);
+    int f();
+
+};
+
+
+class Der : public Base{
+public:
+    Der(int x) : Base(x){}
+    Der(int x, int y) : Base(x, y){}
+    Der(double dx) : Base(dx){}
+
+};
+
+int main()
+{
+
+    Der myder(12, 33);
+
+    myder.foo(12);
+
+}
+
+/***************************************************/
+/***************************************************/
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    Base(int x);
+    Base(int x, int y);
+    Base(double dx);
+    int func();
+    int foo(double);
+    int f();
+
+};
+
+
+class Der : public Base{
+public:
+    using Base::Base;
+    //modern C++ ile bu özellik getirildi
+
+};
+
+int main()
+{
+
+    Der myder(12, 33);
+
+    myder.foo(12);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+variant return type
+
+yada
+
+covariant
+
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class Base{
+public:
+    virtual int foo(int);
+
+};
+
+
+class Der : public Base{
+public:
+    double foo(int);//override olmaz gecerlide degil
+    //geri donus türü fakrlı aynı olması gerekiyor
+};
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class B{
+public:
+
+};
+
+
+class A : public B{
+public:
+
+};
+
+class Base{
+public:
+    virtual B* func();
+};
+
+
+class Der : public Base{
+public:
+    A * func()override;
+
+    //variant return type
+    //covariant
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+referans semantigi
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class B{
+public:
+
+};
+
+
+class A : public B{
+public:
+
+};
+
+class Base{
+public:
+    virtual B& func();
+};
+
+
+class Der : public Base{
+public:
+    A & func()override;
+
+    //variant return type
+    //covariant
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+bu şekilde olmaz
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+class B{
+public:
+
+};
+
+
+class A : public B{
+public:
+
+};
+
+class Base{
+public:
+    virtual B func();
+};
+
+
+class Der : public Base{
+public:
+    A func()override;
+
+    //variant return type
+    //covariant
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+Non virtual interface
+NVI
+
+
+template method
+şablon methodu
+
+
+
+#include "car.hpp"
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+
+using namespace std;
+
+
+class Base{
+private:
+    virtual void vfunc();
+    virtual void vfoo();
+
+public:
+    void func()
+    {
+        vfunc();
+    }
+
+    void foo()
+    {
+        vfoo();
+    }
+
+};
+
+
+class Der : public Base{
+public:
+    void vfunc()override;
+    void vfoo()override;
+
+};
+
+void g(Base & baseref)
+{
+    baseref.func();
+    baseref.foo();
+}
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+polimorfik liste
+
+
+#include "car.hpp"
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+
+int main()
+{
+    vector<Car *> carvec;
+
+    for (int i = 0; i < 10; ++i) {
+        carvec.push_back(create_random_car());
+    }
+
+    for (size_t i{}; i < carvec.size(); ++i) {
+        carvec[i]->start();
+        carvec[i]->run();
+        carvec[i]->stop();
+        cout << "\n";
+        getchar();
+    }
+
+    for (size_t i{}; i < carvec.size(); ++i) {
+        delete carvec[i];
+    }
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+#include <vector>
+#include <memory>
+
+using namespace std;
+
+
+
+int main()
+{
+    vector<std::unique_ptr<Car>> carvec;
+
+    for (int i = 0; i < 10; ++i) {
+        carvec.push_back(std::unique_ptr<Car>{create_random_car()});
+    }
+
+
+    for (size_t i{}; i < carvec.size(); ++i) {
+        carvec[i]->start();
+        carvec[i]->run();
+        carvec[i]->stop();
+        cout << "\n";
+        getchar();
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+çoklu kalıtım
+multiple inheritance
+
+bir sınıfın birden fazla taban sınıftan kalıtım yolu ile elde edilmesi
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class Base1{
+public:
+    void func();
+    void fooo();
+};
+
+
+
+class Base2{
+public:
+    void f1();
+    void f2();
+};
+
+//publix Base1 türemesi private Base2 türemesi
+
+/*class Der : public Base1, Base2{
+
+};
+*/
+
+//her iki sınıftan public türemiş olur
+
+class Der : public Base1, public Base2{
+
+};
+
+int main()
+{
+    Der myder;
+
+    myder.f1();
+    myder.f2();
+    myder.fooo();
+    myder.func();
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class Base1{
+public:
+    void func();
+    void fooo();
+};
+
+
+
+class Base2{
+public:
+    void f1();
+    void f2();
+};
+
+//publix Base1 türemesi private Base2 türemesi
+
+/*class Der : public Base1, Base2{
+
+};
+*/
+
+//her iki sınıftan public türemiş olur
+
+class Der : public Base1, public Base2{
+
+};
+
+int main()
+{
+    //yapabiliriz
+    Base1 *bs1 = new Der;
+    Base2 *bs2 = new Der;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class Base1{
+public:
+    void func();
+    void fooo();
+};
+
+
+
+class Base2{
+public:
+    void f1();
+    void f2();
+};
+
+//publix Base1 türemesi private Base2 türemesi
+
+/*class Der : public Base1, Base2{
+
+};
+*/
+
+//her iki sınıftan public türemiş olur
+
+class Der : public Base1, public Base2{
+
+};
+
+void gf1(Base1 &);
+void gf2(Base2 &);
+
+int main()
+{
+    //yapabiliriz
+    Der myder;
+
+    gf1(myder);
+    gf2(myder);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class Base1{
+public:
+    void func();
+    void fooo();
+};
+
+
+
+class Base2{
+public:
+    void f1();
+    void f2();
+};
+
+//publix Base1 türemesi private Base2 türemesi
+
+/*class Der : public Base1, Base2{
+
+};
+*/
+
+//her iki sınıftan public türemiş olur
+
+class Der : public Base1, public Base2{
+
+};
+
+//overloading
+void gf(Base1 &);
+void gf(Base2 &);
+
+int main()
+{
+    //yapabiliriz
+    Der myder;
+
+    gf(static_cast<Base1&>(myder));
+    gf(static_cast<Base2&>(myder));
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class Base1{
+public:
+    virtual void func();
+    void fooo();
+};
+
+class Base2{
+public:
+    virtual void f1();
+    void f2();
+};
+
+class Der : public Base1, public Base2{
+public:
+    void func()override;
+    void f1()override;
+};
+
+
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class A{
+public:
+    A(){
+        cout << "A ctor \n";
+    }
+
+    ~A(){
+        cout << "A dtor \n";
+    }
+};
+
+
+class B{
+public:
+    B(){
+        cout << "B ctor \n";
+    }
+
+    ~B(){
+        cout << "B dtor \n";
+    }
+};
+
+class C : public A, public B{
+
+};
+
+
+int main()
+{
+    C cx;
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class A{
+public:
+    void func(int x)
+    {
+        cout << "A func x = " << x << "\n";
+    }
+};
+
+
+class B{
+public:
+    void func(int x, int y)
+    {
+        cout << "A func x = " << x << " y = " << y << "\n";
+    }
+};
+
+class C : public A, public B{
+
+};
+
+
+int main()
+{
+    C cx;
+    //hata iki sınıftada func isminde fonksiyon ben hangisini cagıracagıma sasırdım
+    //sakın türeme ile alakası oldugunu düşünmeyin
+    cx.func(12);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+class A{
+public:
+    void func(int x)
+    {
+        cout << "A func x = " << x << "\n";
+    }
+};
+
+
+class B{
+public:
+    void func(int x, int y)
+    {
+        cout << "A func x = " << x << " y = " << y << "\n";
+    }
+};
+
+class C : public A, public B{
+
+};
+
+
+int main()
+{
+    C cx;
+
+    //artık gecerli
+    cx.A::func(12);
+    cx.B::func(12, 15);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+//elams formasyonu
+
+//DDD --> dreaded Dimond of derivation
+
+class A{
+public:
+    void afunc(int x);
+};
+
+
+class B : public A{
+public:
+
+};
+
+class C : public A{
+
+};
+
+class D : public B, public C{
+public:
+    void f()
+    {
+        //afunc(); //setantaks hatası
+        B::afunc(2);
+        C::afunc(3);
+
+    }
+};
+
+
+int main()
+{
+    D dx;
+
+    //dx.afunc(12); //dentasks hatası
+
+    //gecerli
+    dx.B::afunc(12);
+    dx.C::afunc(11);
+
+    //A *ptr = &dx; //sentaks hatası
+    //B ve C den gelen A this pointerı oldugundan çift anlamlılık
+
+    A *ptr1 = static_cast<B*>(&dx);
+    A *ptr2 = static_cast<C*>(&dx);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+//elams formasyonu
+
+//DDD --> dreaded Dimond of derivation
+
+
+class EDevice{
+private:
+    bool mflag = false;
+
+public:
+    void turn_on()
+    {
+        mflag = true;
+    }
+
+    void turn_off()
+    {
+        mflag = false;
+    }
+
+
+    bool isOn()const
+    {
+        return mflag;
+    }
+};
+
+
+class Modem : public EDevice{
+public:
+    void sendData()
+    {
+        if(!isOn()){
+            cout << "cihaz kapali oldgun data gonderilemiyor\n";
+        }
+        else{
+            cout << "data gonderildi\n";
+        }
+    }
+};
+
+class Fax : public EDevice{
+public:
+    void sendFax()
+    {
+        if(!isOn()){
+            cout << "cihaz kapali oldgun fax gonderilemiyor\n";
+        }
+        else{
+            cout << "fax gonderildi\n";
+        }
+    }
+};
+
+class FaxModem : public Fax, public Modem{
+    ///
+};
+
+
+int main()
+{
+    FaxModem fm;
+
+    fm.Fax::turn_on();
+    //fm.Modem::turn_on();
+    fm.sendFax();
+    fm.sendData();
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+//elams formasyonu
+
+//DDD --> dreaded Dimond of derivation
+
+
+class A{
+public:
+    void afunc(int x);
+};
+
+
+class B : virtual public A{
+public:
+
+};
+
+class C : virtual public A{
+
+};
+
+class D : public B, public C{
+public:
+    void f()
+    {
+        afunc(12);
+
+    }
+};
+
+
+int main()
+{
+    D der;
+    der.afunc(12);
+
+    A *ptr = new D;
+
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+//elams formasyonu
+
+//DDD --> dreaded Dimond of derivation
+
+
+class EDevice{
+private:
+    bool mflag = false;
+
+public:
+    void turn_on()
+    {
+        mflag = true;
+    }
+
+    void turn_off()
+    {
+        mflag = false;
+    }
+
+
+    bool isOn()const
+    {
+        return mflag;
+    }
+};
+
+
+class Modem : virtual public EDevice{
+public:
+    void sendData()
+    {
+        if(!isOn()){
+            cout << "cihaz kapali oldgun data gonderilemiyor\n";
+        }
+        else{
+            cout << "data gonderildi\n";
+        }
+    }
+};
+
+class Fax : virtual public EDevice{
+public:
+    void sendFax()
+    {
+        if(!isOn()){
+            cout << "cihaz kapali oldgun fax gonderilemiyor\n";
+        }
+        else{
+            cout << "fax gonderildi\n";
+        }
+    }
+};
+
+class FaxModem : public Fax, public Modem{
+    ///
+};
+
+
+int main()
+{
+    FaxModem fm;
+
+    fm.turn_on();
+    fm.sendFax();
+    fm.sendData();
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+
+class Base{
+public:
+    Base(int x)
+    {
+        cout << "Base int x = " << x << "\n";
+    }
+};
+
+
+class Der1 : virtual public Base{
+public:
+    Der1() : Base(12){}
+};
+
+class Der2 : virtual public Base{
+public:
+    Der2() : Base(12){}
+};
+
+class SpecialDer : public Der1, public Der2{
+public:
+};
+
+int main()
+{
+    Der1 d1;
+    Der2 d2;
+
+    SpecialDer sd; //neden delete edilmiş defaulr ctor
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+
+class Base{
+public:
+    Base(int x)
+    {
+        cout << "Base int x = " << x << "\n";
+    }
+};
+
+
+class Der1 : virtual public Base{
+public:
+    Der1() : Base(12){}
+};
+
+class Der2 : virtual public Base{
+public:
+    Der2() : Base(12){}
+};
+
+class SpecialDer : public Der1, public Der2{
+public:
+    SpecialDer() : Base(12){}
+
+};
+
+int main()
+{
+    Der1 d1;
+    Der2 d2;
+
+    SpecialDer sd; //artık gecerli
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include "car.hpp"
+#include <iostream>
+
+using namespace std;
+
+
+class Base{
+public:
+    Base(int x)
+    {
+        cout << "Base int x = " << x << "\n";
+    }
+};
+
+
+class Der1 : virtual public Base{
+public:
+    Der1() : Base(12){}
+};
+
+class Der2 : virtual public Base{
+public:
+    Der2() : Base(12){}
+};
+
+class SpecialDer : public Der1, public Der2{
+public:
+    SpecialDer() : Base(12){}
+
+};
+
+class VerySpecialDer : public SpecialDer{
+public:
+    VerySpecialDer() : Base(12){}
+};
+
+int main()
+{
+    Der1 d1;
+    Der2 d2;
+
+    SpecialDer sd; //artık gecerli
+
+    VerySpecialDer vsd; //default ctor delete
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+yeni konu
+
+exception handling
+
+
+
+throw
+try
+catch
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
