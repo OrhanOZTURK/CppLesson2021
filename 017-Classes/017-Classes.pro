@@ -7,7 +7,8 @@ SOURCES += \
         date.cpp \
         main.cpp \
         mint.cpp \
-        myclass.cpp
+        myclass.cpp \
+        utility.cpp
 
 DISTFILES += \
  HW1_Date.txt \
@@ -18,4 +19,5 @@ HEADERS += \
  date.hpp \
  mint.hpp \
  myclass.hpp \
- point.hpp
+ point.hpp \
+ utility.hpp

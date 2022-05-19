@@ -20960,6 +20960,636 @@ try
 catch
 
 
+throw statement
+hatayı tespit edip daha yukarıdaki kolara bu hatadan haberdae etmek için
+bir kod nesnesi olusturur ve gönderrir
+
+
+try block
+eger söyle bir hata var ise olursa ben buna mühale edecem diyor
+
+
+catch block
+hata nesnesinin yakalanması durumnda hatanın işlenmesi durumunda catch blogu devreye girerr
+
+
+throw edildiğinde
+terminate fonksiyonu cagrılır buda aslında abort'u cagırır
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+    throw 5;
+    //eger hata yakalnamaz ise bu alttaki işlemmleri yapar
+    //terminate fonksiyonun abort fonksiyonunu cagırıp abort etti
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    cout << "main baslad\n";
+    f1();
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+    int x = 1;
+    throw x; //yeni hata nesnesi olusturup onu gönderiyor
+    //terminate fonksiyonun abort fonksiyonunu cagırıp abort etti
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    //eski abort özelliklerini kaydet
+    //ve yebi myabort özelliklerini al
+    auto f = set_terminate(myabort);
+
+    //eski haline gerir döner
+    set_terminate(f);
+
+    cout << "main baslad\n";
+    f1();
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+uncaught exception -- hata yalanamadıgı dyuruum
+
+terminate fonksiyonu cagrıır
+terminate fonksşyonuda abort'u cagırır ve programı sonlandırır
+
+
+/***************************************************/
+/***************************************************/
+
+try blok
+
+
+try{
+  //
+  int cnt = 0;
+}
+catch(int x){
+catch(const T& x){
+
+
+}
+
+try blok'tan sonra en az bir catch gelecek
+
+türü neyse hatanın  o parametreli catch yakalar
+try{
+
+}
+catch(int x){
+
+}
+catch(double){
+
+}
+catch(long x)
+{
+
+}
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+    int x = 1;
+    throw x; //yeni hata nesnesi olusturup onu gönderiyor
+    //terminate fonksiyonun abort fonksiyonunu cagırıp abort etti
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (int val) {
+        cout << "hata yakalandi  val = " << val << "\n";
+    }
+
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+    //throw 'a';
+    throw 4.5;
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (int val) {
+        cout << "hata yakalandi  val = " << val << "\n";
+    } catch (char c) {
+        cout << "hata yakalandi  c = " << static_cast<int>(c) << "\n";
+    }
+
+
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+//all catch
+catch(...)
+{
+  cout << "butun catch türleri yakalanır"\n;
+}
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+    //throw 'a';
+    throw 4.5;
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (int val) {
+        cout << "hata yakalandi  val = " << val << "\n";
+    } catch (char c) {
+        cout << "hata yakalandi  c = " << static_cast<int>(c) << "\n";
+    } catch(...){
+        cout << "hata yakalndi\n";
+    }
+
+
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+hata yakaladık ne yapacaz
+
+
+1- hataya tamamen dühale eder ve program handler kodu izleyen kodla devam eder
+2- hataya kısmen müdahale eder ve hata nesnesini yeniden gönderirir
+3- hatayı translate eder -- haa türünü değiştirir
+4- terminate eder
+
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+
+    std::string str{"orhan"};
+
+    str.at(30) = 'X'; //out of range
+
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+
+    std::string str{"orhan"};
+
+    str.at(30) = 'X'; //out of range
+
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (std::logic_error &ex) { //kalıtım yapıası var
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+void f4()
+{
+    cout << "f4 basladi\n";
+
+    std::string str{"orhan"};
+
+    str.at(30) = 'X'; //out of range
+
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (std::exception &ex) { //kalıtım yapıası var
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+try{
+
+}
+catch(std::out_of_range  &ex){
+
+}
+catch(std::logic_error &ex){
+
+}
+catch(std::exception &ex){
+
+}
+catch(...){
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

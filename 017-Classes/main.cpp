@@ -1,75 +1,61 @@
-#include "car.hpp"
 #include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
 
 using namespace std;
-//elams formasyonu
-
-//DDD --> dreaded Dimond of derivation
 
 
-class EDevice{
-private:
-    bool mflag = false;
+void f4()
+{
+    cout << "f4 basladi\n";
 
-public:
-    void turn_on()
-    {
-        mflag = true;
-    }
+    std::string str{"orhan"};
 
-    void turn_off()
-    {
-        mflag = false;
-    }
+    str.at(30) = 'X'; //out of range
+
+    cout << "f4 sona erdi\n";
+}
 
 
-    bool isOn()const
-    {
-        return mflag;
-    }
-};
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
 
 
-class Modem : virtual public EDevice{
-public:
-    void sendData()
-    {
-        if(!isOn()){
-            cout << "cihaz kapali oldgun data gonderilemiyor\n";
-        }
-        else{
-            cout << "data gonderildi\n";
-        }
-    }
-};
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
 
-class Fax : virtual public EDevice{
-public:
-    void sendFax()
-    {
-        if(!isOn()){
-            cout << "cihaz kapali oldgun fax gonderilemiyor\n";
-        }
-        else{
-            cout << "fax gonderildi\n";
-        }
-    }
-};
 
-class FaxModem : public Fax, public Modem{
-    ///
-};
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
 
 
 int main()
 {
-    FaxModem fm;
+    set_terminate(myabort);
 
-    fm.turn_on();
-    fm.sendFax();
-    fm.sendData();
+    cout << "main baslad\n";
 
+    try {
+        f1();
+    }  catch (std::exception &ex) { //kalıtım yapıası var
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
 
+    cout << "main sona eriyor\n";
 }
 
 /***************************************************/
