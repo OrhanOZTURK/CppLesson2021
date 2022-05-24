@@ -21546,6 +21546,1141 @@ catch(...){
 
 }
 
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+class bad_date : public std::exception{
+public:
+    const char *what()const override{
+        return "gecersiz tarhi olusumu\n";
+    }
+};
+
+class Date{
+public:
+    int getDate(){
+        throw bad_date{};
+    }
+};
+
+void f4()
+{
+    cout << "f4 basladi\n";
+
+    Date date;
+
+    auto n = date.getDate();
+
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    f4();
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (std::exception &ex) { //kalıtım yapıası var
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+class bad_date : public std::exception{
+public:
+    const char *what()const override{
+        return "gecersiz tarhi olusumu\n";
+    }
+};
+
+class Date{
+public:
+    int getDate(){
+        throw bad_date{};
+    }
+};
+
+void f4()
+{
+    cout << "f4 basladi\n";
+
+    Date date;
+
+    auto n = date.getDate();
+
+    cout << "f4 sona erdi\n";
+}
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+
+    try {
+        f4();
+    }  catch (std::exception &ex) {
+        cout << "f3 hata yakaladi .. : " << ex.what() << "\n";
+    }
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+    set_terminate(myabort);
+
+    cout << "main baslad\n";
+
+    try {
+        f1();
+    }  catch (std::exception &ex) { //kalıtım yapıası var
+        cout << "hata yakalandi  = " << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+stack unwinding -- yagının geri sarımı
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+class Orhn{
+public:
+    Orhn(){
+        cout << this << " adresteki Orhn nesnesi icin kaynak alindi\n";
+    }
+
+    ~Orhn(){
+        cout << this << " adresteki Orhn nesnesi icin kaynak verildi\n";
+    }
+};
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    Orhn orhn;
+    throw  std::runtime_error{"orhan hatasi\n"};
+
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    f1();
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+class Orhn{
+public:
+    Orhn(){
+        cout << this << " adresteki Orhn nesnesi icin kaynak alindi\n";
+    }
+
+    ~Orhn(){
+        cout << this << " adresteki Orhn nesnesi icin kaynak verildi\n";
+    }
+};
+
+
+void f3()
+{
+    cout << "f3 basladi\n";
+    Orhn orhn;
+    throw  std::runtime_error{"orhan hatasi\n"};
+
+    cout << "f3 sona erdi\n";
+}
+
+
+void f2()
+{
+    cout << "f2 basladi\n";
+    f3();
+    cout << "f2 sona erdi\n";
+}
+
+
+void f1()
+{
+    cout << "f1 basladi\n";
+    f2();
+    cout << "f1 sona erdi\n";
+}
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+    try {
+        f1();
+    }  catch (std::exception &ex) {
+        getchar();
+        cout << "hata yakalnadi " << ex.what() << "\n";
+    }
+
+//artık exception yakaladıgımız icin bellek sızıntısı olmaz
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+void foo()
+{
+    cout << "foo basladi\n";
+    throw std::runtime_error("hata hata hata\n");
+    cout << "foo sonlandi\n";
+}
+
+void func()
+{
+    cout << "func basladi\n";
+
+    auto p = new int[10000];
+    //
+    //
+
+    foo();
+
+    delete [] p; //hata yakalanmadıgı icin alına  yer geri verilmedi
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    func();
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+void foo()
+{
+    cout << "foo basladi\n";
+    throw std::runtime_error("hata hata hata\n");
+    cout << "foo sonlandi\n";
+}
+
+void func()
+{
+    cout << "func basladi\n";
+
+    auto p = new int[10000];
+    //
+    //
+
+//bunu kullanmayınız
+
+    try {
+       foo();
+    }  catch (std::exception &ex) {
+       delete [] p;
+       cout << "hata yakalnadi " << ex.what() << "\n";
+    }
+
+    delete [] p; //hata yakalanmadıgı icin alına  yer geri verilmedi
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    func();
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+void foo()
+{
+    cout << "foo basladi\n";
+    throw std::runtime_error("hata hata hata\n");
+    cout << "foo sonlandi\n";
+}
+
+class ResourceUser{
+public:
+    ResourceUser() : mp{new int[10000]}{}
+
+    ~ResourceUser(){
+        cout<< "dtor ResourceUser\n";
+        delete [] mp;
+    }
+
+private:
+    int *mp;
+};
+
+void func()
+{
+    cout << "func basladi\n";
+
+    ResourceUser rsx;
+
+    try {
+        foo();
+    }  catch (std::exception &ex) {
+        cout << "hata yakalandi.... " << ex.what() << "\n";
+    }
+
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    func();
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+
+using namespace std;
+
+
+void func()
+{
+    cout << "func basladi\n";
+    string str(20000, 'A');
+    throw 1;
+    //str RAII nesnesi
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    func();
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+#include "car.hpp"
+
+using namespace std;
+
+void foo()
+{
+    throw  std::logic_error{"hata\n"};
+}
+
+void func()
+{
+    cout << "func basladi\n";
+
+    //dinamik omur lu nesne
+    Car *p = create_random_car();
+    foo();
+
+    //dinamik omurlu nesnelerde smart pointer kullanmalıyız
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        std::cout << " hata yakalandi ..." << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+#include "car.hpp"
+
+using namespace std;
+
+void foo()
+{
+    throw  std::logic_error{"hata\n"};
+}
+
+void func()
+{
+    cout << "func basladi\n";
+
+    //dtor cagrılacak
+    Mercedes ms;
+    foo();
+
+    //dinamik omurlu nesnelerde smart pointer kullanmalıyız
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        std::cout << " hata yakalandi ..." << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+
+using namespace std;
+
+void foo()
+{
+    throw  std::logic_error{"hata\n"};
+}
+
+void func()
+{
+    cout << "func basladi\n";
+
+    //dinamik omur lu nesne
+    std::unique_ptr<Car> uptr{create_random_car()}; //artık dtor cagrılacak
+    foo();
+
+    //dinamik omurlu nesnelerde smart pointer kullanmalıyız
+
+    cout << "func sonlandi\n";
+}
+
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        std::cout << " hata yakalandi ..." << ex.what() << "\n";
+    }
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <cstdlib>
+#include <string>
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+
+using namespace std;
+
+
+class File{
+public:
+    File(const char *p);
+    ~File();
+};
+
+
+int main()
+{
+
+    cout << "main baslad\n";
+
+
+    File f{"orhn.txt"};
+
+    //artık kapanacak thwo edildiginde
+
+    cout << "main sona eriyor\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+rethrow statement
+revisiting RAII idiom
+
+throw;
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void foo()
+{
+    vector<int> ivec;
+
+    ++ivec.at(20);
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+        throw ex; //this is not rethrow statement
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    func();
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void foo()
+{
+    vector<int> ivec;
+
+    ++ivec.at(20);
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+        throw ex; //this is not rethrow statement
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void foo()
+{
+    vector<int> ivec;
+
+    ++ivec.at(20);
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (std::exception &ex) {//artık tür bilgisi kaybıldu
+        cout << "hata yakalandi... " << ex.what() << "\n";
+        throw ex; //this is not rethrow statement
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void foo()
+{
+    vector<int> ivec;
+
+    ++ivec.at(20);
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (std::exception &ex) {//artık tür bilgisi kaybıldu
+        cout << "hata yakalandi... " << ex.what() << "\n";
+        throw; // rethrow statement
+        //burada out_of_range godneririlir
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myexception{
+public:
+    ~Myexception()
+    {
+        cout << "Myexception destructor\n";
+    }
+};
+
+
+void foo()
+{
+    Myexception exp;
+    throw exp;
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (Myexception &ex) {//artık tür bilgisi kaybıldu
+        cout << "hata yakalandi... \n";
+        throw ex;
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (Myexception &ex) {
+        cout << "hata yakalandi... << \n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myexception{
+public:
+    ~Myexception()
+    {
+        cout << "Myexception destructor\n";
+    }
+};
+
+
+void foo()
+{
+    Myexception exp;
+    throw exp;
+}
+
+void func()
+{
+    try {
+        foo();
+    }  catch (Myexception &ex) {//artık tür bilgisi kaybıldu
+        cout << "hata yakalandi... \n";
+        throw;
+    }
+}
+
+
+int main()
+{
+    set_terminate(&myabort);
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (Myexception &ex) {
+        cout << "hata yakalandi... << \n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void foo()
+{
+    cout << "foo cagrildi  ve foo hata nesnesini tekrar gonderiyor\n";
+    throw;
+}
+
+void func()
+{
+    try {
+        throw out_of_range{"out_of_range"};
+    }  catch (std::exception &ex) {
+        foo();
+    }
+}
+
+
+int main()
+{
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
