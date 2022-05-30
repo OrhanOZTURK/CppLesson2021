@@ -13,11 +13,25 @@ void foo()
     throw;
 }
 
+void func()
+{
+    try {
+        throw out_of_range{"out_of_range"};
+    }  catch (std::exception &ex) {
+        foo();
+    }
+}
+
 
 int main()
 {
-    set_terminate(&myabort);
-    foo();
+    std::cout << "main baslsadiii...\n";
+
+    try {
+        func();
+    }  catch (std::out_of_range &ex) {
+        cout << "hata yakalandi... " << ex.what() << "\n";
+    }
 }
 
 /***************************************************/
