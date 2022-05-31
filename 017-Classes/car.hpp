@@ -53,6 +53,11 @@ public:
     {
         std::cout << "Mercedes has stopped\n";
     }
+
+    void open_sunroof()
+    {
+        std::cout << "Mercedes opened sunRoof\n";
+    }
 };
 
 class Audi : public Car{

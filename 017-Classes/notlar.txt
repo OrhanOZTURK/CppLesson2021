@@ -22531,6 +22531,927 @@ int main()
 /***************************************************/
 /***************************************************/
 
+exception safety -- hata gücenliği
+
+1- temel garanti
+
+2- Sıkı garanti
+
+3- Hata göndermeme garantisi
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "myclass ctor\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "myclass dtor\n";
+    }
+};
+
+void func()
+{
+    Myclass mc;
+    throw  std::exception{};
+}
+
+
+int main()
+{
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+    char buffer[1024];
+public:
+    Myclass()
+    {
+        cout << "myclass ctor\n";
+        throw  std::exception{};
+    }
+
+    ~Myclass()
+    {
+        cout << "myclass dtor\n";
+    }
+};
+
+
+int main()
+{
+    try {
+        Myclass *p = new Myclass;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Member{
+public:
+    Member()
+    {
+        cout << "member default ctor\n";
+        throw  std::exception{};
+    }
+    ~Member()
+    {
+        cout << "Member default dtor\n";
+    }
+};
+
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "myclass ctor\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "myclass dtor\n";
+    }
+private:
+    Member mx;
+};
+
+
+int main()
+{
+    try {
+        Myclass mx; //myclass nesnesi hayata gelmez
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Member{
+public:
+    Member()
+    {
+        static int cnt = 0;
+        cout << "member default ctor\n";
+
+        if(cnt++)
+            throw  std::exception{};
+    }
+    ~Member()
+    {
+        cout << "Member default dtor\n";
+    }
+};
+
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "myclass ctor\n";
+    }
+
+    ~Myclass()
+    {
+        cout << "myclass dtor\n";
+    }
+private:
+    Member mx, my;
+};
+
+
+int main()
+{
+    try {
+        Myclass mx;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Member{
+public:
+    Member()
+    {
+        cout << "member default ctor\n";
+    }
+    ~Member()
+    {
+        cout << "Member default dtor\n";
+    }
+};
+
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << "myclass ctor\n";
+        throw  exception{};
+    }
+
+    ~Myclass()
+    {
+        cout << "myclass dtor\n";
+    }
+private:
+    Member mx, my;
+};
+
+
+int main()
+{
+    try {
+        Myclass mx;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari edindi\n";
+    }
+    ~Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari verdi\n";
+    }
+};
+
+class Myclass{
+public:
+    Myclass()
+    {
+        Orhn oz;
+        throw std::exception{};
+    }
+
+};
+
+
+int main()
+{
+    try {
+        Myclass mx;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari edindi\n";
+    }
+    ~Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari verdi\n";
+    }
+};
+
+class Myclass{
+private:
+    Orhn *oz;
+public:
+    Myclass() : oz{new Orhn}
+    {
+        throw std::exception{};
+    }
+
+    ~Myclass()
+    {
+        delete oz;
+    }
+
+};
+
+
+int main()
+{
+    try {
+        Myclass mx;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari edindi\n";
+    }
+    ~Orhn()
+    {
+        cout << this << " adresindeki Orhn nesnesi kaynaklari verdi\n";
+    }
+};
+
+class Myclass{
+private:
+    std::unique_ptr<Orhn> oz;
+public:
+    Myclass() : oz{new Orhn}
+    {
+        throw std::exception{};
+    }
+
+};
+
+
+int main()
+{
+    try {
+        Myclass mx;
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+
+class Myclass{
+public:
+    Myclass()
+    {
+       cout << "Myclass ctor\n";
+    }
+
+
+    ~Myclass()
+    {
+       cout << "Myclass dtor\n";
+       throw std::exception{};
+    }
+
+};
+
+void func()
+{
+    Myclass mx;
+
+    throw  exception{};
+}
+
+int main()
+{
+    set_terminate(&myabort);
+
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+
+class Myclass{
+public:
+    Myclass()
+    {
+       cout << "Myclass ctor\n";
+    }
+
+
+    ~Myclass()
+    {
+       cout << "Myclass dtor\n";
+
+       try {
+           throw std::exception{};
+       }  catch (...) {
+           cout << "hata... dtor icinde yakalandi\n";
+       }
+
+    }
+
+};
+
+void func()
+{
+    Myclass mx;
+
+    throw  exception{};
+}
+
+int main()
+{
+    set_terminate(&myabort);
+
+    try {
+        func();
+    }  catch (std::exception &ex) {
+        cout << "hat yakalandi " << ex.what() << "\n";
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+//bu fonksiyonun exception gondemryecek garantisi var
+void func()noexcept;
+
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+//bu fonksiyonun exception gondemryecek garantisi var
+void func()noexcept;
+
+void foo()
+{
+    if(rand() % 4 == 3)
+        throw 5;
+}
+
+void func()noexcept
+{
+    foo();
+}
+
+
+
+int main()
+{
+  set_terminate(&myabort);
+
+  try {
+      for (int i = 0; i < 10; ++i) {
+          func();
+      }
+  }  catch (...) {
+      cout << "hata yakalandi\n";
+  }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+public:
+    ~Myclass(); //noexcepted olarka kabul edilirz
+
+};
+
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+//eskiye uyum
+void func() throw(bad_alloc);
+
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+kalıtımda
+final class
+
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base{
+public:
+    virtual ~Base() = default;
+};
+
+class Der final : public Base{
+
+};
+
+//der sınıfında türeme yazpılamaz dedik final keywordu ile
+class Sder : public Der{
+
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void func();
+};
+
+class Der : public Base{
+public:
+    void func()override final;
+};
+
+class Sder : public Der{
+public:
+    void func()override; //verrirde edemeyiz final keyword ten
+};
+
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base{
+public:
+    virtual void func();
+};
+
+class Der : public Base{
+public:
+    void func()override final;
+};
+
+
+//final yazılmaz tanımında
+void Der::func() final
+{
+
+}
+
+int main()
+{
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+runtime type identification
+runtime type indormation
+
+
+programın çalışma zamanında bir nesneinn dinamik türünün ne olduhunun anlaşılması
+
+
+dynamic_cast operatür
+
+typeid operatürü
+  typeinfo sınıfıı
+
+
+bu araçları inceleyecegiz
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void car_game(Car *p)
+{
+    p->start();
+    p->run();
+
+    //mercedes oldugun cam tavan acildsin
+    Mercedes *ms = dynamic_cast<Mercedes *>(p); //işlem yapılmıyorsa nullptr
+    if(ms){
+        ms->open_sunroof();
+    }
+    p->stop();
+}
+
+int main()
+{
+    for (; ; ) {
+        auto p = create_random_car();
+        car_game(p);
+        delete p;
+        getchar();
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+static_cast
+const_cast
+reinterpret_cast
+
+dynamic_cast
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

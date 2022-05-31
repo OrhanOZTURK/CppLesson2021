@@ -7,30 +7,26 @@
 
 using namespace std;
 
-void foo()
+void car_game(Car *p)
 {
-    cout << "foo cagrildi  ve foo hata nesnesini tekrar gonderiyor\n";
-    throw;
-}
+    p->start();
+    p->run();
 
-void func()
-{
-    try {
-        throw out_of_range{"out_of_range"};
-    }  catch (std::exception &ex) {
-        foo();
+    //mercedes oldugun cam tavan acildsin
+    Mercedes *ms = dynamic_cast<Mercedes *>(p); //işlem yapılmıyorsa nullptr
+    if(ms){
+        ms->open_sunroof();
     }
+    p->stop();
 }
-
 
 int main()
 {
-    std::cout << "main baslsadiii...\n";
-
-    try {
-        func();
-    }  catch (std::out_of_range &ex) {
-        cout << "hata yakalandi... " << ex.what() << "\n";
+    for (; ; ) {
+        auto p = create_random_car();
+        car_game(p);
+        delete p;
+        getchar();
     }
 }
 
