@@ -23328,6 +23328,893 @@ reinterpret_cast
 dynamic_cast
 
 
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void car_game(Car *p)
+{
+    p->start();
+    p->run();
+
+    if(Mercedes *ms = dynamic_cast<Mercedes *>(p)){
+        ms->open_sunroof();
+    }
+    p->stop();
+}
+
+int main()
+{
+    for (; ; ) {
+        auto p = create_random_car();
+        car_game(p);
+        delete p;
+        getchar();
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void car_game(Car *p)
+{
+    p->start();
+    p->run();
+
+    if(Audi *as = dynamic_cast<Audi *>(p)){
+        as->open_sunroof();
+    }
+    p->stop();
+}
+
+int main()
+{
+    for (; ; ) {
+        auto p = create_random_car();
+        car_game(p);
+        delete p;
+        getchar();
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+dynamic_cast operatorunun operandı olan ifade polimorfik bir türe ilşikin olmalı yoksa kod gecersiz
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base
+{
+public:
+    void func();
+};
+
+class Der : public Base{
+
+};
+
+
+void foo(Base *p)
+{
+    Der *derptr = dynamic_cast<Der*>(p);//gecersiz
+}
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base
+{
+public:
+    virtual void func();
+};
+
+class Der : public Base{
+
+};
+
+
+void foo(Base *p)
+{
+    Der *derptr = dynamic_cast<Der*>(p);//gecerli
+}
+
+int main()
+{
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+
+void car_game(Car &rc)
+{
+    rc.start();
+    Audi &ar = dynamic_cast<Audi &>(rc);
+    ar.open_sunroof();
+    rc.run();
+    rc.stop();
+}
+
+
+
+int main()
+{
+    car_game(*new Audi);
+    car_game(*new Audi8);
+
+
+    car_game(*new Volvo);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+
+void car_game(Car &rc)
+{
+    rc.start();
+    Audi &ar = dynamic_cast<Audi &>(rc);
+    ar.open_sunroof();
+    rc.run();
+    rc.stop();
+}
+
+
+
+int main()
+{
+    set_terminate(&myabort);
+
+    try {
+       car_game(*new Volvo);
+    }  catch (std::bad_cast &ex) {
+        std::cout << "hata yakalandi .... " << ex.what() << "\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+
+typeid operatoru
+
+typeid(expr) --> bu ifade derleyici tarafından typeinfo türüdnen bir nesne referansına
+runtime identification
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    typeid (Myclass).name();//typeinfo sınıfı memberı
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    auto tx{typeid (Myclass)}; //typeinfo sınıfının copy ctor delete edilmiş
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    Myclass mx;
+    int ival{};
+    int *iptr = nullptr;
+
+    cout << typeid (mx).name() << "\n";
+    cout << typeid (ival).name() << "\n";
+    cout << typeid (iptr).name() << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    cout << typeid (10).name() << "\n";
+    cout << typeid (10u).name() << "\n";
+    cout << typeid ('A').name() << "\n";
+    cout << typeid (10ull).name() << "\n";
+    cout << typeid (10.).name() << "\n";
+    cout << typeid (10.f).name() << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    int x = 10;
+    cout << typeid (x++).name() << "\n";
+    cout << sizeof(x++) << "\n";
+    cout << "x =  " << x << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Myclass{
+
+};
+
+int main()
+{
+    int x = 10;
+    typeid (x) == typeid (int);
+    //typeid (x).operator==(typeid (int));
+
+    cout << boolalpha << (typeid (x) == typeid (int)) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base{
+public:
+};
+
+class Der : public Base{
+
+};
+
+
+int main()
+{
+
+    Base *ptr = new Der;
+
+    cout << typeid (*ptr).name() << "\n";
+    cout << boolalpha << (typeid (*ptr) == typeid (Der)) << "\n";
+    //eşit değil
+    //polimormif olamayan türler için typeie operatoru
+    //compile time da static türlere ilişşkin degerler üretir
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class Base{
+public:
+    virtual ~Base() = default;
+};
+
+class Der : public Base{
+
+};
+
+
+int main()
+{
+
+    Base *ptr = new Der;
+
+    cout << typeid (*ptr).name() << "\n";
+    cout << boolalpha << (typeid (*ptr) == typeid (Der)) << "\n";
+    //eşit değil
+    //polimormif olamayan türler için typeie operatoru
+    //artık dynamik türlere ilişkin ifade oldugu için runtime da dogru degeeri elde ederiz
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void car_game(Car *carptr)
+{
+    carptr->start();
+    carptr->run();
+
+    if(typeid (*carptr) == typeid (Audi)){
+        Audi *ap = static_cast<Audi *>(carptr);
+        ap->open_sunroof();
+    }
+
+    carptr->stop();
+
+            getchar();
+}
+
+
+int main()
+{
+    for (; ; ) {
+        Car*p = create_random_car();
+        car_game(p);
+        delete p;
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class A{
+
+};
+
+class B{
+
+};
+
+
+int main()
+{
+    A ax;
+    B *ptr = static_cast<B*>(&ax);//ilişki olmaıdıg için static_cat ile cast edemeyiz
+    //reinterpret_cat yada C tarzı  cast etmeliyiz
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+class A{
+
+};
+
+class B : public A{
+
+};
+
+
+int main()
+{
+    A ax;
+    B *ptr = static_cast<B*>(&ax);//ilişkili oldugu için artık gecer
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+
+using namespace std;
+
+void car_game(Car *carptr)
+{
+
+    if(typeid (*carptr) == typeid (Audi)){
+        Audi *ap = static_cast<Audi *>(carptr);
+        ap->open_sunroof();
+    }
+
+    carptr->start();
+    carptr->run();
+    carptr->stop();
+
+   getchar();
+}
+
+
+int main()
+{
+    try {
+        car_game(nullptr);
+    }  catch (const exception &ex) { //bad_typeid
+        cout << "hata yakalndi  : " << ex.what() <<"\n";
+    }
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+#include "mint.hpp"
+
+using namespace std;
+
+
+
+
+int main()
+{
+   set_terminate(&myabort);
+   Mint x{13}, y{};
+
+   cout << x << ", " << y << "\n";
+
+   try {
+      auto z = x / y;
+   }  catch (const exception &ex) {
+       cout << "hata yakalnadi.. : " << ex.what() << "\n";
+   }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+#include "mint.hpp"
+
+using namespace std;
+
+
+
+
+int main()
+{
+   set_terminate(&myabort);
+   Mint x{13}, y{};
+
+   cout << x << ", " << y << "\n";
+
+   try {
+      auto z = x / y;
+   }  catch (const runtime_error &ex) {
+       cout << "hata yakalnadi.. : " << ex.what() << "\n";
+   }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+#include "mint.hpp"
+
+using namespace std;
+
+
+
+
+int main()
+{
+   set_terminate(&myabort);
+   Mint x{13}, y{};
+
+   cout << x << ", " << y << "\n";
+
+   try {
+      auto z = x / y;
+   }  catch (const BadMintDivision &ex) {
+       cout << "hata yakalnadi.. : " << ex.what() << "\n";
+   }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <stdexcept>
+#include "car.hpp"
+#include <memory>
+#include <vector>
+#include "mint.hpp"
+
+using namespace std;
+
+std::ostream &operator<<(std::ostream &os, const Car &rcar)
+{
+    return rcar.print(os);
+}
+
+
+int main()
+{
+    while (true) {
+        Car *p = create_random_car();
+        cout << *p << "\n";
+        delete p;
+        std::cout << "\n\n";
+        getchar();
+    }
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,6 +8,7 @@ class Car{
 public:
     virtual Car *clone() = 0;
     virtual ~Car() = default;
+    virtual std::ostream &print(std::ostream &os)const = 0;
 
     void check()
     {
@@ -39,6 +40,11 @@ public:
         return new Mercedes(*this); //copy ctor
     }
 
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Mercedes\n";
+    }
+
     void start() override
     {
         std::cout << "Mercedes has started\n";
@@ -54,10 +60,6 @@ public:
         std::cout << "Mercedes has stopped\n";
     }
 
-    void open_sunroof()
-    {
-        std::cout << "Mercedes opened sunRoof\n";
-    }
 };
 
 class Audi : public Car{
@@ -66,6 +68,11 @@ public:
     Car *clone()override
     {
         return new Audi(*this); //copy ctor
+    }
+
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Audi\n";
     }
 
     void start() override
@@ -83,6 +90,11 @@ public:
     {
         std::cout << "Audi has stopped\n";
     }
+
+    void open_sunroof()
+    {
+        std::cout << "Audi opened sunRoof\n";
+    }
 };
 
 class Audi8 : public Audi{
@@ -92,7 +104,10 @@ public:
     {
         return new Audi8(*this); //copy ctor
     }
-
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Audi8\n";
+    }
 
     void start() override
     {
@@ -117,6 +132,10 @@ public:
     Car *clone()override
     {
         return new Fiat(*this); //copy ctor
+    }
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Fiat\n";
     }
 
     void start() override
@@ -144,7 +163,10 @@ public:
         return new Tofas(*this); //copy ctor
     }
 
-
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Tofas\n";
+    }
     void start() override
     {
         std::cout << "Tofas has started\n";
@@ -167,6 +189,11 @@ public:
     Car *clone()override
     {
         return new Volvo(*this); //copy ctor
+    }
+
+    std::ostream &print(std::ostream &os)const override
+    {
+        return os << "I a Volvo\n";
     }
 
     void start() override

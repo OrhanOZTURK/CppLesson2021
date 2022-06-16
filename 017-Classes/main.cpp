@@ -4,30 +4,26 @@
 #include "car.hpp"
 #include <memory>
 #include <vector>
+#include "mint.hpp"
 
 using namespace std;
 
-void car_game(Car *p)
+std::ostream &operator<<(std::ostream &os, const Car &rcar)
 {
-    p->start();
-    p->run();
-
-    //mercedes oldugun cam tavan acildsin
-    Mercedes *ms = dynamic_cast<Mercedes *>(p); //işlem yapılmıyorsa nullptr
-    if(ms){
-        ms->open_sunroof();
-    }
-    p->stop();
+    return rcar.print(os);
 }
+
 
 int main()
 {
-    for (; ; ) {
-        auto p = create_random_car();
-        car_game(p);
+    while (true) {
+        Car *p = create_random_car();
+        cout << *p << "\n";
         delete p;
+        std::cout << "\n\n";
         getchar();
     }
+
 }
 
 /***************************************************/

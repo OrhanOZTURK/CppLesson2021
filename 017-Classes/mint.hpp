@@ -2,7 +2,15 @@
 #define MINT_HPP
 
 #include <iosfwd>
+#include <stdexcept>
 
+class BadMintDivision : public std::runtime_error{
+public:
+    BadMintDivision() : std::runtime_error{"Bad Mint Division hatasi"}{}
+    const char *what()const override{
+        return "Bad Mint Divided by Zero";
+    }
+};
 
 class Mint
 {
@@ -158,6 +166,9 @@ inline Mint operator*(Mint x, Mint y)
 
 inline Mint operator/(Mint x, Mint y)
 {
+    if(Mint{0} == y)
+        throw BadMintDivision{};
+
     return x /= y;
 }
 
