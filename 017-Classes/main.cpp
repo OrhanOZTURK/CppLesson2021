@@ -1,28 +1,25 @@
 #include <iostream>
 #include "utility.hpp"
-#include <stdexcept>
-#include "car.hpp"
-#include <memory>
-#include <vector>
-#include "mint.hpp"
+#include <initializer_list>
 
 using namespace std;
 
-std::ostream &operator<<(std::ostream &os, const Car &rcar)
+template<typename T, int val>
+constexpr int asize(T (&)[val])
 {
-    return rcar.print(os);
+    return val;
 }
-
 
 int main()
 {
-    while (true) {
-        Car *p = create_random_car();
-        cout << *p << "\n";
-        delete p;
-        std::cout << "\n\n";
-        getchar();
-    }
+
+    int a[] = {2, 5, 6, 7, 8, 4};
+
+    int x = asize(a);
+
+    cout << "x = " << x <<"\n";
+
+    int b[asize(a)];
 
 }
 
