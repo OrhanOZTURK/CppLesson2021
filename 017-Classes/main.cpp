@@ -1,25 +1,42 @@
 #include <iostream>
 #include "utility.hpp"
-#include <initializer_list>
 
 using namespace std;
 
-template<typename T, int val>
-constexpr int asize(T (&)[val])
+//std::pair basit interface yapısının gösterimi
+
+template<typename T, typename U>
+struct Pair{
+
+    T first;
+    U second;
+
+    Pair() : first(), second(){};
+    Pair(const T &t, const U &u) : first(t), second(u){};
+
+};
+
+template<typename T, typename U>
+bool operator<(const Pair<T,U> &p1, const Pair<T,U> &p2)
 {
-    return val;
+    return p1.first < p2.first || !(p2.first < p1.first && p1.second < p2.second);
 }
+
+template<typename T, typename  U>
+std::ostream & operator<<(std::ostream &os, const Pair<T, U> &p)
+{
+    return os << "(" << p.first << ", " << p.second << ")" << "\n";
+}
+
 
 int main()
 {
+    Pair<int, double> px{12, 4.2};
+    Pair<string, string> py{"mehmet", "nazim"};
 
-    int a[] = {2, 5, 6, 7, 8, 4};
 
-    int x = asize(a);
+    cout << px << py << "\n";
 
-    cout << "x = " << x <<"\n";
-
-    int b[asize(a)];
 
 }
 

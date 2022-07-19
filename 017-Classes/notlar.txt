@@ -25708,6 +25708,1150 @@ int main()
 /***************************************************/
 /***************************************************/
 
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TypeTeller;
+
+template<typename T>
+void func(T f) //void (*)()
+{
+    TypeTeller<T> x;
+    f();
+}
+
+void f()
+{
+    cout << "f cagrildi\n";
+}
+
+int main()
+{
+    func(f);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TypeTeller;
+
+template<typename T>
+void func(T f) //void (*)()
+{
+    TypeTeller<T> x;
+    f();
+}
+
+class Functor{
+public:
+    void operator()(){
+        cout << "Functor::operator cagrildi\n";
+    }
+};
+
+int main()
+{
+    Functor f;
+
+    func(f);//f türü function pointer olarak cagrımı yaptı
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TypeTeller;
+
+template<typename T>
+void func(T x)
+{
+
+}
+
+
+
+int main()
+{
+    //explicit type argument acık tur agumanı
+    func<int>(12);
+    func<int>(1.2); // int cast ederim
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TypeTeller;
+
+template<typename T, typename U>
+void func(T x, U y)
+{
+
+}
+
+
+
+int main()
+{
+    //explicit type argument acık tur agumanı
+    func<int, double>(12, 4.4);
+    func<int>(12, 4.4); // ikikncş argumaınn cıkarımını yaparım double olacak
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+
+template<typename T>
+T sum(T x, T y)
+{
+    return x + y;
+}
+
+
+int main()
+{
+    auto val = sum(12, 5.6); //sentask hatası ambiguiti
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+
+template<typename T, typename U>
+U sum(T x, U y)
+{
+    return x + y;
+}
+
+
+int main()
+{
+    auto val = sum(1.2, 56);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+//eski çözüm
+template<typename R, typename T, typename U>
+R sum(T x, U y)
+{
+    return x + y;
+}
+
+int main()
+{
+    auto val = sum<double>(1.2, 56);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+//dile eklenen arclar ile daha kolay hale getirilidi
+//traling return type
+
+template<typename T, typename U>
+auto sum(T x, U y) -> decltype (x + y)
+{
+    return x + y;
+}
+
+int main()
+{
+    cout << sum(12, 5.6) << "\n";
+    cout << sum(1.2, 56) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+//dile eklenen arclar ile daha kolay hale getirilidi
+//auto return type
+template<typename T, typename U>
+auto sum(T x, U y)
+{
+    return x + y;
+}
+
+int main()
+{
+    cout << sum(12, 5.6) << "\n";
+    cout << sum(1.2, 56) << "\n";
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+void func(T x)
+{
+    cout << "type T is : " << typeid (T).name() << "\n";
+}
+
+int main()
+{
+    func('A');
+    func(12.L);
+    func(12);
+    func(12u);
+    func(12.f);
+    func(12.);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+//overloading
+template<typename T>
+void func(T x)
+{
+    cout << "type T is : " << typeid (T).name() << "\n";
+}
+
+void func(int x)
+{
+    cout << "void func(int) cagrildi " << "\n";
+}
+
+void func(long double x)
+{
+    cout << "void func(long double) cagrildi " << "\n";
+}
+
+int main()
+{
+
+    func(12.L);
+    func(12);
+    func(12u);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+
+//mulakat sorusu
+//sadece istenilen arguman türleri ile cagrılsın func fonksiyonu
+
+//overloading
+template<typename T>
+void func(T x) = delete;
+
+void func(int x)
+{
+    cout << "void func(int) cagrildi " << "\n";
+}
+
+
+int main()
+{
+    func(12.L);
+    func(12);
+    func(12u);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+
+//mulakat sorusu
+
+//overloading
+template<typename T>
+void func(T x)
+{
+    cout << "template void func(T x) cagrildi \n";
+}
+
+template<typename T>
+void func(T x, T y)
+{
+    cout << "template void func(T x, T y) cagrildi \n";
+}
+
+
+int main()
+{
+    func(12.L);
+    func(12);
+    func(12, 45);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+template<typename T>
+void func(T a) //int *
+{
+    TellerClass<T> y;
+    cout << "template void func(T x) cagrildi \n";
+}
+
+int main()
+{
+    int x = 10;
+    func(&x);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+/*
+template<typename T>
+void func(T a) //int *
+{
+    TellerClass<T> y;
+    cout << "template void func(T x) cagrildi \n";
+}
+*/
+
+template<typename T>
+void func(T *a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T x) cagrildi \n";
+}
+
+int main()
+{
+    int x = 10;
+    func(&x);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+
+//kural seti
+//partial order denir
+//derleyici biraz daha sepecific olanı tercih eder
+
+template<typename T>
+void func(T a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T x) cagrildi \n";
+}
+
+template<typename T>
+void func(T *a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T *x) cagrildi \n";
+}
+
+int main()
+{
+    int x = 10;
+    func(&x);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+
+//kural seti
+//partial order denir
+//derleyici biraz daha sepecific olanı tercih eder
+
+template<typename T>
+void func(T a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T x) cagrildi \n";
+}
+
+template<typename T>
+void func(T *a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T *x) cagrildi \n";
+}
+
+template<typename T>
+void func(T **a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T **x) cagrildi \n";
+}
+
+int main()
+{
+    int x = 10;
+    func(&x);//int *
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+
+//kural seti
+//partial order denir
+//derleyici biraz daha sepecific olanı tercih eder
+
+template<typename T>
+void func(const T *a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(const T *x) cagrildi \n";
+}
+
+template<typename T>
+void func(T *a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T *x) cagrildi \n";
+}
+
+
+int main()
+{
+    int x = 10;
+    func(&x);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+#include <initializer_list>
+
+using namespace std;
+
+template<typename T>
+class TellerClass;
+
+
+template<typename T>
+void func(T a)
+{
+    //TellerClass<T> y;
+    cout << "template void func(T *x) cagrildi \n";
+}
+
+void func(int)
+{
+    //TellerClass<T> y;
+    cout << "void func(int) cagrildi \n";
+}
+
+
+int main()
+{
+    func<int>(12);
+    func(12);
+}
+
+/***************************************************/
+/***************************************************/
+
+sınıf şablonları template
+
+
+baslık dosyasında olmak zorunda
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T>
+class Orhn{
+public:
+    Orhn() = default;
+    Orhn(T x);
+    T get()const;
+    void set(const T &t);
+
+private:
+    T mx{};
+};
+
+
+int main()
+{
+    Orhn<int> x;
+    Orhn<double> y;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T>
+class Orhn{
+public:
+    Orhn() = default;
+    Orhn(T x);
+    T get()const;
+    void set(const T &t);
+    void func(T x)
+    {
+        x(); //taki func ı cagırana kadar bu sentask hatası ortaya cıkmaycaktı
+    }
+
+private:
+    T mx{};
+};
+
+
+int main()
+{
+    Orhn<int> x;
+    //x.func(12);
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T>
+class Orhn{
+public:
+    Orhn(T &&);
+    void func(T (*f)(T));
+
+private:
+    T a[10];
+};
+
+
+int main()
+{
+    Orhn<int> x;//
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+//inline tanım
+template<typename T>
+class Orhn{
+public:
+    void func(T x);
+
+private:
+};
+
+//bu sekilde tanımlayabiliriz
+template<typename T>
+void Orhn<T>::func(T x)
+{
+
+}
+
+
+int main()
+{
+    Orhn<int> x;//
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+//kemal candan bakıp ögrecek bize
+template<size_t>
+class Orhn{
+public:
+
+
+private:
+};
+
+int main()
+{
+    Orhn<10> x;// Orhn<10> acilimi
+    Orhn<1000> y;// Orhn<1000> acilimi
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+//kemal candan bakıp ögrecek bize
+template<size_t>
+class Orhn{
+public:
+
+
+private:
+};
+
+int main()
+{
+    Orhn<10> x;// Orhn<10> acilimi //10 elelnalı x
+    Orhn<1000> y;// Orhn<1000> acilimi // 1000 ellmanlı y
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename  T>
+class Myclass{
+public:
+
+};
+
+template<typename T>
+void func(T x);
+
+
+int main()
+{
+   Myclass<int> x;
+
+   func(x);
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, size_t size>
+class Myclass{
+public:
+
+private:
+    T a[size]; //10 elemanlı bir dizi
+
+};
+
+
+int main()
+{
+   Myclass<int, 10> x;
+
+   Myclass<int, 20> y;
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T>
+class Myclass{
+public:
+    template<typename T>
+    void func(T x)
+    {
+        //böyle template funclar yazabiliriz
+    }
+
+
+};
+
+
+int main()
+{
+   Myclass<int> x;
+
+   x.func(11);
+   x.func("orhn");
+   x.func(1.2);
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+class Myclass{
+public:
+    template<typename T>
+    Myclass(T x); //ctor da sınıf sablonları olabilir
+
+};
+
+
+int main()
+{
+   Myclass x(12);
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+//std::pair basit interface yapısının gösterimi
+
+template<typename T, typename U>
+struct Pair{
+
+    T first;
+    U second;
+
+    Pair() : first(), second(){};
+    Pair(const T &t, const U &u) : first(t), second(u){};
+
+};
+
+template<typename T, typename U>
+bool operator<(const Pair<T,U> &p1, const Pair<T,U> &p2)
+{
+    return p1.first < p2.first || !(p2.first < p1.first && p1.second < p2.second);
+}
+
+
+int main()
+{
+    //Pair<string, double> px;
+    Pair<int, double> py;
+
+    cout << py.first << ", " << py.second << "\n";
+
+
+
+    Pair<int, double> p1{123, 2.1};
+    Pair<int, double> p2{3, 2.3};
+
+    auto b =  p1 < p2;
+
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
