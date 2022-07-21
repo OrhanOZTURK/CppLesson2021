@@ -26655,6 +26655,615 @@ int main()
 /***************************************************/
 
 
+member templates
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+    //arasında fark yok
+  void func(Myclass<T> m);
+  //void func(Myclass m);
+
+};
+
+int main()
+{
+    Myclass<int> mx;
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+public:
+    //arasında fark yok
+  void func(Myclass<T> m);
+  //void func(Myclass m);
+
+};
+
+int main()
+{
+    Myclass<double> mx;
+    Myclass<int> my;
+
+    mx.func(my); //setanks hatası tür farklılıgından
+    //bunu gecerli yapabilmemiz için member template yapmalıyız
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+public:
+    //member template
+    template<typename U>
+    void func(Myclass<U> m)
+    {
+        cout << typeid (decltype (*this)).name() << "\n";
+        cout << typeid (decltype (m)).name() << "\n";
+    }
+
+};
+
+int main()
+{
+    Myclass<double> mx;
+    Myclass<int> my;
+
+    mx.func(my); //artık gecerli
+
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+
+
+int main()
+{
+    std::pair<double, double> mx;
+    std::pair<int, int> my;
+
+    mx = my; ///gecerli
+
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T, typename U>
+struct Pair{
+
+    T first;
+    U second;
+
+    Pair() : first(), second(){};
+    Pair(const T &t, const U &u) : first(t), second(u){};
+
+    template<typename X, typename Y>
+    Pair & operator=(const Pair<X, Y> &other)
+    {
+        first = other.first;
+        second = other.second;
+
+        return *this;
+    }
+
+};
+
+
+int main()
+{
+    Pair<double, double> mx;
+    Pair<int, int> my;
+
+    mx = my;//artık gecerli
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T, typename U>
+struct Pair{
+
+    T first;
+    U second;
+
+    Pair() : first(), second(){};
+    Pair(const T &t, const U &u) : first(t), second(u){};
+
+    template<typename X, typename Y>
+    Pair & operator=(const Pair<X, Y> &other)
+    {
+        cout << typeid (*this).name() << "\n";
+        cout << typeid (other).name() << "\n";
+        first = other.first;
+        second = other.second;
+
+        return *this;
+    }
+
+};
+
+
+int main()
+{
+    Pair<double, double> mx;
+    Pair<int, int> my;
+
+    mx = my;//artık gecerli
+}
+
+/***************************************************/
+/***************************************************/
+
+
+varsayılan tür argümanı
+
+
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename  U = int>
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << typeid (*this).name() << "\n";
+    }
+};
+
+
+int main()
+{
+    Myclass<double, float> mx;
+    Myclass<double> my;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T = double, typename  U = int>
+class Myclass{
+public:
+    Myclass()
+    {
+        cout << typeid (*this).name() << "\n";
+    }
+};
+
+
+int main()
+{
+    Myclass<double, float> mx;
+    Myclass<double> my;
+    Myclass<> mz;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<int low = 100, int high = 400>
+struct Myclass{
+  Myclass()
+  {
+      cout << typeid (*this).name() << "\n";
+  }
+};
+
+int main()
+{
+    Myclass<10, 40> m1; //low 10 high 40 olacak
+    Myclass<5> m2; //low 5 high 400
+    Myclass<> m3; //low 100 high 400
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename U = T>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<int, double> myorhn;
+    Orhn<long> myorhn1;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename U = T *>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<long> myorhn;
+}
+
+/***************************************************/
+/***************************************************/
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename U = T &>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<long> myorhn;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename U = T [10]>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<long> myorhn;
+}
+
+/***************************************************/
+/***************************************************/
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+template<typename T, typename U = const T [10]>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<long> myorhn;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+  //
+};
+
+template<typename A, typename B = Myclass<A>>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    Orhn<int, double> x;
+    Orhn<long> y;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+  //
+};
+
+template<typename A, typename B = Myclass<A *>>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    //Orhn<int, double> x;
+    Orhn<long> y;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+#include <iostream>
+#include "utility.hpp"
+
+using namespace std;
+
+
+template<typename T>
+class Myclass{
+  //
+};
+
+template<typename A, typename B = const Myclass<A &>>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
+int main()
+{
+    //Orhn<int, double> x;
+    Orhn<long> y;
+}
+
+/***************************************************/
+/***************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

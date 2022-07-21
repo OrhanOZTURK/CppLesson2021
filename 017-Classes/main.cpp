@@ -4,14 +4,24 @@
 using namespace std;
 
 
+template<typename T>
+class Myclass{
+  //
+};
+
+template<typename A, typename B = const Myclass<A &>>
+class Orhn{
+public:
+    Orhn()
+    {
+        cout << typeid (*this).name()<< "\n";
+    }
+};
+
 int main()
 {
-    std::pair<double, long> px;
-    std::pair<float, int> py{12.4, 12};
-
-    px = py;
-
-
+    //Orhn<int, double> x;
+    Orhn<long> y;
 }
 
 /***************************************************/
